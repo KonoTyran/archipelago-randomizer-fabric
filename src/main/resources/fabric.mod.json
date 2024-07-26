@@ -1,0 +1,54 @@
+{
+	"schemaVersion": 1,
+	"id": "archipelago-randomizer",
+	"version": "${version}",
+	"name": "Archipelago Randomizer",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/archipelago-randomizer/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "dev.koifysh.ArchipelagoRandomizer",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "dev.koifysh.ArchipelagoRandomizerClient",
+				"adapter": "kotlin"
+			}
+		],
+		"fabric-datagen": [
+			{
+				"value": "dev.koifysh.ArchipelagoRandomizerDataGenerator",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"archipelago-randomizer.mixins.json",
+		{
+			"config": "archipelago-randomizer.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
