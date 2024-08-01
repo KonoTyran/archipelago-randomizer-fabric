@@ -17,7 +17,7 @@
 	"entrypoints": {
 		"main": [
 			{
-				"value": "dev.koifysh.ArchipelagoRandomizer",
+				"value": "dev.koifysh.randomizer.ArchipelagoRandomizer",
 				"adapter": "kotlin"
 			}
 		],
@@ -29,7 +29,7 @@
 		],
 		"fabric-datagen": [
 			{
-				"value": "dev.koifysh.ArchipelagoRandomizerDataGenerator",
+				"value": "dev.koifysh.randomizer.ArchipelagoRandomizerDataGenerator",
 				"adapter": "kotlin"
 			}
 		]
