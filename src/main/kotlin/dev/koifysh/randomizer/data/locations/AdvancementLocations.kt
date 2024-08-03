@@ -91,4 +91,8 @@ class AdvancementLocations {
         })
     }
 
+    fun isTracked(id: ResourceLocation): Boolean {
+        return advancements.containsKey(id)
+    }
+
 }

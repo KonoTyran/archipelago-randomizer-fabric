@@ -3,8 +3,8 @@ package dev.koifysh.randomizer.utils
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import dev.koifysh.archipelago.Print.APPrint
 import dev.koifysh.archipelago.Print.APPrintColor
-import dev.koifysh.archipelago.Print.APPrintPart
 import dev.koifysh.archipelago.Print.APPrintType
+import dev.koifysh.archipelago.flags.NetworkItem
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
@@ -26,7 +26,6 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.awt.Color
 import java.util.*
-import kotlin.collections.HashMap
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -34,20 +33,19 @@ object Utils {
 
     // Directly reference a log4j logger.
     private val LOGGER: Logger = LogManager.getLogger()
-
-    /**
-     * @param source command source to send the message.
-     * @param Message Message to send
-     * send a message to whoever ran the command.
-     */
     private val server: MinecraftServer = ArchipelagoRandomizer.server
 
-    fun SendMessage(source: CommandSourceStack, Message: String) {
+    /**
+     * send a message to whoever ran the command.
+     * @param source command source to send the message.
+     * @param message Message to send
+     */
+    fun SendMessage(source: CommandSourceStack, message: String) {
         try {
             val player: ServerPlayer = source.playerOrException
-            player.sendSystemMessage(Component.literal(Message))
+            player.sendSystemMessage(Component.literal(message))
         } catch (e: CommandSyntaxException) {
-            source.server.sendSystemMessage(Component.literal(Message))
+            source.server.sendSystemMessage(Component.literal(message))
         }
     }
 
@@ -71,40 +69,44 @@ object Utils {
         }
     }
 
-    fun apPrintToTextComponent(apPrint: APPrint): Component {
+    private fun apPrintToTextComponent(apPrint: APPrint): Component {
         val isMe = apPrint.receiving == ArchipelagoRandomizer.apClient.slot
 
-        val message: MutableComponent = Component.literal("")
-        var i = 0
-        while (apPrint.parts.size > i) {
-            val part: APPrintPart = apPrint.parts.get(i)
-            LOGGER.trace("part[{}]: {}, {}, {}", i, part.text, part.color, part.type)
+        val message: MutableComponent = Component.empty()
+        for (part in apPrint.parts) {
+            LOGGER.trace("part[]: {}, {}, {}", part.text, part.color, part.type)
             //no default color was sent so use our own coloring.
-            var color: Color = if (isMe) Color.RED else Color.WHITE
-            var bold = false
+            //no default color was sent so use our own coloring.
+            var color = if (isMe) Color.PINK else Color.WHITE
+            val bold = false
             var underline = false
 
             if (part.color == APPrintColor.none) {
                 if (ArchipelagoRandomizer.apClient.myName.equals(part.text)) {
-                    color = APPrintColor.gold.color
-                    bold = true
+                    color = Color.decode("#EE00EE")
+                    underline = true
                 } else if (part.type == APPrintType.playerID) {
-                    color = APPrintColor.yellow.color
+                    color = Color.decode("#FAFAD2")
                 } else if (part.type == APPrintType.locationID) {
-                    color = APPrintColor.green.color
+                    color = Color.decode("#00FF7F")
                 } else if (part.type == APPrintType.itemID) {
-                    color = APPrintColor.cyan.color
+                    color = if ((part.flags and NetworkItem.ADVANCEMENT) == NetworkItem.ADVANCEMENT) {
+                        Color.decode("#00EEEE") // advancement
+                    } else if ((part.flags and NetworkItem.USEFUL) == NetworkItem.USEFUL) {
+                        Color.decode("#6D8BE8") // useful
+                    } else if ((part.flags and NetworkItem.TRAP) == NetworkItem.TRAP) {
+                        Color.decode("#FA8072") // trap
+                    } else {
+                        Color.gray
+                    }
                 }
-            } else if (part.color == APPrintColor.underline) underline = true
-            else if (part.color == APPrintColor.bold) bold = true
-            else color = part.color.color
+            }
 
             //blank out the first two bits because minecraft doesn't deal with alpha values
-            val iColor: Int = color.getRGB() and (0xFF shl 24).inv()
+            val iColor: Int = color.rgb and (0xFF shl 24).inv()
             val style = Style.EMPTY.withColor(iColor).withBold(bold).withUnderlined(underline)
 
             message.append(Component.literal(part.text).withStyle(style))
-            ++i
         }
         return message
     }
@@ -130,7 +132,7 @@ object Utils {
         chatMessage: Component,
         fadeIn: Int,
         stay: Int,
-        fadeOut: Int
+        fadeOut: Int,
     ) {
         server.execute {
             TitleQueue.queueTitle(
@@ -190,7 +192,7 @@ object Utils {
         return Level.OVERWORLD
     }
 
-    fun getAPStructureName(structureTag: TagKey<Structure>): String {
+    private fun getAPStructureName(structureTag: TagKey<Structure>): String {
         return when (structureTag.location().toString()) {
             "${ArchipelagoRandomizer.MOD_ID}:village" -> "Village"
             "${ArchipelagoRandomizer.MOD_ID}:end_city" -> "End City"
