@@ -12,8 +12,7 @@ object Disconnect {
     @Suppress("UNUSED_PARAMETER")
    fun register(dispatcher: CommandDispatcher<CommandSourceStack>, buildContext: CommandBuildContext, selection: Commands.CommandSelection) {
         dispatcher.register(
-            Commands.literal("disconnect") //base slash command is "connect"
-                //take the first argument as a string and name it "Address"
+            Commands.literal("disconnect")
                 .executes { _ -> disconnect() }
         )
 
@@ -21,7 +20,6 @@ object Disconnect {
 
     private fun disconnect(): Int {
         ArchipelagoRandomizer.apClient.disconnect()
-        //Utils.sendMessageToAll("Disconnected.");
         return 1
     }
 }
