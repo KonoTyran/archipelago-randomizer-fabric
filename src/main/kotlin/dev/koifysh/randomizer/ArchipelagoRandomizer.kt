@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dev.koifysh.randomizer.commands.Archipelago
 import dev.koifysh.randomizer.commands.Connect
+import dev.koifysh.randomizer.commands.Disconnect
 import dev.koifysh.randomizer.commands.Start
 import dev.koifysh.randomizer.data.APMCData
 import dev.koifysh.randomizer.data.ArchipelagoWorldData
@@ -90,6 +91,7 @@ object ArchipelagoRandomizer : ModInitializer {
         CommandRegistrationCallback.EVENT.register(Connect::register)
         CommandRegistrationCallback.EVENT.register(Start::register)
         CommandRegistrationCallback.EVENT.register(Archipelago::register)
+        CommandRegistrationCallback.EVENT.register(Disconnect::register)
 
         // Load Structures
         ArchipelagoStructures.registerStructures()
