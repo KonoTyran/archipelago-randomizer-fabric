@@ -1,7 +1,5 @@
 package dev.koifysh.randomizer.utils
 
-import dev.koifysh.randomizer.ArchipelagoRandomizer
-
 import net.minecraft.server.MinecraftServer
 import java.util.*
 
@@ -11,6 +9,7 @@ object TitleQueue {
 
     private var titleTime: Int = 0
 
+    @Suppress("UNUSED_PARAMETER")
     fun onServerTick(server: MinecraftServer) {
         if (titleQueue.isNotEmpty()) {
             if (titleTime <= 0) {
@@ -30,7 +29,7 @@ object TitleQueue {
         titleQueue.add(queuedTitle)
     }
 
-    fun ClearQueue() {
+    fun clearQueue() {
         titleQueue.clear()
     }
 }

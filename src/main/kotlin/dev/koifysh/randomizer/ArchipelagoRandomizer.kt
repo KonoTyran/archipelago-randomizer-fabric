@@ -3,10 +3,13 @@ package dev.koifysh.randomizer
 import com.google.common.collect.ImmutableSet
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import dev.koifysh.randomizer.commands.Archipelago
+import dev.koifysh.randomizer.commands.Connect
+import dev.koifysh.randomizer.commands.Start
 import dev.koifysh.randomizer.data.APMCData
 import dev.koifysh.randomizer.data.ArchipelagoWorldData
 import dev.koifysh.randomizer.data.locations.Advancement
-import dev.koifysh.randomizer.data.locations.AdvancementLocation
+import dev.koifysh.randomizer.data.locations.AdvancementLocations
 import dev.koifysh.randomizer.registries.APGoals
 import dev.koifysh.randomizer.registries.APLocation
 import dev.koifysh.randomizer.registries.APLocations
@@ -15,10 +18,17 @@ import dev.koifysh.randomizer.structure.ArchipelagoStructures
 import dev.koifysh.randomizer.traps.Traps
 import dev.koifysh.randomizer.utils.TitleQueue
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.util.RandomSource
+import net.minecraft.world.level.GameRules
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -42,6 +52,10 @@ object ArchipelagoRandomizer : ModInitializer {
 
     lateinit var locationRegister: APLocations private set
 
+    private var jailCenter: BlockPos = BlockPos.ZERO
+
+    val advancementLocations = AdvancementLocations()
+
     val validVersions: ImmutableSet<Int> = ImmutableSet.of(
         9, // mc 1.19
         10 // mc 1.21
@@ -54,11 +68,10 @@ object ArchipelagoRandomizer : ModInitializer {
         logger.info("$MOD_VERSION initializing.")
 
         locationRegister = APLocations()
-        val advancementLocation = AdvancementLocation()
         locationRegister.register(
             ResourceLocation.fromNamespaceAndPath(MOD_ID, "advancement"),
             Advancement::class.java,
-            advancementLocation::addLocation
+            advancementLocations::addLocation
         )
 
         // load apmc file
@@ -67,10 +80,18 @@ object ArchipelagoRandomizer : ModInitializer {
         builder.registerTypeAdapter(ResourceLocation::class.java, ResourceLocation.Serializer())
         gson = builder.create()
 
+
+        // Register Events
         ServerLifecycleEvents.SERVER_STARTING.register(this::beforeLevelLoad)
         ServerLifecycleEvents.SERVER_STARTED.register(this::afterLevelLoad)
         ServerTickEvents.END_SERVER_TICK.register(TitleQueue::onServerTick)
 
+        // Register Commands
+        CommandRegistrationCallback.EVENT.register(Connect::register)
+        CommandRegistrationCallback.EVENT.register(Start::register)
+        CommandRegistrationCallback.EVENT.register(Archipelago::register)
+
+        // Load Structures
         ArchipelagoStructures.registerStructures()
     }
 
@@ -79,8 +100,8 @@ object ArchipelagoRandomizer : ModInitializer {
         logger.info("$MOD_VERSION starting.")
     }
 
-
     private fun afterLevelLoad(minecraftServer: MinecraftServer) {
+        server = minecraftServer
         logger.info("$MOD_VERSION started.")
         archipelagoWorldData = server.overworld().dataStorage.computeIfAbsent(ArchipelagoWorldData.factory(), MOD_ID)
 
@@ -90,6 +111,28 @@ object ArchipelagoRandomizer : ModInitializer {
 
         APGoals.init(apmcData)
         Traps.init()
+
+        if (archipelagoWorldData.jailPlayers) {
+            val overworld: ServerLevel = server.getLevel(Level.OVERWORLD)!!
+            val spawn = overworld.sharedSpawnPos
+            // alter the spawn box position, so it doesn't interfere with spawning
+            val jail = overworld.structureManager[ResourceLocation.fromNamespaceAndPath(MOD_ID, "spawnjail")].get()
+            val jailPos = BlockPos(spawn.x + 5, 300, spawn.z + 5)
+            jailCenter = BlockPos(jailPos.x + (jail.size.x / 2), jailPos.y + 1, jailPos.z + (jail.size.z / 2))
+            jail.placeInWorld(overworld, jailPos, jailPos, StructurePlaceSettings(), RandomSource.create(), 2)
+            server.gameRules.getRule(GameRules.RULE_DAYLIGHT).set(false, server)
+            server.gameRules.getRule(GameRules.RULE_WEATHER_CYCLE).set(false, server)
+            server.gameRules.getRule(GameRules.RULE_DOFIRETICK).set(false, server)
+            server.gameRules.getRule(GameRules.RULE_RANDOMTICKING).set(0, server)
+            server.gameRules.getRule(GameRules.RULE_DO_PATROL_SPAWNING).set(false, server)
+            server.gameRules.getRule(GameRules.RULE_DO_TRADER_SPAWNING).set(false, server)
+            server.gameRules.getRule(GameRules.RULE_MOBGRIEFING).set(false, server)
+            server.gameRules.getRule(GameRules.RULE_DOMOBSPAWNING).set(false, server)
+            server.gameRules.getRule(GameRules.RULE_DO_IMMEDIATE_RESPAWN).set(true, server)
+            server.gameRules.getRule(GameRules.RULE_DOMOBLOOT).set(false, server)
+            server.gameRules.getRule(GameRules.RULE_DOENTITYDROPS).set(false, server)
+            overworld.dayTime = 0
+        }
     }
 
     internal fun modResource(location: String): ResourceLocation {
