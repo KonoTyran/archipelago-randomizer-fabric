@@ -1,22 +1,16 @@
-package dev.koifysh.randomizer.data
+package dev.koifysh.randomizer.data.locations
 
 import dev.koifysh.randomizer.ArchipelagoRandomizer
+import dev.koifysh.randomizer.registries.APLocation
 import net.minecraft.advancements.AdvancementHolder
 import net.minecraft.resources.ResourceLocation
 
-class APLocations constructor(apmcData: APMCData) {
+class AdvancementLocation {
+
     private val advancements: HashMap<ResourceLocation, Long> = HashMap()
     private var hardAdvancements: HashSet<Long> = HashSet()
     private var veryHardAdvancements: HashSet<Long> = HashSet()
     private val earnedAdvancements: HashSet<Long> = HashSet()
-
-    init {
-        apmcData.advancements.forEach { (advancement, id) ->
-            advancements[ResourceLocation.parse(advancement)] = id
-        }
-        hardAdvancements.addAll(apmcData.hardAdvancements)
-        veryHardAdvancements.addAll(apmcData.veryHardAdvancements)
-    }
 
     fun getAdvancementID(advancement: ResourceLocation): Long {
         advancements[advancement]?.let { return it }
@@ -58,5 +52,10 @@ class APLocations constructor(apmcData: APMCData) {
                 }
             }
         }
+    }
+
+    fun addLocation(apLocation: APLocation) {
+        val location = apLocation as Advancement
+        ArchipelagoRandomizer.logger.info("Registering Advancement ${location.advancement}")
     }
 }

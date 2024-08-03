@@ -22,14 +22,14 @@ import java.util.*
 
 class BeeGroveStructure(
     config: StructureSettings,
-    val startPool: Holder<StructureTemplatePool>,
-    val startJigsawName: Optional<ResourceLocation>,
-    val size: Int,
-    val startHeight: HeightProvider,
-    val projectStartToHeightmap: Optional<Heightmap.Types>,
-    val maxDistanceFromCenter: Int,
-    val dimensionPadding: DimensionPadding,
-    val liquidSettings: LiquidSettings
+    private val startPool: Holder<StructureTemplatePool>,
+    private val startJigsawName: Optional<ResourceLocation>,
+    private val size: Int,
+    private val startHeight: HeightProvider,
+    private val projectStartToHeightmap: Optional<Heightmap.Types>,
+    private val maxDistanceFromCenter: Int,
+    private val dimensionPadding: DimensionPadding,
+    private val liquidSettings: LiquidSettings
 ) : Structure(config) {
 
     public override fun findGenerationPoint(context: GenerationContext): Optional<GenerationStub> {

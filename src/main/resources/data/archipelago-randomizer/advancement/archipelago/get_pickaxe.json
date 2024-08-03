@@ -10,7 +10,7 @@
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "aprandomizer:archipelago/get_wood",
+  "parent": "archipelago-randomizer:archipelago/get_wood",
   "criteria": {
     "get_pick": {
       "trigger": "minecraft:recipe_crafted",

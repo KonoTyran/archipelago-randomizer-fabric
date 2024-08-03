@@ -9,7 +9,7 @@
     "show_toast": true,
     "announce_to_chat": false
   },
-  "parent": "aprandomizer:received/progressive_tools_1",
+  "parent": "archipelago-randomizer:received/progressive_tools_1",
   "criteria": {
     "impossible": {
       "trigger": "minecraft:impossible"

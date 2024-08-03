@@ -9,7 +9,7 @@
     "show_toast": true,
     "announce_to_chat": true
   },
-  "parent": "aprandomizer:archipelago/root",
+  "parent": "archipelago-randomizer:archipelago/root",
   "criteria": {
     "get_bread": {
       "trigger": "minecraft:recipe_crafted",

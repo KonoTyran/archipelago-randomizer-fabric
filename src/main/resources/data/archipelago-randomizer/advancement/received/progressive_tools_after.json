@@ -1,5 +1,5 @@
 {
-  "parent": "aprandomizer:received/progressive_tools_3",
+  "parent": "archipelago-randomizer:received/progressive_tools_3",
   "criteria": {
     "auto": {
       "trigger": "minecraft:tick"

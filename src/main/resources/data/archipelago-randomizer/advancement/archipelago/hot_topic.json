@@ -9,7 +9,7 @@
     "show_toast": true,
     "announce_to_chat": true
   },
-  "parent": "aprandomizer:archipelago/get_pickaxe",
+  "parent": "archipelago-randomizer:archipelago/get_pickaxe",
   "criteria": {
     "get_furnace": {
       "trigger": "minecraft:recipe_crafted",

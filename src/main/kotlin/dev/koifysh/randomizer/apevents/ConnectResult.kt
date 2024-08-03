@@ -31,7 +31,6 @@ class ConnectResult(apClient: APClient) {
                     LOGGER.warn("invalid staring items json string: ${client.slotData.startingItems}")
                 }
 
-                val tags = HashSet<String>()
                 if (client.slotData.MC35) {
                     Utils.sendMessageToAll("Welcome to Minecraft 35.")
                     client.addTag("MC35")
@@ -41,22 +40,22 @@ class ConnectResult(apClient: APClient) {
                     DeathLink.setDeathLinkEnabled(true)
                 }
 
-                ArchipelagoRandomizer.locationManager.setCheckedAdvancements(client.locationManager.checkedLocations)
-
-                //give our item manager the list of received items to give to players as they log in.
-                ArchipelagoRandomizer.itemManager.setReceivedItems(client.itemManager.getReceivedItemIDs())
-
-                //reset and catch up our global recipe list to be consistent with what we just got from the AP server
-                ArchipelagoRandomizer.recipeManager.resetRecipes()
-                ArchipelagoRandomizer.recipeManager.grantRecipeList(client.itemManager.getReceivedItemIDs())
-
-                //catch up all connected players to the list just received.
-                ArchipelagoRandomizer.server.execute {
-                    for (player in ArchipelagoRandomizer.server.playerList.players) {
-                        ArchipelagoRandomizer.itemManager.catchUpPlayer(player)
-                    }
-                    ArchipelagoRandomizer.goalManager.updateInfoBar()
-                }
+//                ArchipelagoRandomizer.locationManager.setCheckedAdvancements(client.locationManager.checkedLocations)
+//
+//                //give our item manager the list of received items to give to players as they log in.
+//                ArchipelagoRandomizer.itemManager.setReceivedItems(client.itemManager.getReceivedItemIDs())
+//
+//                //reset and catch up our global recipe list to be consistent with what we just got from the AP server
+//                ArchipelagoRandomizer.recipeManager.resetRecipes()
+//                ArchipelagoRandomizer.recipeManager.grantRecipeList(client.itemManager.getReceivedItemIDs())
+//
+//                //catch up all connected players to the list just received.
+//                ArchipelagoRandomizer.server.execute {
+//                    for (player in ArchipelagoRandomizer.server.playerList.players) {
+//                        ArchipelagoRandomizer.itemManager.catchUpPlayer(player)
+//                    }
+//                    ArchipelagoRandomizer.goalManager.updateInfoBar()
+//                }
             }
             null -> return
         }

@@ -10,7 +10,7 @@
     "show_toast": true,
     "announce_to_chat": true
   },
-  "parent": "aprandomizer:archipelago/cow_tipper",
+  "parent": "archipelago-randomizer:archipelago/cow_tipper",
   "criteria": {
     "fall_riding_pig": {
       "trigger": "minecraft:fall_from_height",

@@ -113,7 +113,7 @@ object Utils {
         server.execute {
             TitleQueue.queueTitle(
                 QueuedTitle(
-                    server.getPlayerList().getPlayers(),
+                    server.playerList.players,
                     fadeIn,
                     stay,
                     fadeOut,

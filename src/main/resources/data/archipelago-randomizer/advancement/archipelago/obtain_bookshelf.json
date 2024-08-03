@@ -10,7 +10,7 @@
     "announce_to_chat": false,
     "hidden": false
   },
-  "parent": "aprandomizer:archipelago/cow_tipper",
+  "parent": "archipelago-randomizer:archipelago/cow_tipper",
   "criteria": {
     "get_bookshelf": {
       "trigger": "minecraft:recipe_crafted",

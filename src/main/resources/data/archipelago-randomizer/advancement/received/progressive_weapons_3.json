@@ -9,7 +9,7 @@
     "show_toast": true,
     "announce_to_chat": false
   },
-  "parent": "aprandomizer:received/progressive_weapons_2",
+  "parent": "archipelago-randomizer:received/progressive_weapons_2",
   "criteria": {
     "impossible": {
       "trigger": "minecraft:impossible"

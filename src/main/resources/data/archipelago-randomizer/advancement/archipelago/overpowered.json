@@ -9,7 +9,7 @@
     "show_toast": true,
     "announce_to_chat": true
   },
-  "parent": "aprandomizer:archipelago/bake_bread",
+  "parent": "archipelago-randomizer:archipelago/bake_bread",
   "criteria": {
     "consumed_item": {
       "trigger": "minecraft:consume_item",

@@ -1,6 +1,6 @@
 {
-  "type": "aprandomizer:pillager_outpost_nether",
-  "start_pool": "aprandomizer:pillager_outpost/base_plates",
+  "type": "archipelago-randomizer:pillager_outpost_nether",
+  "start_pool": "archipelago-randomizer:pillager_outpost/base_plates",
   "size": 6,
   "max_distance_from_center": 80,
   "step": "surface_structures",

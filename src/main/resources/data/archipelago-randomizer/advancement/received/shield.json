@@ -9,7 +9,7 @@
     "show_toast": true,
     "announce_to_chat": false
   },
-  "parent": "aprandomizer:received/root",
+  "parent": "archipelago-randomizer:received/root",
   "criteria": {
     "impossible": {
       "trigger": "minecraft:impossible"

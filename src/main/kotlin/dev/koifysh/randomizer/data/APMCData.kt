@@ -1,6 +1,7 @@
 package dev.koifysh.randomizer.data
 
 import com.google.gson.annotations.SerializedName
+import dev.koifysh.randomizer.registries.APLocation
 
 class APMCData {
     @SerializedName("world_seed")
@@ -41,6 +42,15 @@ class APMCData {
 
     @SerializedName("port")
     var port: Int = 0
+
+    @SerializedName("locations")
+    var apLocations: List<APLocation> = ArrayList()
+//
+//    @SerializedName("items")
+//    var apItems: List<APItem> = ArrayList()
+//
+//    @SerializedName("goals")
+//    var apGoals: List<APGoal> = ArrayList()
 
     var state: State = State.VALID
 

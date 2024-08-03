@@ -1,11 +1,11 @@
 {
-  "name": "aprandomizer:village/nether/decor",
+  "name": "archipelago-randomizer:village/nether/decor",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 2,
       "element": {
-        "location": "aprandomizer:village/nether/nether_lamp_1",
+        "location": "archipelago-randomizer:village/nether/nether_lamp_1",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"

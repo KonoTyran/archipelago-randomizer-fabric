@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AdvancementGrant",
+    "AfterModInit",
+    "MixinPropertyManager",
     "StructureModifier"
   ],
   "injectors": {

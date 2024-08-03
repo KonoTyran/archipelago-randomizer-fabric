@@ -55,7 +55,7 @@ class ArchipelagoWorldData : SavedData {
         tag.putLongArray("locations", locations.stream().toList())
         tag.putLong("index", index)
         val tagIndex = CompoundTag()
-        playerIndex.forEach { (string: String?, i: Int?) -> tagIndex.putInt(string, i) }
+        playerIndex.forEach { (string: String, i: Int) -> tagIndex.putInt(string, i) }
         tag.put("playerIndex", tagIndex)
         return tag
     }
@@ -73,7 +73,7 @@ class ArchipelagoWorldData : SavedData {
         this.seedName = seedName
         this.dragonState = dragonState
         this.jailPlayers = jailPlayers
-        this.locations = HashSet(java.util.Set.of(*ArrayUtils.toObject(locations)))
+        this.locations = HashSet(mutableSetOf(*ArrayUtils.toObject(locations)))
         this.playerIndex = HashMap()
         this.index = itemIndex
     }

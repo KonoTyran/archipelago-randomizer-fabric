@@ -4,36 +4,32 @@ import dev.koifysh.archipelago.flags.ItemsHandling
 import dev.koifysh.randomizer.utils.Utils
 import dev.koifysh.randomizer.apevents.*
 import dev.koifysh.randomizer.data.SlotData
-import net.minecraft.server.MinecraftServer
+import dev.koifysh.randomizer.data.locations.AdvancementLocation
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class APClient internal constructor(randomizer: ArchipelagoRandomizer, minecraftServer: MinecraftServer) : dev.koifysh.archipelago.Client() {
+class APClient: dev.koifysh.archipelago.Client() {
     lateinit var slotData: SlotData
-    private val server = minecraftServer
-    val archipelago: ArchipelagoRandomizer = randomizer
 
     init {
         this.game = "Minecraft"
-        this.itemsHandlingFlags = ItemsHandling.SEND_ITEMS + ItemsHandling.SEND_OWN_ITEMS + ItemsHandling.SEND_STARTING_INVENTORY
+        this.itemsHandlingFlags = ItemsHandling.SEND_ITEMS or ItemsHandling.SEND_OWN_ITEMS or ItemsHandling.SEND_STARTING_INVENTORY
 
-
-        randomizer.locationManager.setCheckedAdvancements(getLocationManager().getCheckedLocations())
 
         //give our item manager the list of received items to give to players as they log in.
-        randomizer.itemManager.setReceivedItems(itemManager.receivedItemIDs)
+//        randomizer.itemManager.setReceivedItems(itemManager.receivedItemIDs)
 
         //reset and catch up our global recipe list to be consistent with what we loaded from our save file.
-        randomizer.recipeManager.resetRecipes()
-        randomizer.recipeManager.grantRecipeList(itemManager.receivedItemIDs)
+//        randomizer.recipeManager.resetRecipes()
+//        randomizer.recipeManager.grantRecipeList(itemManager.receivedItemIDs)
 
-        this.eventManager.registerListener(OnDeathLink)
-        this.eventManager.registerListener(OnMC35)
-        this.eventManager.registerListener(ConnectResult(this))
-        this.eventManager.registerListener(AttemptedConnection)
-        this.eventManager.registerListener(ReceiveItem)
-        this.eventManager.registerListener(LocationChecked)
-        this.eventManager.registerListener(PrintJsonListener())
+        eventManager.registerListener(OnDeathLink)
+        eventManager.registerListener(OnMC35)
+        eventManager.registerListener(ConnectResult(this))
+        eventManager.registerListener(AttemptedConnection)
+        eventManager.registerListener(ReceiveItem)
+        eventManager.registerListener(LocationChecked)
+        eventManager.registerListener(PrintJsonListener())
     }
 
     override fun onError(ex: Exception) {
@@ -47,7 +43,7 @@ class APClient internal constructor(randomizer: ArchipelagoRandomizer, minecraft
         } else {
             Utils.sendMessageToAll(reason)
         }
-        archipelago.goalManager.updateInfoBar()
+//        archipelago.goalManager.updateInfoBar()
     }
 
     companion object {

@@ -2,6 +2,6 @@
   "replace": false,
   "values": [
     "minecraft:end_city",
-    "aprandomizer:end_city_nether"
+    "archipelago-randomizer:end_city_nether"
   ]
 }

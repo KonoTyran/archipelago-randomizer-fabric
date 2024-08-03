@@ -1,11 +1,11 @@
 {
-  "name": "aprandomizer:village/nether/villagers",
+  "name": "archipelago-randomizer:village/nether/villagers",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
-        "location": "aprandomizer:village/nether/villagers/nitwit",
+        "location": "archipelago-randomizer:village/nether/villagers/nitwit",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -14,7 +14,7 @@
     {
       "weight": 1,
       "element": {
-        "location": "aprandomizer:village/nether/villagers/baby",
+        "location": "archipelago-randomizer:village/nether/villagers/baby",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -23,7 +23,7 @@
     {
       "weight": 10,
       "element": {
-        "location": "aprandomizer:village/nether/villagers/unemployed",
+        "location": "archipelago-randomizer:village/nether/villagers/unemployed",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
