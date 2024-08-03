@@ -6,13 +6,8 @@ import net.minecraft.resources.ResourceLocation
 
 class APLocations {
 
-    private val registeredLocations = HashMap<ResourceLocation, APLocation>()
     private val locationMethods = HashMap<ResourceLocation, (APLocation) -> Unit>()
     private val sentLocations = HashSet<Long>()
-
-    fun getLocation(resourceLocation: ResourceLocation): APLocation {
-        return registeredLocations[resourceLocation] ?: throw IllegalArgumentException("Location $resourceLocation not found.")
-    }
 
     fun <T: APLocation> register(type: ResourceLocation, location: Class<T>, consumer: (APLocation) -> Unit) {
         APLocationDeserializer.register(type, location)

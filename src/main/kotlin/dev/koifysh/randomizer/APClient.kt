@@ -4,7 +4,6 @@ import dev.koifysh.archipelago.flags.ItemsHandling
 import dev.koifysh.randomizer.utils.Utils
 import dev.koifysh.randomizer.apevents.*
 import dev.koifysh.randomizer.data.SlotData
-import dev.koifysh.randomizer.data.locations.AdvancementLocation
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
