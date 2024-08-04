@@ -1,0 +1,54 @@
+[
+  {
+    "id": "45000",
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/archery",
+        "value": [
+          "minecraft:bow",
+          "minecraft:arrow",
+          "minecraft:crossbow"
+        ]
+      },
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:arrow",
+        "amount": 16
+      }
+    ]
+  },
+  {
+    "id": "45012",
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:progressive_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/progressive_weapons",
+        "value": [
+          [
+            "minecraft:stone_sword",
+            "minecraft:stone_axe"
+          ],
+          [
+            "minecraft:iron_sword",
+            "minecraft:iron_axe"
+          ],
+          [
+            "minecraft:diamond_sword",
+            "minecraft:diamond_axe"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "45020",
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:enchanted_book[minecraft:stored_enchantments={levels:{\"minecraft:sharpness\":3}}]",
+        "amount": 1
+      }
+    ]
+  }
+]

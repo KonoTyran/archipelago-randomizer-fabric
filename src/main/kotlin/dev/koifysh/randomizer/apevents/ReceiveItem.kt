@@ -5,7 +5,7 @@ import dev.koifysh.archipelago.events.ArchipelagoEventListener
 import dev.koifysh.archipelago.events.ReceiveItemEvent
 import dev.koifysh.archipelago.parts.NetworkItem
 import dev.koifysh.randomizer.ArchipelagoRandomizer
-import dev.koifysh.randomizer.registries.APItems
+import dev.koifysh.randomizer.registries.ItemRegister
 import dev.koifysh.randomizer.utils.Utils
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
@@ -15,7 +15,7 @@ object ReceiveItem {
     @ArchipelagoEventListener
     fun onReceiveItem(event: ReceiveItemEvent) {
         ArchipelagoRandomizer.server.execute {
-            // Dont fire if we have all ready recevied this location
+            // Don't fire if we have already received this location
             if (event.index <= ArchipelagoRandomizer.archipelagoWorldData.itemIndex) return@execute
 
             ArchipelagoRandomizer.archipelagoWorldData.itemIndex = event.index
@@ -26,7 +26,7 @@ object ReceiveItem {
             val title: Component = Component.literal("Received")
                 .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(APPrintColor.red.color.rgb)))
             Utils.sendTitleToAll(title, textItem, 10, 60, 10)
-//            APItems.grantItem(item)
+            ArchipelagoRandomizer.itemRegister.sendItem(item.itemID, event.index)
         }
     }
 }

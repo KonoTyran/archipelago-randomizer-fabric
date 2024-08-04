@@ -1,24 +1,24 @@
-package dev.koifysh.randomizer.traps
+package dev.koifysh.randomizer.data.items
 
 import dev.koifysh.randomizer.ArchipelagoRandomizer
+import dev.koifysh.randomizer.data.items.traps.*
 import net.minecraft.resources.ResourceLocation
 import java.util.concurrent.Callable
 
-object Traps {
+object TrapItems {
 
     private val trapData = HashMap<ResourceLocation, Callable<Trap>>()
 
-    fun trigger(trap: String) {
+    fun trigger(trapLocation: ResourceLocation) {
         try {
-            val trapID = ResourceLocation.parse(trap)
-            if (!trapData.containsKey(trapID)) return
+            if (!trapData.containsKey(trapLocation)) return
 
-            val trap = trapData[trapID]!!.call()
+            val trap = trapData[trapLocation]!!.call()
             ArchipelagoRandomizer.server.playerList.players.forEach {
                 trap.trigger(it)
             }
         } catch (e: Exception) {
-            ArchipelagoRandomizer.logger.error("Failed to trigger trap: $trap - ${e.message}")
+            ArchipelagoRandomizer.logger.error("Failed to trigger trap: $trapLocation - ${e.message}")
         }
     }
 

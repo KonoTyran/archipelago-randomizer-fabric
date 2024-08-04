@@ -1,18 +1,17 @@
 package dev.koifysh.randomizer.data.items
 
 import com.google.gson.annotations.SerializedName
-import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.registries.APItem
-import dev.koifysh.randomizer.traps.Trap
-import dev.koifysh.randomizer.traps.Traps
+import dev.koifysh.randomizer.registries.APItemReward
+import net.minecraft.resources.ResourceLocation
 
-class TrapItem: APItem() {
+class TrapItem: APItemReward() {
 
     @SerializedName("trap_name")
-    var trap: String = "empty:empty"
+    var trap: ResourceLocation = ResourceLocation.fromNamespaceAndPath("","")
 
     override fun grant() {
-        return Traps.trigger(trap)
+        return TrapItems.trigger(trap)
     }
 
 }

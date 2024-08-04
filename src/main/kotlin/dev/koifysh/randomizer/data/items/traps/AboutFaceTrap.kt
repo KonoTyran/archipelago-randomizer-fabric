@@ -1,4 +1,4 @@
-package dev.koifysh.randomizer.traps
+package dev.koifysh.randomizer.data.items.traps
 
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer

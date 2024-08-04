@@ -212,11 +212,11 @@ object Utils {
         return Vec3(x, y, z)
     }
 
-    fun giveItemToPlayer(player: ServerPlayer, itemstack: ItemStack) {
-        val flag: Boolean = player.inventory.add(itemstack)
-        if (flag && itemstack.isEmpty) {
-            itemstack.count = 1
-            player.drop(itemstack, false)?.makeFakeItem()
+    fun giveItemToPlayer(player: ServerPlayer, itemStack: ItemStack) {
+        val flag: Boolean = player.inventory.add(itemStack)
+        if (flag && itemStack.isEmpty) {
+            itemStack.count = 1
+            player.drop(itemStack, false)?.makeFakeItem()
             player.level().playSound(
                 null,
                 player.x,
@@ -229,7 +229,7 @@ object Utils {
             )
             player.inventoryMenu.broadcastChanges()
         } else {
-            val itemEntity: ItemEntity? = player.drop(itemstack, false)
+            val itemEntity: ItemEntity? = player.drop(itemStack, false)
             if (itemEntity != null) {
                 itemEntity.setNoPickUpDelay()
                 itemEntity.setTarget(player.uuid)

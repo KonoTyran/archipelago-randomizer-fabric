@@ -1,4 +1,4 @@
-package dev.koifysh.randomizer.traps
+package dev.koifysh.randomizer.data.items.traps
 
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents

@@ -2,14 +2,10 @@ package dev.koifysh.randomizer.registries
 
 import com.google.gson.annotations.SerializedName
 
-abstract class APItem {
-
+data class APItem (
     @SerializedName("id")
-    var id: Long = 0
+    var id: Long = 0,
 
-    @SerializedName("type")
-    var type: String = ""
-
-    abstract fun grant()
-
-}
+    @SerializedName("rewards")
+    var rewards: ArrayList<APItemReward> = ArrayList(),
+)

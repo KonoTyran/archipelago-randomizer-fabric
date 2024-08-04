@@ -1,6 +1,7 @@
 package dev.koifysh.mixin;
 
 
+import dev.koifysh.randomizer.ktmixin.KTMixinCrafter;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -18,7 +19,7 @@ import java.util.Optional;
 public class MixinCrafter {
 
     @Inject(method = "getPotentialResults", at = @At("RETURN"), cancellable = true)
-    private static void onDispenseFrom(Level level, CraftingInput craftingInput, CallbackInfoReturnable<Optional<RecipeHolder<CraftingRecipe>>> cir) {
-        cir.setReturnValue(Optional.empty()); // nuke it!
+    private static void getPotentialResults(Level level, CraftingInput craftingInput, CallbackInfoReturnable<Optional<RecipeHolder<CraftingRecipe>>> cir) {
+        KTMixinCrafter.INSTANCE.getPotentialResults(cir);
     }
 }

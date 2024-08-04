@@ -1,0 +1,572 @@
+[
+  {
+    "id": "42000",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/obtain_crying_obsidian"
+  },
+  {
+    "id": "42001",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/distract_piglin"
+  },
+  {
+    "id": "42002",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/obtain_armor"
+  },
+  {
+    "id": "42003",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/very_very_frightening"
+  },
+  {
+    "id": "42004",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/lava_bucket"
+  },
+  {
+    "id": "42005",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:end/kill_dragon"
+  },
+  {
+    "id": "42006",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/all_potions"
+  },
+  {
+    "id": "42007",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/tame_an_animal"
+  },
+  {
+    "id": "42008",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/create_beacon"
+  },
+  {
+    "id": "42009",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/deflect_arrow"
+  },
+  {
+    "id": "42010",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/iron_tools"
+  },
+  {
+    "id": "42011",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/brew_potion"
+  },
+  {
+    "id": "42012",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:end/dragon_egg"
+  },
+  {
+    "id": "42013",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/fishy_business"
+  },
+  {
+    "id": "42014",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/explore_nether"
+  },
+  {
+    "id": "42015",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/ride_strider"
+  },
+  {
+    "id": "42016",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/sniper_duel"
+  },
+  {
+    "id": "42017",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/root"
+  },
+  {
+    "id": "42018",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:end/levitate"
+  },
+  {
+    "id": "42019",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/all_effects"
+  },
+  {
+    "id": "42020",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/bullseye"
+  },
+  {
+    "id": "42021",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/get_wither_skull"
+  },
+  {
+    "id": "42022",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/bred_all_animals"
+  },
+  {
+    "id": "42023",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/mine_stone"
+  },
+  {
+    "id": "42024",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/two_birds_one_arrow"
+  },
+  {
+    "id": "42025",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/enter_the_nether"
+  },
+  {
+    "id": "42026",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/whos_the_pillager_now"
+  },
+  {
+    "id": "42027",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/upgrade_tools"
+  },
+  {
+    "id": "42028",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/tactical_fishing"
+  },
+  {
+    "id": "42029",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/cure_zombie_villager"
+  },
+  {
+    "id": "42030",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:end/find_end_city"
+  },
+  {
+    "id": "42031",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/form_obsidian"
+  },
+  {
+    "id": "42032",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:end/enter_end_gateway"
+  },
+  {
+    "id": "42033",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/obtain_blaze_rod"
+  },
+  {
+    "id": "42034",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/loot_bastion"
+  },
+  {
+    "id": "42035",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/shoot_arrow"
+  },
+  {
+    "id": "42036",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/silk_touch_nest"
+  },
+  {
+    "id": "42037",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/arbalistic"
+  },
+  {
+    "id": "42038",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:end/respawn_dragon"
+  },
+  {
+    "id": "42039",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/smelt_iron"
+  },
+  {
+    "id": "42040",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/charge_respawn_anchor"
+  },
+  {
+    "id": "42041",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/shiny_gear"
+  },
+  {
+    "id": "42042",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:end/elytra"
+  },
+  {
+    "id": "42043",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/summon_iron_golem"
+  },
+  {
+    "id": "42044",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/return_to_sender"
+  },
+  {
+    "id": "42045",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/sleep_in_bed"
+  },
+  {
+    "id": "42046",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:end/dragon_breath"
+  },
+  {
+    "id": "42047",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/root"
+  },
+  {
+    "id": "42048",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/kill_all_mobs"
+  },
+  {
+    "id": "42049",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/enchant_item"
+  },
+  {
+    "id": "42050",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/voluntary_exile"
+  },
+  {
+    "id": "42051",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/follow_ender_eye"
+  },
+  {
+    "id": "42052",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:end/root"
+  },
+  {
+    "id": "42053",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/obtain_netherite_hoe"
+  },
+  {
+    "id": "42054",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/totem_of_undying"
+  },
+  {
+    "id": "42055",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/kill_a_mob"
+  },
+  {
+    "id": "42056",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/adventuring_time"
+  },
+  {
+    "id": "42057",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/plant_seed"
+  },
+  {
+    "id": "42058",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/find_bastion"
+  },
+  {
+    "id": "42059",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/hero_of_the_village"
+  },
+  {
+    "id": "42060",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/obtain_ancient_debris"
+  },
+  {
+    "id": "42061",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/create_full_beacon"
+  },
+  {
+    "id": "42062",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/summon_wither"
+  },
+  {
+    "id": "42063",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/balanced_diet"
+  },
+  {
+    "id": "42064",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/fast_travel"
+  },
+  {
+    "id": "42065",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/root"
+  },
+  {
+    "id": "42066",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/use_lodestone"
+  },
+  {
+    "id": "42067",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/safely_harvest_honey"
+  },
+  {
+    "id": "42068",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/trade"
+  },
+  {
+    "id": "42069",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/uneasy_alliance"
+  },
+  {
+    "id": "42070",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/mine_diamond"
+  },
+  {
+    "id": "42071",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/find_fortress"
+  },
+  {
+    "id": "42072",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/throw_trident"
+  },
+  {
+    "id": "42073",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/root"
+  },
+  {
+    "id": "42074",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/honey_block_slide"
+  },
+  {
+    "id": "42075",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/ol_betsy"
+  },
+  {
+    "id": "42076",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/netherite_armor"
+  },
+  {
+    "id": "42077",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:story/enter_the_end"
+  },
+  {
+    "id": "42078",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/breed_an_animal"
+  },
+  {
+    "id": "42079",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/complete_catalogue"
+  },
+  {
+    "id": "42080",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/get_wood"
+  },
+  {
+    "id": "42081",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/get_pickaxe"
+  },
+  {
+    "id": "42082",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/hot_topic"
+  },
+  {
+    "id": "42083",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/bake_bread"
+  },
+  {
+    "id": "42084",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/the_lie"
+  },
+  {
+    "id": "42085",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/ride_minecart"
+  },
+  {
+    "id": "42086",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/craft_sword"
+  },
+  {
+    "id": "42087",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/cow_tipper"
+  },
+  {
+    "id": "42088",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/ride_pig"
+  },
+  {
+    "id": "42089",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/overkill"
+  },
+  {
+    "id": "42090",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/obtain_bookshelf"
+  },
+  {
+    "id": "42091",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "archipelago-randomizer:archipelago/overpowered"
+  },
+  {
+    "id": "42092",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/wax_on"
+  },
+  {
+    "id": "42093",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/wax_off"
+  },
+  {
+    "id": "42094",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/axolotl_in_a_bucket"
+  },
+  {
+    "id": "42095",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/kill_axolotl_target"
+  },
+  {
+    "id": "42096",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/spyglass_at_parrot"
+  },
+  {
+    "id": "42097",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/spyglass_at_ghast"
+  },
+  {
+    "id": "42098",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/spyglass_at_dragon"
+  },
+  {
+    "id": "42099",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/lightning_rod_with_villager_no_fire"
+  },
+  {
+    "id": "42100",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/walk_on_powder_snow_with_leather_boots"
+  },
+  {
+    "id": "42101",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/make_a_sign_glow"
+  },
+  {
+    "id": "42102",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/ride_a_boat_with_a_goat"
+  },
+  {
+    "id": "42103",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/fall_from_world_height"
+  },
+  {
+    "id": "42104",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:nether/ride_strider_in_overworld_lava"
+  },
+  {
+    "id": "42105",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/play_jukebox_in_meadows"
+  },
+  {
+    "id": "42106",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/trade_at_world_height"
+  },
+  {
+    "id": "42107",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/allay_deliver_cake_to_note_block"
+  },
+  {
+    "id": "42108",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/tadpole_in_a_bucket"
+  },
+  {
+    "id": "42109",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/kill_mob_near_sculk_catalyst"
+  },
+  {
+    "id": "42110",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:adventure/avoid_vibration"
+  },
+  {
+    "id": "42111",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/leash_all_frog_variants"
+  },
+  {
+    "id": "42112",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/froglights"
+  },
+  {
+    "id": "42113",
+    "type": "archipelago-randomizer:advancement",
+    "advancement": "minecraft:husbandry/allay_deliver_item_to_player"
+  }
+]

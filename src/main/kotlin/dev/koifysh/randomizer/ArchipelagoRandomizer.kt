@@ -9,23 +9,27 @@ import dev.koifysh.randomizer.commands.Disconnect
 import dev.koifysh.randomizer.commands.Start
 import dev.koifysh.randomizer.data.APMCData
 import dev.koifysh.randomizer.data.ArchipelagoWorldData
+import dev.koifysh.randomizer.data.DefaultDataLoader
+import dev.koifysh.randomizer.data.items.MinecraftItem
+import dev.koifysh.randomizer.data.items.TrapItems
 import dev.koifysh.randomizer.data.locations.Advancement
 import dev.koifysh.randomizer.data.locations.AdvancementLocations
-import dev.koifysh.randomizer.registries.APGoals
-import dev.koifysh.randomizer.registries.APLocation
-import dev.koifysh.randomizer.registries.APLocations
+import dev.koifysh.randomizer.registries.*
+import dev.koifysh.randomizer.registries.deserializers.APItemRewardDeserializer
 import dev.koifysh.randomizer.registries.deserializers.APLocationDeserializer
 import dev.koifysh.randomizer.structure.ArchipelagoStructures
-import dev.koifysh.randomizer.traps.Traps
 import dev.koifysh.randomizer.utils.TitleQueue
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.minecraft.commands.arguments.item.ItemParser
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.packs.PackType
 import net.minecraft.util.RandomSource
 import net.minecraft.world.level.GameRules
 import net.minecraft.world.level.Level
@@ -51,7 +55,8 @@ object ArchipelagoRandomizer : ModInitializer {
     lateinit var server: MinecraftServer private set
     lateinit var archipelagoWorldData: ArchipelagoWorldData private set
 
-    lateinit var locationRegister: APLocations private set
+    lateinit var locationRegister: LocationRegister private set
+    lateinit var itemRegister: ItemRegister private set
 
     private var jailCenter: BlockPos = BlockPos.ZERO
 
@@ -68,17 +73,25 @@ object ArchipelagoRandomizer : ModInitializer {
         // Proceed with mild caution.
         logger.info("$MOD_VERSION initializing.")
 
-        locationRegister = APLocations()
+        locationRegister = LocationRegister()
+        itemRegister = ItemRegister()
+
         locationRegister.register(
             ResourceLocation.fromNamespaceAndPath(MOD_ID, "advancement"),
             Advancement::class.java,
             advancementLocations::addLocation
         )
 
+        itemRegister.register(
+            ResourceLocation.fromNamespaceAndPath(MOD_ID, "item"),
+            MinecraftItem::class.java
+        )
+
         // load apmc file
         val builder = GsonBuilder()
-        builder.registerTypeAdapter(APLocation::class.java, APLocationDeserializer)
         builder.registerTypeAdapter(ResourceLocation::class.java, ResourceLocation.Serializer())
+        builder.registerTypeAdapter(APLocation::class.java, APLocationDeserializer)
+        builder.registerTypeAdapter(APItemReward::class.java, APItemRewardDeserializer)
         gson = builder.create()
 
 
@@ -95,11 +108,14 @@ object ArchipelagoRandomizer : ModInitializer {
 
         // Load Structures
         ArchipelagoStructures.registerStructures()
+
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(DefaultDataLoader())
     }
 
     private fun beforeLevelLoad(minecraftServer: MinecraftServer) {
         server = minecraftServer
         logger.info("$MOD_VERSION starting.")
+        MinecraftItem.itemParser = ItemParser(server.registryAccess())
     }
 
     private fun afterLevelLoad(minecraftServer: MinecraftServer) {
@@ -111,8 +127,8 @@ object ArchipelagoRandomizer : ModInitializer {
         apClient.setName(apmcData.playerName)
         apClient.connect("${apmcData.server}:${apmcData.port}")
 
-        APGoals.init(apmcData)
-        Traps.init()
+        GoalRegister.init(apmcData)
+        TrapItems.init()
 
         if (archipelagoWorldData.jailPlayers) {
             val overworld: ServerLevel = server.getLevel(Level.OVERWORLD)!!
@@ -135,6 +151,8 @@ object ArchipelagoRandomizer : ModInitializer {
             server.gameRules.getRule(GameRules.RULE_DOENTITYDROPS).set(false, server)
             overworld.dayTime = 0
         }
+
+
     }
 
     internal fun modResource(location: String): ResourceLocation {
@@ -142,7 +160,7 @@ object ArchipelagoRandomizer : ModInitializer {
     }
 
     fun loadAPMCData() {
-        logger.info("Loading APMCData file")
+        logger.info("Loading APMC file")
         try {
             val path = Paths.get("./APData/")
             if (!Files.exists(path)) {
@@ -161,18 +179,48 @@ object ArchipelagoRandomizer : ModInitializer {
 
         } catch (e: IOException) {
             apmcData.state = APMCData.State.MISSING
+            logger.error("IOException: ${e.message}")
         } catch (e: NullPointerException) {
             apmcData.state = APMCData.State.MISSING
+            logger.error("NullPointerException: ${e.message}")
+            e.printStackTrace()
         } catch (e: ArrayIndexOutOfBoundsException) {
             apmcData.state = APMCData.State.MISSING
+            logger.error("ArrayIndexOutOfBoundsException: ${e.message}")
         } catch (e: AssertionError) {
             apmcData.state = APMCData.State.MISSING
+            logger.error("AssertionError: ${e.message}")
+        } catch (e: IllegalArgumentException) {
+            apmcData.state = APMCData.State.MISSING
+            logger.error("IllegalArgumentException: ${e.message}")
         }
 
         if (apmcData.state == APMCData.State.MISSING) {
             logger.error("no .apmc file found. please place .apmc file in './APData/' folder. ")
         }
 
-        apmcData.apLocations.forEach(locationRegister::newLocation)
+        logger.info("reading Locations and Items")
+        if (apmcData.apLocations.isEmpty()) {
+            logger.info("No locations found in APMC file, will load default locations.")
+        } else {
+            var locationCount = 0
+            apmcData.apLocations.forEach {
+                locationCount += locationRegister.newLocation(it)
+            }
+            logger.info("$locationCount locations loaded.")
+        }
+
+        var rewardsCount = 0
+        var itemsCount = 0
+        apmcData.apItems.forEach {
+            val localCount = itemRegister.newItem(it)
+            if (localCount == 0) {
+                logger.warn("No items loaded for item ${it.id} is \"rewards\" field empty?")
+            }
+            rewardsCount += localCount
+            itemsCount++
+        }
+        logger.info("$itemsCount items and $rewardsCount rewards loaded.")
+
     }
 }
