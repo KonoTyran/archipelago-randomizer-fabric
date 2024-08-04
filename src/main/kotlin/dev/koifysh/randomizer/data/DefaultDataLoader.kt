@@ -35,7 +35,9 @@ class DefaultDataLoader : SimpleSynchronousResourceReloadListener {
                     }
                 }
         }
+
         if (apmcData.apItems.isEmpty()) {
+            itemRegister.clear()
             logger.info("Loading locations items")
             resourceManager.getResource(ArchipelagoRandomizer.modResource("default_data/default_items.json"))
                 .ifPresent { resource ->

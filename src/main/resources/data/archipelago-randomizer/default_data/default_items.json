@@ -19,6 +19,163 @@
     ]
   },
   {
+    "id": 45003,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/brewing",
+        "value": [
+          "minecraft:blaze_powder",
+          "minecraft:brewing_stand"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45004,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/enchanting",
+        "value": [
+          "minecraft:enchanting_table",
+          "minecraft:bookshelf"
+        ]
+      },
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:lapis_lazuli",
+        "amount": 8
+      }
+    ]
+  },
+  {
+    "id": 45005,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/bucket",
+        "value": [
+          "minecraft:bucket"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45006,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/flint_and_steel",
+        "value": [
+          "minecraft:flint_and_steel"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45007,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/beds",
+        "value": [
+          "minecraft:black_bed",
+          "minecraft:blue_bed",
+          "minecraft:brown_bed",
+          "minecraft:cyan_bed",
+          "minecraft:gray_bed",
+          "minecraft:green_bed",
+          "minecraft:light_blue_bed",
+          "minecraft:light_gray_bed",
+          "minecraft:lime_bed",
+          "minecraft:magenta_bed",
+          "minecraft:orange_bed",
+          "minecraft:pink_bed",
+          "minecraft:purple_bed",
+          "minecraft:red_bed",
+          "minecraft:white_bed",
+          "minecraft:yellow_bed"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45008,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/bottles",
+        "value": [
+          "minecraft:glass_bottle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45009,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/shield",
+        "value": [
+          "minecraft:shield"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45010,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/fishing",
+        "value": [
+          "minecraft:fishing_rod",
+          "minecraft:carrot_on_a_stick",
+          "minecraft:warped_fungus_on_a_stick"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45011,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/campfires",
+        "value": [
+          "minecraft:campfire",
+          "minecraft:soul_campfire"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45044,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/spyglass",
+        "value": [
+          "minecraft:spyglass"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45045,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:group_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/lead",
+        "value": [
+          "minecraft:lead"
+        ]
+      }
+    ]
+  },
+  {
     "id": 45012,
     "rewards": [
       {
@@ -42,11 +199,332 @@
     ]
   },
   {
+    "id": 45013,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:progressive_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/progressive_tools",
+        "value": [
+          [
+            "minecraft:stone_pickaxe",
+            "minecraft:stone_shovel",
+            "minecraft:stone_hoe"
+          ],
+          [
+            "minecraft:iron_pickaxe",
+            "minecraft:iron_shovel",
+            "minecraft:iron_hoe"
+          ],
+          [
+            "minecraft:diamond_pickaxe",
+            "minecraft:diamond_shovel",
+            "minecraft:diamond_hoe",
+            "minecraft:netherite_ingot"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45014,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:progressive_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/progressive_armor",
+        "value": [
+          [
+            "minecraft:iron_helmet",
+            "minecraft:iron_chestplate",
+            "minecraft:iron_leggings",
+            "minecraft:iron_boots"
+          ],
+          [
+            "minecraft:diamond_helmet",
+            "minecraft:diamond_chestplate",
+            "minecraft:diamond_leggings",
+            "minecraft:diamond_boots"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45001,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:progressive_recipe",
+        "tracking-advancement": "archipelago-randomizer:received/progressive_resource_crafting",
+        "value": [
+          [
+            "minecraft:iron_ingot_from_nuggets",
+            "minecraft:iron_nugget",
+            "minecraft:gold_ingot_from_nuggets",
+            "minecraft:gold_nugget",
+            "minecraft:furnace",
+            "minecraft:blast_furnace"
+          ],
+          [
+            "minecraft:redstone",
+            "minecraft:redstone_block",
+            "minecraft:glowstone",
+            "minecraft:iron_ingot_from_iron_block",
+            "minecraft:iron_block",
+            "minecraft:gold_ingot_from_gold_block",
+            "minecraft:gold_block",
+            "minecraft:diamond",
+            "minecraft:diamond_block",
+            "minecraft:netherite_block",
+            "minecraft:netherite_ingot_from_netherite_block",
+            "minecraft:anvil",
+            "minecraft:emerald",
+            "minecraft:emerald_block",
+            "minecraft:copper_block"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45015,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:netherite_Scrap",
+        "amount": 8
+      }
+    ]
+  },
+  {
+    "id": 45016,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:emerald",
+        "amount": 8
+      }
+    ]
+  },
+  {
+    "id": 45017,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:emerald",
+        "amount": 4
+      }
+    ]
+  },
+  {
+    "id": 45018,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:enchanted_book[minecraft:stored_enchantments={levels:{\"minecraft:channeling\":1}}]",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": 45019,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:enchanted_book[minecraft:stored_enchantments={levels:{\"minecraft:silk_touch\":1}}]",
+        "amount": 1
+      }
+    ]
+  },
+  {
     "id": 45020,
     "rewards": [
       {
         "type": "archipelago-randomizer:item",
         "item": "minecraft:enchanted_book[minecraft:stored_enchantments={levels:{\"minecraft:sharpness\":3}}]",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": 45021,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:enchanted_book[minecraft:stored_enchantments={levels:{\"minecraft:piercing\":4}}]",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": 45022,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:enchanted_book[minecraft:stored_enchantments={levels:{\"minecraft:looting\":3}}]",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": 45023,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:enchanted_book[minecraft:stored_enchantments={levels:{\"minecraft:infinity\":1}}]",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": 45024,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:diamond_ore",
+        "amount": 4
+      }
+    ]
+  },
+  {
+    "id": 45025,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:iron_ore",
+        "amount": 16
+      }
+    ]
+  },
+  {
+    "id": 45029,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:ender_pearl",
+        "amount": 3
+      }
+    ]
+  },
+  {
+    "id": 45030,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:lapis_lazuli",
+        "amount": 4
+      }
+    ]
+  },
+  {
+    "id": 45031,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:cooked_porkchop",
+        "amount": 16
+      }
+    ]
+  },
+  {
+    "id": 45032,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:gold_ore",
+        "amount": 8
+      }
+    ]
+  },
+  {
+    "id": 45033,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:rotten_flesh",
+        "amount": 16
+      }
+    ]
+  },
+  {
+    "id": 45034,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:arrow[custom_name='[\"\",{\"text\":\"The Arrow\",\"italic\":false,\"color\":\"gold\"}]',lore=['[\"\",{\"text\":\"you only need \",\"italic\":false,\"color\":\"white\"},{\"text\":\"one\",\"color\":\"gold\"}]']]",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": 45035,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:arrow",
+        "amount": 32
+      }
+    ]
+  },
+  {
+    "id": 45036,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:saddle",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": 45037,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:structure_compass",
+        "tracked_structure": "#archipelago-randomizer:village"
+      }
+    ]
+  },
+  {
+    "id": 45038,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:structure_compass",
+        "tracked_structure": "#archipelago-randomizer:pillager_outpost"
+      }
+    ]
+  },
+  {
+    "id": 45039,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:structure_compass",
+        "tracked_structure": "#archipelago-randomizer:fortress"
+      }
+    ]
+  },
+  {
+    "id": 45040,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:structure_compass",
+        "tracked_structure": "#archipelago-randomizer:bastion_remnant"
+      }
+    ]
+  },
+  {
+    "id": 45041,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:structure_compass",
+        "tracked_structure": "#archipelago-randomizer:end_city"
+      }
+    ]
+  },
+  {
+    "id": 45042,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:item",
+        "item": "minecraft:shulker_box",
         "amount": 1
       }
     ]
@@ -175,6 +653,41 @@
       {
         "type": "archipelago-randomizer:trap",
         "trap": "archipelago-randomizer:trap/anvil"
+      }
+    ]
+  },
+  {
+    "id": 45043,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:goal_dragon_egg"
+      }
+    ]
+  },
+  {
+    "id": 45027,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:xp",
+        "amount": 100
+      }
+    ]
+  },
+  {
+    "id": 45028,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:xp",
+        "amount": 50
+      }
+    ]
+  },
+  {
+    "id": 45026,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:xp",
+        "amount": 500
       }
     ]
   }

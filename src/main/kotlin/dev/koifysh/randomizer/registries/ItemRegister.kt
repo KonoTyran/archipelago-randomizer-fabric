@@ -11,7 +11,7 @@ class ItemRegister {
 
     private val items = HashMap<Long, ArrayList<APItemReward>>()
     private var receivedItems = ArrayList<Long>()
-    var index: Long = worldData.itemIndex
+    var index: Long = 0
     get() = worldData.itemIndex
     set(value) {
             field = value
@@ -25,7 +25,7 @@ class ItemRegister {
         var unknown = 0
         item.rewards.forEach {
             if (!APItemRewardDeserializer.isKnown(it.type)) {
-                logger.warn("Unknown item type ${it.type}. Skipping.")
+                logger.warn("Unknown item type ${it.type}.")
                 unknown++
             }
         }
@@ -55,5 +55,9 @@ class ItemRegister {
     fun <T : APItemReward> register(type: ResourceLocation, location: Class<T>) {
         if (!APItemRewardDeserializer.register(type, location))
             logger.warn("attempted to register duplicate Item Reward type $type, skipping")
+    }
+
+    fun clear() {
+        items.clear()
     }
 }
