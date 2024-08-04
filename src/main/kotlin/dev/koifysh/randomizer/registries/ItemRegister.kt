@@ -1,14 +1,9 @@
 package dev.koifysh.randomizer.registries
 
 import com.google.common.collect.ImmutableList
-import com.mojang.brigadier.StringReader
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
-import dev.koifysh.randomizer.ArchipelagoRandomizer.server
-import dev.koifysh.randomizer.data.APMCData
 import dev.koifysh.randomizer.registries.deserializers.APItemRewardDeserializer
 import dev.koifysh.randomizer.utils.Utils
-import net.minecraft.commands.arguments.item.ItemInput
-import net.minecraft.commands.arguments.item.ItemParser
 import net.minecraft.resources.ResourceLocation
 import dev.koifysh.randomizer.ArchipelagoRandomizer.archipelagoWorldData as worldData
 
@@ -16,10 +11,12 @@ class ItemRegister {
 
     private val items = HashMap<Long, ArrayList<APItemReward>>()
     private var receivedItems = ArrayList<Long>()
-    var index: Long = worldData.itemIndex; get() = worldData.itemIndex; set(value) {
-        field = value
-        worldData.itemIndex = value
-    }
+    var index: Long = worldData.itemIndex
+    get() = worldData.itemIndex
+    set(value) {
+            field = value
+            worldData.itemIndex = value
+        }
 
     fun getReceivedItems(): List<Long> = ImmutableList.copyOf(receivedItems)
 

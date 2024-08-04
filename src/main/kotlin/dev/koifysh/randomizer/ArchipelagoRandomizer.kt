@@ -11,6 +11,7 @@ import dev.koifysh.randomizer.data.APMCData
 import dev.koifysh.randomizer.data.ArchipelagoWorldData
 import dev.koifysh.randomizer.data.DefaultDataLoader
 import dev.koifysh.randomizer.data.items.MinecraftItem
+import dev.koifysh.randomizer.data.items.TrapItem
 import dev.koifysh.randomizer.data.items.TrapItems
 import dev.koifysh.randomizer.data.locations.Advancement
 import dev.koifysh.randomizer.data.locations.AdvancementLocations
@@ -77,14 +78,19 @@ object ArchipelagoRandomizer : ModInitializer {
         itemRegister = ItemRegister()
 
         locationRegister.register(
-            ResourceLocation.fromNamespaceAndPath(MOD_ID, "advancement"),
+            modResource( "advancement"),
             Advancement::class.java,
             advancementLocations::addLocation
         )
 
         itemRegister.register(
-            ResourceLocation.fromNamespaceAndPath(MOD_ID, "item"),
+            modResource( "item"),
             MinecraftItem::class.java
+        )
+
+        itemRegister.register(
+            modResource("trap"),
+            TrapItem::class.java
         )
 
         // load apmc file
@@ -134,7 +140,7 @@ object ArchipelagoRandomizer : ModInitializer {
             val overworld: ServerLevel = server.getLevel(Level.OVERWORLD)!!
             val spawn = overworld.sharedSpawnPos
             // alter the spawn box position, so it doesn't interfere with spawning
-            val jail = overworld.structureManager[ResourceLocation.fromNamespaceAndPath(MOD_ID, "spawnjail")].get()
+            val jail = overworld.structureManager[modResource( "spawnjail")].get()
             val jailPos = BlockPos(spawn.x + 5, 300, spawn.z + 5)
             jailCenter = BlockPos(jailPos.x + (jail.size.x / 2), jailPos.y + 1, jailPos.z + (jail.size.z / 2))
             jail.placeInWorld(overworld, jailPos, jailPos, StructurePlaceSettings(), RandomSource.create(), 2)

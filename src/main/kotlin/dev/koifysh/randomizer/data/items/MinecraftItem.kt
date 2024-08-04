@@ -8,14 +8,14 @@ import dev.koifysh.randomizer.utils.Utils
 import net.minecraft.commands.arguments.item.ItemInput
 import net.minecraft.commands.arguments.item.ItemParser
 
-class MinecraftItem: APItemReward() {
+data class MinecraftItem (
+    val item: String,
+    val amount: Int
+): APItemReward() {
 
     companion object {
         lateinit var itemParser: ItemParser; internal set
     }
-
-    val item: String = ""
-    private val amount: Int = 0
 
     override fun grant() {
         logger.info("Granting item $item")

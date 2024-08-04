@@ -1,6 +1,6 @@
 [
   {
-    "id": "45000",
+    "id": 45000,
     "rewards": [
       {
         "type": "archipelago-randomizer:group_recipe",
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "id": "45012",
+    "id": 45012,
     "rewards": [
       {
         "type": "archipelago-randomizer:progressive_recipe",
@@ -42,12 +42,139 @@
     ]
   },
   {
-    "id": "45020",
+    "id": 45020,
     "rewards": [
       {
         "type": "archipelago-randomizer:item",
         "item": "minecraft:enchanted_book[minecraft:stored_enchantments={levels:{\"minecraft:sharpness\":3}}]",
         "amount": 1
+      }
+    ]
+  },
+  {
+    "id": 45100,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/bee",
+        "amount": 3
+      }
+    ]
+  },
+  {
+    "id": 45101,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/creeper"
+      }
+    ]
+  },
+  {
+    "id": 45102,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/sand_rain"
+      }
+    ]
+  },
+  {
+    "id": 45103,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/fake_wither"
+      }
+    ]
+  },
+  {
+    "id": 45104,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/goon"
+      }
+    ]
+  },
+  {
+    "id": 45105,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/fish_fountain"
+      }
+    ]
+  },
+  {
+    "id": 45106,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/mining_fatigue"
+      }
+    ]
+  },
+  {
+    "id": 45107,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/blindness"
+      }
+    ]
+  },
+  {
+    "id": 45108,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/phantom"
+      }
+    ]
+  },
+  {
+    "id": 45109,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/water"
+      }
+    ]
+  },
+  {
+    "id": 45110,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/ghast"
+      }
+    ]
+  },
+  {
+    "id": 45111,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/levitate"
+      }
+    ]
+  },
+  {
+    "id": 45112,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/about_face"
+      }
+    ]
+  },
+  {
+    "id": 45113,
+    "rewards": [
+      {
+        "type": "archipelago-randomizer:trap",
+        "trap": "archipelago-randomizer:trap/anvil"
       }
     ]
   }

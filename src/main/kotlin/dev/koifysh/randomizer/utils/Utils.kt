@@ -6,6 +6,8 @@ import dev.koifysh.archipelago.Print.APPrintColor
 import dev.koifysh.archipelago.Print.APPrintType
 import dev.koifysh.archipelago.flags.NetworkItem
 import dev.koifysh.randomizer.ArchipelagoRandomizer
+import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
+import dev.koifysh.randomizer.ArchipelagoRandomizer.server
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
@@ -22,18 +24,12 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.levelgen.structure.Structure
 import net.minecraft.world.phys.Vec3
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
 import java.awt.Color
 import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
 
 object Utils {
-
-    // Directly reference a log4j logger.
-    private val LOGGER: Logger = LogManager.getLogger()
-    private val server: MinecraftServer = ArchipelagoRandomizer.server
 
     /**
      * send a message to whoever ran the command.
@@ -74,7 +70,7 @@ object Utils {
 
         val message: MutableComponent = Component.empty()
         for (part in apPrint.parts) {
-            LOGGER.trace("part[]: {}, {}, {}", part.text, part.color, part.type)
+            logger.trace("part[]: {}, {}, {}", part.text, part.color, part.type)
             //no default color was sent so use our own coloring.
             //no default color was sent so use our own coloring.
             var color = if (isMe) Color.PINK else Color.WHITE

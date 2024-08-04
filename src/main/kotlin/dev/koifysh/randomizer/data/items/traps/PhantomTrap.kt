@@ -3,7 +3,6 @@ package dev.koifysh.randomizer.data.items.traps
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.utils.Utils
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.effect.MobEffectInstance
@@ -13,9 +12,9 @@ import net.minecraft.world.entity.monster.Phantom
 import java.util.*
 
 class PhantomTrap : Trap {
-    var phantoms: MutableList<Phantom> = LinkedList<Phantom>()
+    private var phantoms: MutableList<Phantom> = LinkedList<Phantom>()
 
-    var timer: Int = 20 * 45
+    private var timer: Int = 20 * 45
 
     init {
         ServerTickEvents.END_SERVER_TICK.register { onTick() }

@@ -5,7 +5,6 @@ import dev.koifysh.archipelago.events.ArchipelagoEventListener
 import dev.koifysh.archipelago.events.ReceiveItemEvent
 import dev.koifysh.archipelago.parts.NetworkItem
 import dev.koifysh.randomizer.ArchipelagoRandomizer
-import dev.koifysh.randomizer.registries.ItemRegister
 import dev.koifysh.randomizer.utils.Utils
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style

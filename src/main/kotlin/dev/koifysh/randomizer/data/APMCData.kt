@@ -56,10 +56,6 @@ class APMCData {
 
     var state: State = State.VALID
 
-    var advancements: HashMap<String, Long> = HashMap()
-    var hardAdvancements: Set<Long> = HashSet()
-    var veryHardAdvancements: Set<Long> = HashSet()
-
     enum class State {
         VALID, MISSING, INVALID_VERSION, INVALID_SEED
     }
