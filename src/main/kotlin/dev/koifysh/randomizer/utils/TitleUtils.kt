@@ -5,34 +5,33 @@ import net.minecraft.network.protocol.game.*
 import net.minecraft.server.level.ServerPlayer
 
 object TitleUtils {
-    fun resetTitle(players: Collection<ServerPlayer>) {
-        val stitlepacket = ClientboundClearTitlesPacket(true)
-
-        for (serverplayerentity in players) {
-            serverplayerentity.connection.send(stitlepacket)
+    fun Iterable<ServerPlayer>.resetTitle() {
+        val clearTitlePacket = ClientboundClearTitlesPacket(true)
+        for (player in this) {
+            player.connection.send(clearTitlePacket)
         }
     }
 
-    fun showTitle(players: Collection<ServerPlayer>, title: Component?, subtitle: Component?) {
+    fun Iterable<ServerPlayer>.showTitle(title: Component, subtitle: Component) {
         val subtitleTextPacket = ClientboundSetSubtitleTextPacket(subtitle)
         val titleTextPacket = ClientboundSetTitleTextPacket(title)
-        for (serverPlayerEntity in players) {
-            serverPlayerEntity.connection.send(subtitleTextPacket)
-            serverPlayerEntity.connection.send(titleTextPacket)
+        for (player in this) {
+            player.connection.send(subtitleTextPacket)
+            player.connection.send(titleTextPacket)
         }
     }
 
-    fun showActionBar(players: Collection<ServerPlayer>, actionBarText: Component?) {
+    fun Iterable<ServerPlayer>.showActionBar(actionBarText: Component) {
         val actionBarTextPacket = ClientboundSetActionBarTextPacket(actionBarText)
-        for (serverPlayerEntity in players) {
-            serverPlayerEntity.connection.send(actionBarTextPacket)
+        for (player in this) {
+            player.connection.send(actionBarTextPacket)
         }
     }
 
-    fun setTimes(players: Collection<ServerPlayer>, fadeIn: Int, stay: Int, fadeOut: Int) {
+    fun Iterable<ServerPlayer>.setTitleTimes(fadeIn: Int, stay: Int, fadeOut: Int) {
         val animationPacket = ClientboundSetTitlesAnimationPacket(fadeIn, stay, fadeOut)
-        for (serverPlayerEntity in players) {
-            serverPlayerEntity.connection.send(animationPacket)
+        for (player in this) {
+            player.connection.send(animationPacket)
         }
     }
 }

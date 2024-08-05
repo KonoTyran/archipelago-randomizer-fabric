@@ -9,7 +9,7 @@ data class TrapItem(
     val trap: ResourceLocation
 ) : APItemReward() {
 
-    override fun grant() {
+    override fun grant(index: Long) {
         TrapItems.trigger(trap)
     }
 

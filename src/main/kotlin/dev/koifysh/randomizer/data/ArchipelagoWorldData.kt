@@ -12,10 +12,18 @@ class ArchipelagoWorldData : SavedData {
 
     var seedName: String = ""; set(value) { field = value; setDirty() }
     var dragonState: Int = DRAGON_ASLEEP; set(value) { field = value; setDirty() }
-    var jailPlayers = false; set(value) { field = value; setDirty() }
+    var jailPlayers = true; set(value) { field = value; setDirty() }
 
     private var locations: MutableSet<Long> = HashSet()
+
     private var index: Long = 0
+    var itemIndex: Long
+        get() = this.index
+        set(index) {
+            this.index = index
+            this.setDirty()
+        }
+
     private var playerIndex: MutableMap<String, Int> = HashMap()
 
     fun addLocation(location: Long) {
@@ -23,7 +31,7 @@ class ArchipelagoWorldData : SavedData {
         this.setDirty()
     }
 
-    fun addLocations(locations: Array<Long>?) {
+    fun addLocations(locations: Array<Long>) {
         this.locations.addAll(Lists.newArrayList(Arrays.stream(locations).iterator()))
         this.setDirty()
     }
@@ -41,12 +49,7 @@ class ArchipelagoWorldData : SavedData {
         return playerIndex.getOrDefault(playerUUID, 0)
     }
 
-    var itemIndex: Long
-        get() = this.index
-        set(index) {
-            this.index = index
-            this.setDirty()
-        }
+
 
     override fun save(tag: CompoundTag, holder: HolderLookup.Provider): CompoundTag {
         tag.putString("seedName", seedName)

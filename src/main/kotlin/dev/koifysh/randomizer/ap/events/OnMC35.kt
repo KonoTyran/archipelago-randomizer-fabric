@@ -1,4 +1,4 @@
-package dev.koifysh.randomizer.apevents
+package dev.koifysh.randomizer.ap.events
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import dev.koifysh.archipelago.events.ArchipelagoEventListener

@@ -8,12 +8,13 @@ import dev.koifysh.archipelago.flags.NetworkItem
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.ArchipelagoRandomizer.server
+import dev.koifysh.randomizer.utils.TitleUtils.setTitleTimes
+import dev.koifysh.randomizer.utils.TitleUtils.showActionBar
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceKey
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
@@ -122,7 +123,7 @@ object Utils {
         }
     }
 
-    fun sendTitleToAll(
+    fun Iterable<ServerPlayer>.sendTitle(
         title: Component,
         subTitle: Component,
         chatMessage: Component,
@@ -133,7 +134,7 @@ object Utils {
         server.execute {
             TitleQueue.queueTitle(
                 QueuedTitle(
-                    server.playerList.players,
+                    this,
                     fadeIn,
                     stay,
                     fadeOut,
@@ -145,21 +146,21 @@ object Utils {
         }
     }
 
-    fun sendActionBarToAll(actionBarMessage: String, fadeIn: Int, stay: Int, fadeOut: Int) {
+    fun Iterable<ServerPlayer>.sendActionBar(actionBarMessage: String, fadeIn: Int, stay: Int, fadeOut: Int) {
         server.execute {
-            TitleUtils.setTimes(server.playerList.players, fadeIn, stay, fadeOut)
-            TitleUtils.showActionBar(server.playerList.players, Component.literal(actionBarMessage))
+            this.setTitleTimes(fadeIn, stay, fadeOut)
+            this.showActionBar(Component.literal(actionBarMessage))
         }
     }
 
-    fun sendActionBarToPlayer(player: ServerPlayer, actionBarMessage: String, fadeIn: Int, stay: Int, fadeOut: Int) {
+    fun ServerPlayer.sendActionBar(actionBarMessage: String, fadeIn: Int, stay: Int, fadeOut: Int) {
         server.execute {
-            TitleUtils.setTimes(listOf(player), fadeIn, stay, fadeOut)
-            TitleUtils.showActionBar(listOf(player), Component.literal(actionBarMessage))
+            listOf(this).setTitleTimes( fadeIn, stay, fadeOut)
+            listOf(this).showActionBar(Component.literal(actionBarMessage))
         }
     }
 
-    fun playSoundToAll(sound: SoundEvent) {
+    fun Iterable<ServerPlayer>.playSoundToAll(sound: SoundEvent) {
         server.execute {
             for (player in server.playerList.players) {
                 player.playNotifySound(sound, SoundSource.MASTER, 1f, 1f)
@@ -188,7 +189,7 @@ object Utils {
         return Level.OVERWORLD
     }
 
-    private fun getAPStructureName(structureTag: TagKey<Structure>): String {
+    fun getAPStructureName(structureTag: TagKey<Structure>): String {
         return when (structureTag.location().toString()) {
             "${ArchipelagoRandomizer.MOD_ID}:village" -> "Village"
             "${ArchipelagoRandomizer.MOD_ID}:end_city" -> "End City"

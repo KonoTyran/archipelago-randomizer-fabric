@@ -1,4 +1,4 @@
-package dev.koifysh.randomizer.apevents
+package dev.koifysh.randomizer.ap.events
 
 import dev.koifysh.archipelago.events.ArchipelagoEventListener
 import dev.koifysh.archipelago.events.DeathLinkEvent

@@ -8,6 +8,7 @@
     "AfterModInit",
     "MixinCrafter",
     "MixinPropertyManager",
+    "MixinUpdateCompass",
     "StructureModifier"
   ],
   "injectors": {

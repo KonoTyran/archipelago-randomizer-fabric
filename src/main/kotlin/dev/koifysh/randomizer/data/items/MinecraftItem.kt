@@ -17,7 +17,7 @@ data class MinecraftItem (
         lateinit var itemParser: ItemParser; internal set
     }
 
-    override fun grant() {
+    override fun grant(index: Long) {
         logger.info("Granting item $item")
         val item = itemParser.parse(StringReader(item))
         val itemStack = ItemInput(item.item, item.components).createItemStack(amount, false)

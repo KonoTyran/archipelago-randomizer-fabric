@@ -1,11 +1,13 @@
 package dev.koifysh.randomizer.utils
 
 import dev.koifysh.randomizer.ArchipelagoRandomizer
+import dev.koifysh.randomizer.utils.TitleUtils.setTitleTimes
+import dev.koifysh.randomizer.utils.TitleUtils.showTitle
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 
 class QueuedTitle(
-    private val players: List<ServerPlayer>,
+    private val players: Iterable<ServerPlayer>,
     private val fadeIn: Int,
     private val stay: Int,
     private val fadeOut: Int,
@@ -17,7 +19,7 @@ class QueuedTitle(
     private var chatMessage: Component? = null
 
     constructor(
-        players: List<ServerPlayer>,
+        players: Iterable<ServerPlayer>,
         fadeIn: Int,
         stay: Int,
         fadeOut: Int,
@@ -29,10 +31,10 @@ class QueuedTitle(
     }
 
 
-    fun sendTitle() {
+    fun ServerPlayer.sendTitle() {
         ArchipelagoRandomizer.server.execute {
-            TitleUtils.setTimes(players, fadeIn, stay, fadeOut)
-            TitleUtils.showTitle(players, title, subTitle)
+            players.setTitleTimes(fadeIn, stay, fadeOut)
+            players.showTitle(title, subTitle)
             if (chatMessage == null) return@execute
             Utils.sendMessageToAll(chatMessage!!)
         }

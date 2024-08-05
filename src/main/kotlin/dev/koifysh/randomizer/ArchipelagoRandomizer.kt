@@ -10,11 +10,10 @@ import dev.koifysh.randomizer.commands.Start
 import dev.koifysh.randomizer.data.APMCData
 import dev.koifysh.randomizer.data.ArchipelagoWorldData
 import dev.koifysh.randomizer.data.DefaultDataLoader
-import dev.koifysh.randomizer.data.items.MinecraftItem
-import dev.koifysh.randomizer.data.items.TrapItem
-import dev.koifysh.randomizer.data.items.TrapItems
+import dev.koifysh.randomizer.data.items.*
 import dev.koifysh.randomizer.data.locations.Advancement
 import dev.koifysh.randomizer.data.locations.AdvancementLocations
+import dev.koifysh.randomizer.events.player.PlayerEvents
 import dev.koifysh.randomizer.registries.*
 import dev.koifysh.randomizer.registries.deserializers.APItemRewardDeserializer
 import dev.koifysh.randomizer.registries.deserializers.APLocationDeserializer
@@ -22,8 +21,11 @@ import dev.koifysh.randomizer.structure.ArchipelagoStructures
 import dev.koifysh.randomizer.utils.TitleQueue
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.fabric.api.event.player.UseItemCallback
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.commands.arguments.item.ItemParser
 import net.minecraft.core.BlockPos
@@ -59,6 +61,9 @@ object ArchipelagoRandomizer : ModInitializer {
     lateinit var locationRegister: LocationRegister private set
     lateinit var itemRegister: ItemRegister private set
 
+    lateinit var itemHandler: MinecraftItems private set
+    lateinit var compassHandler: StructureCompasses private set
+
     private var jailCenter: BlockPos = BlockPos.ZERO
 
     val advancementLocations = AdvancementLocations()
@@ -93,6 +98,11 @@ object ArchipelagoRandomizer : ModInitializer {
             TrapItem::class.java
         )
 
+        itemRegister.register(
+            modResource("structure_compass"),
+            StructureCompass::class.java
+        )
+
         // load apmc file
         val builder = GsonBuilder()
         builder.registerTypeAdapter(ResourceLocation::class.java, ResourceLocation.Serializer())
@@ -105,12 +115,16 @@ object ArchipelagoRandomizer : ModInitializer {
         ServerLifecycleEvents.SERVER_STARTING.register(this::beforeLevelLoad)
         ServerLifecycleEvents.SERVER_STARTED.register(this::afterLevelLoad)
         ServerTickEvents.END_SERVER_TICK.register(TitleQueue::onServerTick)
+        ServerPlayConnectionEvents.JOIN.register(PlayerEvents::onPlayerJoin)
+        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(PlayerEvents::onPlayerChangeWorld)
+
 
         // Register Commands
         CommandRegistrationCallback.EVENT.register(Connect::register)
         CommandRegistrationCallback.EVENT.register(Start::register)
         CommandRegistrationCallback.EVENT.register(Archipelago::register)
         CommandRegistrationCallback.EVENT.register(Disconnect::register)
+
 
         // Load Structures
         ArchipelagoStructures.registerStructures()
