@@ -23,8 +23,4 @@ object PlayerEvents {
     fun onPlayerChangeWorld(player: ServerPlayer, origin: ServerLevel, destination: ServerLevel) {
         player.refreshCompasses()
     }
-
-    fun onUseItem(player: Player, level: Level, interactionHand: InteractionHand): InteractionResultHolder<ItemStack> {
-        player.sendSystemMessage(Component.literal("You used an item!"))
-    }
 }
