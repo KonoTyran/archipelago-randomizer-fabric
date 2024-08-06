@@ -10,6 +10,7 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.ArchipelagoRandomizer.server
 import dev.koifysh.randomizer.utils.TitleUtils.setTitleTimes
 import dev.koifysh.randomizer.utils.TitleUtils.showActionBar
+import net.minecraft.ChatFormatting
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.core.component.DataComponents
 import net.minecraft.nbt.CompoundTag
@@ -18,6 +19,7 @@ import net.minecraft.nbt.StringTag
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Style
+import net.minecraft.network.chat.TextColor
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
@@ -240,10 +242,10 @@ object Utils {
     }
 
     fun ItemStack.setItemLore(itemLore: Collection<String>) {
-        var lore = ItemLore.EMPTY
-        for (line in itemLore) {
-            lore = lore.withLineAdded(Component.literal(line))
-        }
-        this.set(DataComponents.LORE, lore)
+        setItemLore(itemLore.map { Component.literal(it).withStyle(Style.EMPTY.withColor(ChatFormatting.WHITE).withItalic(false)) })
+    }
+
+    fun ItemStack.setItemLore(itemLore: List<Component>) {
+        this.set(DataComponents.LORE, ItemLore(itemLore))
     }
 }

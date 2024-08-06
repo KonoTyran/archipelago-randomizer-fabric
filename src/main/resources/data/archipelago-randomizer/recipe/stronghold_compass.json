@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " I ",
+    "IEI",
+    " I "
+  ],
+  "key": {
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "id": "minecraft:compass",
+    "components": {
+      "minecraft:custom_data": "{\"archipelago-randomizer:tracked_structure\":\"minecraft:stronghold\",\"archipelago-randomizer:is_static\": 1b}",
+      "minecraft:custom_name": "{\"text\":\"Structure Compass (Stronghold)\"}",
+      "minecraft:lore": [
+        "{\"text\":\"Right click with compass in hand\"}",
+        "{\"text\":\"to search for nearest stronghold\"}"
+      ],
+      "minecraft:lodestone_tracker": {
+        "tracked": false,
+        "target": {
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "dimension": "archipelago-randomizer:spawn"
+        }
+      }
+    }
+  }
+}

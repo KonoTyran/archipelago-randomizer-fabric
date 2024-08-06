@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "minecraft:paper"
+    }
+  ],
+  "result": {
+    "id": "minecraft:compass",
+    "components": {
+      "minecraft:custom_data": "{\"archipelago-randomizer:tracked_structure\":\"init\"}",
+      "minecraft:custom_name": "{\"text\":\"Structure Compass\"}",
+      "minecraft:lore": [
+        "{\"text\":\"Right click with compass in hand to\"}",
+        "{\"text\":\"search for nearby unlocked structures\"}"
+      ],
+      "minecraft:lodestone_tracker": {
+        "tracked": false,
+        "target": {
+          "pos": [0, 0, 0],
+          "dimension": "archipelago-randomizer:spawn"
+        }
+      }
+    }
+  }
+}

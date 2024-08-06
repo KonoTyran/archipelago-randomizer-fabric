@@ -80,11 +80,14 @@ class StructureCompasses {
             if (this.item != Items.COMPASS) return
             val customData = this.get(DataComponents.CUSTOM_DATA) ?: return
 
-            this.trackStructure(customData.unsafe.getString(TRACKED_STRUCTURE_STRING), player)
+            this.trackStructure(customData.unsafe.getString(TRACKED_STRUCTURE_STRING), player, customData.unsafe.getBoolean(IS_STATIC_STRING))
         }
 
-
         fun ItemStack.trackStructure(structureString: String, player: ServerPlayer) {
+            trackStructure(structureString, player, false)
+        }
+
+        fun ItemStack.trackStructure(structureString: String, player: ServerPlayer, isStatic: Boolean) {
             if (this.item != Items.COMPASS) return
 
             val serverLevel = player.serverLevel()
@@ -92,11 +95,32 @@ class StructureCompasses {
             if (globalPos == null) {
                 ArchipelagoRandomizer.logger.warn("Could not find structure: $structureString")
             }
-            var name =
-                "Structure Compass (${this.get(DataComponents.CUSTOM_DATA)?.unsafe?.getString(NAME_STRING) ?: "Un-named Structure"})"
+
+            this.set(
+                DataComponents.LODESTONE_TRACKER,
+                LodestoneTracker(Optional.ofNullable(globalPos), false)
+            )
+            player.sendActionBar("Refreshing Compass", 5, 20, 5)
+            if(isStatic) {
+                val lore: ArrayList<Component> = ArrayList(listOf(Component.literal("Location X: ${globalPos?.pos?.x} Z: ${globalPos?.pos?.z}")))
+                if (globalPos?.dimension() != serverLevel.dimension()) lore.clear()
+                this.get(DataComponents.LORE)?.let {
+                    it.lines.forEach { line ->
+                        if (line.string.startsWith("Location X: ")) return@forEach
+                        lore.add(line)
+                    }
+                    this.setItemLore(lore)
+                    return
+                }
+
+                this.setItemLore(lore)
+                return
+            }
+
+            var name =  "Structure Compass (${this.get(DataComponents.CUSTOM_DATA)?.unsafe?.getString(NAME_STRING) ?: ""})"
             val lore: ArrayList<String> = arrayListOf("Right click with compass in hand to","cycle though unlocked compasses.")
 
-            var style = Style.EMPTY
+            var style = Style.EMPTY.withItalic(false)
             if (globalPos?.dimension() != serverLevel.dimension()) {
                 name += " Wrong Dimension"
                 style = style.withColor(ChatFormatting.DARK_RED)
@@ -104,15 +128,9 @@ class StructureCompasses {
                 lore.add(0, "Location X: ${globalPos?.pos?.x} Z: ${globalPos?.pos?.z}")
             }
             val displayName = Component.literal(name).withStyle(style)
-
-
-            this.set(
-                DataComponents.LODESTONE_TRACKER,
-                LodestoneTracker(Optional.ofNullable(globalPos), false)
-            )
             this.set(DataComponents.CUSTOM_NAME, displayName)
             this.setItemLore(lore)
-            player.sendActionBar("Refreshing Compass", 5, 20, 5)
+
         }
 
         fun getHolderSet(structure: String): HolderSet<Structure> {
