@@ -289,7 +289,7 @@
     "rewards": [
       {
         "type": "archipelago-randomizer:item",
-        "item": "minecraft:netherite_Scrap",
+        "item": "minecraft:netherite_scrap",
         "amount": 8
       }
     ]
@@ -479,7 +479,8 @@
     "rewards": [
       {
         "type": "archipelago-randomizer:structure_compass",
-        "tracked_structure": "#archipelago-randomizer:village"
+        "structure": "#archipelago-randomizer:village",
+        "name": "Village"
       }
     ]
   },
@@ -488,7 +489,8 @@
     "rewards": [
       {
         "type": "archipelago-randomizer:structure_compass",
-        "tracked_structure": "#archipelago-randomizer:pillager_outpost"
+        "structure": "#archipelago-randomizer:pillager_outpost",
+        "name": "Pillager Outpost"
       }
     ]
   },
@@ -497,7 +499,8 @@
     "rewards": [
       {
         "type": "archipelago-randomizer:structure_compass",
-        "tracked_structure": "#archipelago-randomizer:fortress"
+        "structure": "#archipelago-randomizer:fortress",
+        "name": "Nether Fortress"
       }
     ]
   },
@@ -506,7 +509,8 @@
     "rewards": [
       {
         "type": "archipelago-randomizer:structure_compass",
-        "tracked_structure": "#archipelago-randomizer:bastion_remnant"
+        "structure": "#archipelago-randomizer:bastion_remnant",
+        "name": "Bastion Remnant"
       }
     ]
   },
@@ -515,7 +519,8 @@
     "rewards": [
       {
         "type": "archipelago-randomizer:structure_compass",
-        "tracked_structure": "#archipelago-randomizer:end_city"
+        "structure": "#archipelago-randomizer:end_city",
+        "name": "End City"
       }
     ]
   },

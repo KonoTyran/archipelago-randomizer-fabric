@@ -9,7 +9,7 @@ class EmptyItemReward(unknownType: ResourceLocation): APItemReward() {
     init {
         this.type = unknownType
     }
-    override fun grant() {
+    override fun grant(index: Long) {
         ArchipelagoRandomizer.logger.error("Empty item reward was granted")
     }
 }

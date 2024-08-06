@@ -31,7 +31,7 @@ class QueuedTitle(
     }
 
 
-    fun ServerPlayer.sendTitle() {
+    fun sendTitle() {
         ArchipelagoRandomizer.server.execute {
             players.setTitleTimes(fadeIn, stay, fadeOut)
             players.showTitle(title, subTitle)

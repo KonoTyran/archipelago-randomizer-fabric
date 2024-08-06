@@ -1,0 +1,11 @@
+{
+  "type": "archipelago-randomizer:spawn",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "minecraft:the_void",
+      "layers": [],
+      "structure_overrides": []
+    }
+  }
+}

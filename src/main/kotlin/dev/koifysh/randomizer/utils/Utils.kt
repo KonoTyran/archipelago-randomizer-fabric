@@ -11,6 +11,10 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer.server
 import dev.koifysh.randomizer.utils.TitleUtils.setTitleTimes
 import dev.koifysh.randomizer.utils.TitleUtils.showActionBar
 import net.minecraft.commands.CommandSourceStack
+import net.minecraft.core.component.DataComponents
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.StringTag
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Style
@@ -22,6 +26,7 @@ import net.minecraft.sounds.SoundSource
 import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.component.ItemLore
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.levelgen.structure.Structure
 import net.minecraft.world.phys.Vec3
@@ -88,13 +93,13 @@ object Utils {
                     color = Color.decode("#00FF7F")
                 } else if (part.type == APPrintType.itemID) {
                     color = if ((part.flags and NetworkItem.ADVANCEMENT) == NetworkItem.ADVANCEMENT) {
-                        Color.decode("#00EEEE") // advancement
+                        Color.decode("#AF99EF") // advancement
                     } else if ((part.flags and NetworkItem.USEFUL) == NetworkItem.USEFUL) {
                         Color.decode("#6D8BE8") // useful
                     } else if ((part.flags and NetworkItem.TRAP) == NetworkItem.TRAP) {
                         Color.decode("#FA8072") // trap
                     } else {
-                        Color.gray
+                        Color.decode("#00EEEE")
                     }
                 }
             }
@@ -232,5 +237,13 @@ object Utils {
                 itemEntity.setTarget(player.uuid)
             }
         }
+    }
+
+    fun ItemStack.setItemLore(itemLore: Collection<String>) {
+        var lore = ItemLore.EMPTY
+        for (line in itemLore) {
+            lore = lore.withLineAdded(Component.literal(line))
+        }
+        this.set(DataComponents.LORE, lore)
     }
 }

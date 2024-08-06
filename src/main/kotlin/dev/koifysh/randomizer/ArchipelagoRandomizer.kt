@@ -82,6 +82,8 @@ object ArchipelagoRandomizer : ModInitializer {
         locationRegister = LocationRegister()
         itemRegister = ItemRegister()
 
+        compassHandler = StructureCompasses()
+
         locationRegister.register(
             modResource( "advancement"),
             Advancement::class.java,
@@ -100,7 +102,8 @@ object ArchipelagoRandomizer : ModInitializer {
 
         itemRegister.register(
             modResource("structure_compass"),
-            StructureCompass::class.java
+            StructureCompass::class.java,
+            compassHandler::registerCompass
         )
 
         // load apmc file

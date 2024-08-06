@@ -1,101 +1,165 @@
 package dev.koifysh.randomizer.data.items
 
 import dev.koifysh.randomizer.ArchipelagoRandomizer
-import dev.koifysh.randomizer.ArchipelagoRandomizer.server
-import dev.koifysh.randomizer.utils.Utils
+import dev.koifysh.randomizer.ArchipelagoRandomizer.compassHandler
+import dev.koifysh.randomizer.registries.APItemReward
+import dev.koifysh.randomizer.utils.Utils.sendActionBar
+import dev.koifysh.randomizer.utils.Utils.setItemLore
 import net.minecraft.ChatFormatting
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
+import net.minecraft.core.Holder
+import net.minecraft.core.HolderSet
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.TagKey
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.component.CustomData
 import net.minecraft.world.item.component.LodestoneTracker
-import net.minecraft.world.level.Level
 import net.minecraft.world.level.levelgen.structure.Structure
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
 
 class StructureCompasses {
-
     // keep a list of all received compasses
-    val compasses: ArrayList<TagKey<Structure>> = ArrayList()
+    val compassNames: HashMap<String, String> = HashMap()
+    val compasses: LinkedList<String> = LinkedList()
 
-
+    fun registerCompass(compass: APItemReward) {
+        compass as StructureCompass
+        if (compass.structure == null || compass.name == null) {
+            throw Exception("malformed structure compass entry")
+        }
+        compassNames[compass.structure] = compass.name
+    }
 
     companion object {
+        const val TRACKED_STRUCTURE_STRING = "${ArchipelagoRandomizer.MOD_ID}:tracked_structure"
+        const val IS_STATIC_STRING = "${ArchipelagoRandomizer.MOD_ID}:is_static"
+        const val NAME_STRING = "${ArchipelagoRandomizer.MOD_ID}:name"
+
         // refresh all compasses in player inventory
         fun ServerPlayer.refreshCompasses() {
             this.inventory.items.forEach { item ->
-                if (item.item == Items.COMPASS) {
-                    // return if the compass doesn't have custom data
-                    val customData = item.get<CustomData>(DataComponents.CUSTOM_DATA) ?: return@forEach
-
-                    // get the tracked structure from the compass custom data, return if it does not exist.
-                    val trackedStructure =
-                        customData.unsafe.getString(ArchipelagoRandomizer.modResource("tracked_structure").toString())
-                    if (trackedStructure.isBlank()) return@forEach
-
-                    val tagKey =
-                        TagKey.create(
-                            Registries.STRUCTURE,
-                            ResourceLocation.parse(trackedStructure)
-                        )
-                    item.trackStructure(tagKey, this)
-                }
+                if (item.item != Items.COMPASS) return@forEach
+                item.get(DataComponents.CUSTOM_DATA) ?: return@forEach
+                item.refreshTrackStructure(this)
             }
         }
 
-
-        fun ItemStack.trackStructure(structureTag: TagKey<Structure>, player: Player) {
-            val world: ResourceKey<Level> = Utils.getStructureWorld(structureTag)
-
-
-            var displayName =
-                Component.literal(String.format("Structure Compass (%s)", Utils.getAPStructureName(structureTag)))
-
-            // only locate structure if the player is in the same world as the one for the compass
-            // otherwise just point it to 0,0 in said dimension.
-            var structurePos = BlockPos(0, 0, 0)
-            if (player.commandSenderWorld.dimension() == world) {
-                try {
-                    structurePos =
-                        server.getLevel(world)
-                            ?.findNearestMapStructure(structureTag, player.blockPosition(), 75, false)!!
-                } catch (exception: NullPointerException) {
-                    player.sendSystemMessage(
-                        Component.literal(
-                            "Could not find a nearby " + Utils.getAPStructureName(
-                                structureTag
-                            )
-                        )
-                    )
-                }
-            } else {
-                displayName = Component.literal("Structure Compass (${Utils.getAPStructureName(structureTag)}) Wrong Dimension").withStyle(ChatFormatting.DARK_RED)
+        fun ItemStack.cycleToNextStructure(player: ServerPlayer) {
+            if (this.item != Items.COMPASS) return
+            if (compassHandler.compasses.isEmpty()) {
+                refreshTrackStructure(player)
+                return
+            }
+            val customData = this.get(DataComponents.CUSTOM_DATA) ?: return
+            val data = customData.unsafe
+            if (data.getBoolean(IS_STATIC_STRING)) {
+                refreshTrackStructure(player)
+                return
             }
 
-            //update the nbt data with our new structure.
-            this.get(DataComponents.CUSTOM_DATA)!!
-                .unsafe.putString(
-                    ArchipelagoRandomizer.modResource("tracked_structure").toString(),
-                    structureTag.location().toString()
-                )
+            val trackedStructure = data.getString(TRACKED_STRUCTURE_STRING) ?: return
+
+            // get next index
+            val nextStructureIndex =
+                (compassHandler.compasses.indexOf(trackedStructure) + 1) % compassHandler.compasses.size
+            val newStructure = compassHandler.compasses[nextStructureIndex]
+            this.trackStructure(newStructure, player)
+            data.putString(TRACKED_STRUCTURE_STRING, newStructure)
+            data.putString(NAME_STRING, compassHandler.compassNames[newStructure] ?: "Un-named Structure")
+
+        }
+
+        fun ItemStack.refreshTrackStructure(player: ServerPlayer) {
+            if (this.item != Items.COMPASS) return
+            val customData = this.get(DataComponents.CUSTOM_DATA) ?: return
+
+            this.trackStructure(customData.unsafe.getString(TRACKED_STRUCTURE_STRING), player)
+        }
+
+
+        fun ItemStack.trackStructure(structureString: String, player: ServerPlayer) {
+            if (this.item != Items.COMPASS) return
+
+            val serverLevel = player.serverLevel()
+            val globalPos = getStructureCords(structureString, player)
+            if (globalPos == null) {
+                ArchipelagoRandomizer.logger.warn("Could not find structure: $structureString")
+            }
+            var name =
+                "Structure Compass (${this.get(DataComponents.CUSTOM_DATA)?.unsafe?.getString(NAME_STRING) ?: "Un-named Structure"})"
+            val lore: ArrayList<String> = arrayListOf("Right click with compass in hand to","cycle though unlocked compasses.")
+
+            var style = Style.EMPTY
+            if (globalPos?.dimension() != serverLevel.dimension()) {
+                name += " Wrong Dimension"
+                style = style.withColor(ChatFormatting.DARK_RED)
+            } else {
+                lore.add(0, "Location X: ${globalPos?.pos?.x} Z: ${globalPos?.pos?.z}")
+            }
+            val displayName = Component.literal(name).withStyle(style)
 
 
             this.set(
                 DataComponents.LODESTONE_TRACKER,
-                LodestoneTracker(Optional.of(GlobalPos(world, structurePos)), false)
+                LodestoneTracker(Optional.ofNullable(globalPos), false)
             )
             this.set(DataComponents.CUSTOM_NAME, displayName)
+            this.setItemLore(lore)
+            player.sendActionBar("Refreshing Compass", 5, 20, 5)
+        }
+
+        fun getHolderSet(structure: String): HolderSet<Structure> {
+            //make sure registry is present
+            val registryOptional = ArchipelagoRandomizer.server.registryAccess().registry(Registries.STRUCTURE)
+            if (registryOptional.isEmpty) return HolderSet.empty()
+
+            val structureRegistry = registryOptional.get()
+
+            // if the string starts with a # then it's a tag
+            if (structure.startsWith("#")) {
+                val prefixRemoved = structure.slice(1 until structure.length)
+                val structureTag = TagKey.create(Registries.STRUCTURE, ResourceLocation.parse(prefixRemoved))
+                return structureRegistry.getTag(structureTag)?.get() ?: HolderSet.empty()
+            } else {
+                val holderOptional = structureRegistry.getHolder(ResourceLocation.parse(structure))
+                if (holderOptional.isEmpty) return HolderSet.empty()
+                val holderSetOptional =
+                    holderOptional.map { holder: Holder.Reference<Structure> -> HolderSet.direct(holder) }
+                if (holderSetOptional.isEmpty) return HolderSet.empty()
+                return holderSetOptional.get()
+            }
+        }
+
+        fun getStructureCords(structure: String, player: ServerPlayer): GlobalPos? {
+            val serverLevel = player.serverLevel()
+            val structures = getHolderSet(structure)
+            val pair = serverLevel.chunkSource.generator.findNearestMapStructure(
+                serverLevel,
+                structures,
+                player.blockPosition(),
+                100,
+                false
+            )
+            if (pair == null) {
+                player.server.getLevel(
+                    ResourceKey.create(
+                        Registries.DIMENSION,
+                        ArchipelagoRandomizer.modResource("spawn")
+                    )
+                )?.let {
+                    return GlobalPos(it.dimension(), BlockPos.ZERO)
+                }
+                return null
+            }
+
+            return GlobalPos(serverLevel.dimension(), pair.first)
         }
     }
 }

@@ -9,6 +9,7 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer.archipelagoWorldData as worl
 
 class ItemRegister {
 
+    private val locationMethods = HashMap<ResourceLocation, (APItemReward) -> Unit>()
     private val items = HashMap<Long, ArrayList<APItemReward>>()
     private var receivedItems = ArrayList<Long>()
     var index: Long = 0
@@ -22,17 +23,21 @@ class ItemRegister {
 
 
     internal fun newItem(item: APItem): Int {
-        var unknown = 0
         item.rewards.forEach {
             if (!APItemRewardDeserializer.isKnown(it.type)) {
                 logger.warn("Unknown item type ${it.type}.")
-                unknown++
+            }
+            try {
+                locationMethods[it.type]?.invoke(it)
+            } catch (e: Exception) {
+                logger.error("Error while invoking method for item ID ${item.id} itemReward type ${it.type}.", e)
+                Utils.sendMessageToAll("Error while invoking method for item type ${it.type}. check log for details")
             }
         }
 
         if (!items.containsKey(item.id)) {
             items[item.id] = item.rewards
-            return item.rewards.size - unknown
+            return item.rewards.size
         } else {
             logger.warn("Duplicate item id ${item.id}. Skipping.")
         }
@@ -44,17 +49,23 @@ class ItemRegister {
         receivedItems.add(id)
         items[id]?.forEach {
             try {
-                it.grant()
+                it.grant(index)
             } catch (e: Exception) {
-                logger.error("Error while granting item type ${it.type}. ${e.message}")
+                logger.error("Error while granting item type ${it.type}.", e)
                 Utils.sendMessageToAll("Error while granting item type ${it.type}. check log for details")
             }
         }
     }
 
-    fun <T : APItemReward> register(type: ResourceLocation, location: Class<T>) {
+    fun <T : APItemReward> register(type: ResourceLocation, location: Class<T>, consumer: ((APItemReward) -> Unit)?) {
         if (!APItemRewardDeserializer.register(type, location))
             logger.warn("attempted to register duplicate Item Reward type $type, skipping")
+        if (consumer != null)
+            locationMethods[type] = consumer
+    }
+
+    fun <T : APItemReward> register(type: ResourceLocation, location: Class<T>) {
+        register(type, location, null)
     }
 
     fun clear() {
