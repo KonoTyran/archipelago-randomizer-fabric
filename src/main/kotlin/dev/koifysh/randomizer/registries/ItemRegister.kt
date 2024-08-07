@@ -13,20 +13,18 @@ class ItemRegister {
     private val items = HashMap<Long, ArrayList<APItemReward>>()
     private var receivedItems = ArrayList<Long>()
     var index: Long = 0
-    get() = worldData.itemIndex
-    set(value) {
+        get() = worldData.itemIndex
+        set(value) {
             field = value
             worldData.itemIndex = value
         }
 
     fun getReceivedItems(): List<Long> = ImmutableList.copyOf(receivedItems)
 
+    fun getItem(id: Long): List<APItemReward> = items.getOrElse(id) { ArrayList() }
 
     internal fun newItem(item: APItem): Int {
         item.rewards.forEach {
-            if (!APItemRewardDeserializer.isKnown(it.type)) {
-                logger.warn("Unknown item type ${it.type}.")
-            }
             try {
                 locationMethods[it.type]?.invoke(it)
             } catch (e: Exception) {

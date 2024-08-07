@@ -10,6 +10,6 @@ class EmptyItemReward(unknownType: ResourceLocation): APItemReward() {
         this.type = unknownType
     }
     override fun grant(index: Long) {
-        ArchipelagoRandomizer.logger.error("Empty item reward was granted")
+        ArchipelagoRandomizer.logger.error("Empty item reward of $type.")
     }
 }

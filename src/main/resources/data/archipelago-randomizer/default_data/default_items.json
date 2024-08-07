@@ -5,7 +5,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/archery",
-        "value": [
+        "recipes": [
           "minecraft:bow",
           "minecraft:arrow",
           "minecraft:crossbow"
@@ -24,7 +24,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/brewing",
-        "value": [
+        "recipes": [
           "minecraft:blaze_powder",
           "minecraft:brewing_stand"
         ]
@@ -37,7 +37,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/enchanting",
-        "value": [
+        "recipes": [
           "minecraft:enchanting_table",
           "minecraft:bookshelf"
         ]
@@ -55,7 +55,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/bucket",
-        "value": [
+        "recipes": [
           "minecraft:bucket"
         ]
       }
@@ -67,7 +67,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/flint_and_steel",
-        "value": [
+        "recipes": [
           "minecraft:flint_and_steel"
         ]
       }
@@ -79,7 +79,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/beds",
-        "value": [
+        "recipes": [
           "minecraft:black_bed",
           "minecraft:blue_bed",
           "minecraft:brown_bed",
@@ -106,7 +106,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/bottles",
-        "value": [
+        "recipes": [
           "minecraft:glass_bottle"
         ]
       }
@@ -118,7 +118,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/shield",
-        "value": [
+        "recipes": [
           "minecraft:shield"
         ]
       }
@@ -130,7 +130,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/fishing",
-        "value": [
+        "recipes": [
           "minecraft:fishing_rod",
           "minecraft:carrot_on_a_stick",
           "minecraft:warped_fungus_on_a_stick"
@@ -144,7 +144,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/campfires",
-        "value": [
+        "recipes": [
           "minecraft:campfire",
           "minecraft:soul_campfire"
         ]
@@ -157,7 +157,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/spyglass",
-        "value": [
+        "recipes": [
           "minecraft:spyglass"
         ]
       }
@@ -169,7 +169,7 @@
       {
         "type": "archipelago-randomizer:group_recipe",
         "tracking-advancement": "archipelago-randomizer:received/lead",
-        "value": [
+        "recipes": [
           "minecraft:lead"
         ]
       }
@@ -181,7 +181,7 @@
       {
         "type": "archipelago-randomizer:progressive_recipe",
         "tracking-advancement": "archipelago-randomizer:received/progressive_weapons",
-        "value": [
+        "recipes": [
           [
             "minecraft:stone_sword",
             "minecraft:stone_axe"
@@ -204,7 +204,7 @@
       {
         "type": "archipelago-randomizer:progressive_recipe",
         "tracking-advancement": "archipelago-randomizer:received/progressive_tools",
-        "value": [
+        "recipes": [
           [
             "minecraft:stone_pickaxe",
             "minecraft:stone_shovel",
@@ -231,7 +231,7 @@
       {
         "type": "archipelago-randomizer:progressive_recipe",
         "tracking-advancement": "archipelago-randomizer:received/progressive_armor",
-        "value": [
+        "recipes": [
           [
             "minecraft:iron_helmet",
             "minecraft:iron_chestplate",
@@ -254,7 +254,7 @@
       {
         "type": "archipelago-randomizer:progressive_recipe",
         "tracking-advancement": "archipelago-randomizer:received/progressive_resource_crafting",
-        "value": [
+        "recipes": [
           [
             "minecraft:iron_ingot_from_nuggets",
             "minecraft:iron_nugget",

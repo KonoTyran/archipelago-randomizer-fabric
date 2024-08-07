@@ -1,4 +1,4 @@
-package dev.koifysh.randomizer.data
+package dev.koifysh.randomizer.ap
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser

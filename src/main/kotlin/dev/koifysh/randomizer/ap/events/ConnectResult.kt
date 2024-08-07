@@ -5,8 +5,7 @@ import dev.koifysh.archipelago.events.ConnectionResultEvent
 import dev.koifysh.archipelago.helper.DeathLink
 import dev.koifysh.archipelago.network.ConnectionResult
 import dev.koifysh.randomizer.APClient
-import dev.koifysh.randomizer.ArchipelagoRandomizer
-import dev.koifysh.randomizer.data.SlotData
+import dev.koifysh.randomizer.ap.SlotData
 import dev.koifysh.randomizer.utils.Utils
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger

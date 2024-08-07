@@ -24,15 +24,12 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
-import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.commands.arguments.item.ItemParser
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.packs.PackType
 import net.minecraft.util.RandomSource
 import net.minecraft.world.level.GameRules
 import net.minecraft.world.level.Level
@@ -122,6 +119,7 @@ object ArchipelagoRandomizer : ModInitializer {
         ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(PlayerEvents::onPlayerChangeWorld)
 
 
+
         // Register Commands
         CommandRegistrationCallback.EVENT.register(Connect::register)
         CommandRegistrationCallback.EVENT.register(Start::register)
@@ -131,14 +129,15 @@ object ArchipelagoRandomizer : ModInitializer {
 
         // Load Structures
         ArchipelagoStructures.registerStructures()
-
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(DefaultDataLoader())
+        ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS
+        ServerLifecycleEvents.START_DATA_PACK_RELOAD.register(DefaultDataLoader::loadDefaultData)
     }
 
     private fun beforeLevelLoad(minecraftServer: MinecraftServer) {
         server = minecraftServer
         logger.info("$MOD_VERSION starting.")
         MinecraftItem.itemParser = ItemParser(server.registryAccess())
+        server.packRepository.getPack("archipelago-randomizer")
     }
 
     private fun afterLevelLoad(minecraftServer: MinecraftServer) {

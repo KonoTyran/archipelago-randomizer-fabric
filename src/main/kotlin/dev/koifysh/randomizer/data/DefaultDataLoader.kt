@@ -8,17 +8,12 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer.locationRegister
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.registries.APItem
 import dev.koifysh.randomizer.registries.APLocation
-import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.packs.resources.ResourceManager
 
-class DefaultDataLoader : SimpleSynchronousResourceReloadListener {
+object DefaultDataLoader {
 
-    override fun getFabricId(): ResourceLocation {
-        return ArchipelagoRandomizer.modResource("default_data")
-    }
-
-    override fun onResourceManagerReload(resourceManager: ResourceManager) {
+    fun loadDefaultData(server: MinecraftServer, resourceManager: ResourceManager) {
         if (apmcData.apLocations.isEmpty()) {
             logger.info("Loading default locations")
             resourceManager.getResource(ArchipelagoRandomizer.modResource("default_data/default_locations.json"))

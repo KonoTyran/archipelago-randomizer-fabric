@@ -1,4 +1,4 @@
-package dev.koifysh.randomizer.data
+package dev.koifysh.randomizer.data.goals
 
 class EnderDragonGoal {
 

@@ -4,7 +4,7 @@ import dev.koifysh.archipelago.events.ArchipelagoEventListener
 import dev.koifysh.archipelago.events.ConnectionAttemptEvent
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.data.APMCData
-import dev.koifysh.randomizer.data.SlotData
+import dev.koifysh.randomizer.ap.SlotData
 import dev.koifysh.randomizer.utils.Utils
 
 object AttemptedConnection {

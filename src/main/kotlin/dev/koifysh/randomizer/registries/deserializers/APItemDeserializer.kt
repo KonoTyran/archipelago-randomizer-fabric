@@ -20,12 +20,16 @@ object APItemRewardDeserializer: JsonDeserializer<APItemReward> {
         }
         val itemTypeElement: JsonElement = itemObject[TYPE_STRING]
         val itemTypeLocation = ResourceLocation.parse(itemTypeElement.asString)
-        if(!itemRegistry.containsKey(itemTypeLocation)) {
+
+        if (!itemRegistry.containsKey(itemTypeLocation)) {
             logger.error("Unknown item type: $itemTypeLocation")
             return EmptyItemReward(itemTypeLocation)
         }
+
         val itemType: Class<out APItemReward> = itemRegistry[itemTypeLocation] as Class<out APItemReward>
-        return gson.fromJson(itemObject, itemType)
+        val item = gson.fromJson(itemObject, itemType)
+        item.id = itemObject["id"]?.asLong ?: 0
+        return item
     }
 
     internal fun <T: APItemReward> register(type: ResourceLocation, item: Class<T>): Boolean {

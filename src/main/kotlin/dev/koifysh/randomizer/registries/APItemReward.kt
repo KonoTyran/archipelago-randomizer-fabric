@@ -5,6 +5,9 @@ import net.minecraft.resources.ResourceLocation
 
 abstract class APItemReward {
 
+    @SerializedName("id")
+    var id = 0L
+
     @SerializedName("type")
     var type: ResourceLocation = ResourceLocation.fromNamespaceAndPath("", "")
 
