@@ -69,4 +69,8 @@ class ItemRegister {
     fun clear() {
         items.clear()
     }
+
+    fun isEmpty(): Boolean {
+        return items.isEmpty()
+    }
 }

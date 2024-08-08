@@ -30,7 +30,7 @@ class StructureCompasses {
     val compasses: LinkedList<String> = LinkedList()
 
     fun registerCompass(compass: APItemReward) {
-        compass as StructureCompass
+        if (compass !is StructureCompass) return
         if (compass.structure == null || compass.name == null) {
             throw Exception("malformed structure compass entry")
         }

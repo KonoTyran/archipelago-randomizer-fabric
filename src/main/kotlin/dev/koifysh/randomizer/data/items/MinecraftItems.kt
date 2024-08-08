@@ -7,6 +7,6 @@ import net.minecraft.commands.arguments.item.ItemInput
 import net.minecraft.commands.arguments.item.ItemParser
 
 
-object MinecraftItems {
+class MinecraftItems {
 
 }

@@ -12,6 +12,6 @@ public class AfterModInit {
 
     @Inject(method = "main", at = @At(value = "INVOKE", target = "Lnet/minecraft/Util;startTimerHackThread()V", shift = At.Shift.AFTER))
     private static void afterModInit(String[] strings, CallbackInfo ci) {
-        ArchipelagoRandomizer.INSTANCE.loadAPMCData();
+        ArchipelagoRandomizer.INSTANCE.loadAPMC();
     }
 }
