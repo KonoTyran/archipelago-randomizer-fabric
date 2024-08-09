@@ -9,4 +9,6 @@ interface APRecipe {
 
     fun getTrackingAdvancements(): Set<ResourceLocation>
 
+    fun getAllRecipes(): Set<RecipeHolder<*>>
+
 }

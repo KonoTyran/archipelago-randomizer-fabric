@@ -19,7 +19,10 @@ import dev.koifysh.randomizer.data.recipes.GroupRecipe
 import dev.koifysh.randomizer.data.recipes.ProgressiveRecipe
 import dev.koifysh.randomizer.data.recipes.RecipeRewards
 import dev.koifysh.randomizer.events.player.PlayerEvents
-import dev.koifysh.randomizer.registries.*
+import dev.koifysh.randomizer.registries.APItemReward
+import dev.koifysh.randomizer.registries.APLocation
+import dev.koifysh.randomizer.registries.ItemRegister
+import dev.koifysh.randomizer.registries.LocationRegister
 import dev.koifysh.randomizer.registries.deserializers.APItemRewardDeserializer
 import dev.koifysh.randomizer.registries.deserializers.APLocationDeserializer
 import dev.koifysh.randomizer.structure.ArchipelagoStructures
@@ -36,7 +39,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
-import net.minecraft.world.item.crafting.Recipe
+import net.minecraft.world.Difficulty
 import net.minecraft.world.level.GameRules
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings
@@ -61,9 +64,9 @@ object ArchipelagoRandomizer : ModInitializer {
 
     lateinit var itemsHandler: MinecraftItems private set
     lateinit var compassHandler: StructureCompasses private set
-    lateinit var recipeHandler: RecipeRewards<Any?> private set
+    lateinit var recipeHandler: RecipeRewards private set
 
-    private var jailCenter: BlockPos = BlockPos.ZERO
+    var jailCenter: BlockPos = BlockPos.ZERO; private set
 
     val advancementLocations = AdvancementLocations()
 
@@ -151,7 +154,6 @@ object ArchipelagoRandomizer : ModInitializer {
         server = minecraftServer
         logger.info("$MOD_VERSION starting.")
         MinecraftItem.itemParser = ItemParser(server.registryAccess())
-        recipeHandler.initialize()
     }
 
     private fun afterLevelLoad(minecraftServer: MinecraftServer) {
@@ -159,11 +161,18 @@ object ArchipelagoRandomizer : ModInitializer {
         logger.info("$MOD_VERSION started.")
         archipelagoWorldData = server.overworld().dataStorage.computeIfAbsent(ArchipelagoWorldData.factory(), MOD_ID)
 
+        TrapItems.init()
+        server.gameRules.getRule(GameRules.RULE_LIMITED_CRAFTING).set(true, server)
+        server.gameRules.getRule(GameRules.RULE_KEEPINVENTORY).set(true, server)
+        server.gameRules.getRule(GameRules.RULE_ANNOUNCE_ADVANCEMENTS).set(false, server)
+        server.setDifficulty(Difficulty.NORMAL, true)
+
         apClient = APClient()
         apClient.setName(apmcData.playerName)
-        apClient.connect("${apmcData.server}:${apmcData.port}")
+        if (apmcData.server.isNotEmpty())
+            apClient.connect("${apmcData.server}:${apmcData.port}")
 
-        TrapItems.init()
+        recipeHandler.initialize()
 
         if (archipelagoWorldData.jailPlayers) {
             val overworld: ServerLevel = server.getLevel(Level.OVERWORLD)!!

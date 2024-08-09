@@ -30,10 +30,15 @@ data class GroupRecipe(
         return setOf(trackingAdvancement)
     }
 
+    override fun getAllRecipes() = getGrantedRecipes()
+
     override fun grant(index: Long) {
+        val toGrant = getGrantedRecipes()
+        ArchipelagoRandomizer.recipeHandler.add(toGrant)
         server.playerList.players.forEach {player ->
-            player.awardRecipes(getGrantedRecipes())
+            player.awardRecipes(toGrant)
         }
+        ArchipelagoRandomizer.recipeHandler.track(getTrackingAdvancements())
     }
 
 }

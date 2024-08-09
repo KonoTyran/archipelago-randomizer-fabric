@@ -5,6 +5,7 @@ import dev.koifysh.archipelago.events.ConnectionResultEvent
 import dev.koifysh.archipelago.helper.DeathLink
 import dev.koifysh.archipelago.network.ConnectionResult
 import dev.koifysh.randomizer.APClient
+import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ap.SlotData
 import dev.koifysh.randomizer.utils.Utils
 import org.apache.logging.log4j.LogManager
@@ -39,22 +40,9 @@ class ConnectResult(apClient: APClient) {
                     DeathLink.setDeathLinkEnabled(true)
                 }
 
-//                ArchipelagoRandomizer.locationManager.setCheckedAdvancements(client.locationManager.checkedLocations)
-//
-//                //give our item manager the list of received items to give to players as they log in.
-//                ArchipelagoRandomizer.itemManager.setReceivedItems(client.itemManager.getReceivedItemIDs())
-//
-//                //reset and catch up our global recipe list to be consistent with what we just got from the AP server
-//                ArchipelagoRandomizer.recipeManager.resetRecipes()
-//                ArchipelagoRandomizer.recipeManager.grantRecipeList(client.itemManager.getReceivedItemIDs())
-//
-//                //catch up all connected players to the list just received.
-//                ArchipelagoRandomizer.server.execute {
-//                    for (player in ArchipelagoRandomizer.server.playerList.players) {
-//                        ArchipelagoRandomizer.itemManager.catchUpPlayer(player)
-//                    }
-//                    ArchipelagoRandomizer.goalManager.updateInfoBar()
-//                }
+                ArchipelagoRandomizer.recipeHandler.initialize()
+                ArchipelagoRandomizer.itemsHandler.initialize()
+
             }
             null -> return
         }

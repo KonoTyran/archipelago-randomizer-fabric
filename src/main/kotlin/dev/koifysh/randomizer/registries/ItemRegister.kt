@@ -1,6 +1,7 @@
 package dev.koifysh.randomizer.registries
 
 import com.google.common.collect.ImmutableList
+import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.registries.deserializers.APItemRewardDeserializer
 import dev.koifysh.randomizer.utils.Utils
@@ -10,8 +11,7 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer.archipelagoWorldData as worl
 class ItemRegister {
 
     private val locationMethods = HashMap<ResourceLocation, (APItemReward) -> Unit>()
-    private val items = HashMap<Long, ArrayList<APItemReward>>()
-    private var receivedItems = ArrayList<Long>()
+    private val items = HashMap<Long, APItem>()
     var index: Long = 0
         get() = worldData.itemIndex
         set(value) {
@@ -19,9 +19,13 @@ class ItemRegister {
             worldData.itemIndex = value
         }
 
-    fun getReceivedItems(): List<Long> = ImmutableList.copyOf(receivedItems)
+    fun getReceivedItemIDs(): List<Long> = ImmutableList.copyOf(ArchipelagoRandomizer.apClient.itemManager.receivedItems.map { it.itemID })
 
-    fun getItem(id: Long): List<APItemReward> = items.getOrElse(id) { ArrayList() }
+    fun getReceivedItems(): List<APItem> {
+        return getReceivedItemIDs().filter { items.containsKey(it)  }.map { items[it]!! }
+    }
+
+    fun getItem(id: Long): APItem? = items[id]
 
     internal fun newItem(item: APItem): Int {
         item.rewards.forEach {
@@ -34,7 +38,7 @@ class ItemRegister {
         }
 
         if (!items.containsKey(item.id)) {
-            items[item.id] = item.rewards
+            items[item.id] = item
             return item.rewards.size
         } else {
             logger.warn("Duplicate item id ${item.id}. Skipping.")
@@ -44,8 +48,7 @@ class ItemRegister {
 
     internal fun sendItem(id: Long, index: Long) {
         this.index = index
-        receivedItems.add(id)
-        items[id]?.forEach {
+        items[id]?.rewards?.forEach {
             try {
                 it.grant(index)
             } catch (e: Exception) {
