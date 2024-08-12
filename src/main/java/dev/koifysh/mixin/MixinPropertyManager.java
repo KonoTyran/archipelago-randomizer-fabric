@@ -3,7 +3,6 @@ package dev.koifysh.mixin;
 import dev.koifysh.randomizer.ArchipelagoRandomizer;
 import dev.koifysh.randomizer.data.APMCData;
 import net.minecraft.server.dedicated.Settings;
-import org.apache.logging.log4j.LogManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,11 +25,11 @@ public abstract class MixinPropertyManager {
         properties.setProperty("level-seed", "" + data.getWorldSeed());
         properties.setProperty("spawn-protection", "0");
         properties.setProperty("allow-flight", "true");
-        properties.setProperty("level-name","Archipelago-"+ data.getSeedName()+"-P"+ data.getPlayerID());
-        properties.setProperty("level-type","default");
-        properties.setProperty("generator-settings","{}");
+        properties.setProperty("level-name", "Archipelago-" + data.getSeedName() + "-P" + data.getPlayerID());
+        properties.setProperty("level-type", "default");
+        properties.setProperty("generator-settings", "{}");
 
-        if(data.getRace()) {
+        if (data.getRace()) {
             ArchipelagoRandomizer.INSTANCE.getLogger().info("Archipelago race flag found enforcing race settings.");
             properties.setProperty("view-distance", "10");
             properties.setProperty("gamemode", "survival");

@@ -2,7 +2,6 @@ package dev.koifysh.randomizer.events.player
 
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.apmcData
-import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.ArchipelagoRandomizer.server
 import dev.koifysh.randomizer.data.APMCData
 import dev.koifysh.randomizer.data.items.StructureCompasses.Companion.refreshCompasses
@@ -18,7 +17,11 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl
 import net.minecraft.world.level.GameType
 
 object PlayerEvents {
-    fun onPlayerJoin(packetListener: ServerGamePacketListenerImpl, packetSender: PacketSender, minecraftServer: MinecraftServer) {
+    fun onPlayerJoin(
+        packetListener: ServerGamePacketListenerImpl,
+        packetSender: PacketSender,
+        minecraftServer: MinecraftServer,
+    ) {
         val player = packetListener.player
         ArchipelagoRandomizer.advancementLocations.syncAllAdvancements()
         ArchipelagoRandomizer.recipeHandler.syncAllTrackingAdvancements()
@@ -56,10 +59,10 @@ object PlayerEvents {
     }
 
     fun onChatMessage(playerChatMessage: PlayerChatMessage, player: ServerPlayer, bound: ChatType.Bound) {
-        if(!ArchipelagoRandomizer.apClient.isConnected) return
+        if (!ArchipelagoRandomizer.apClient.isConnected) return
 
         val message = playerChatMessage.decoratedContent().string
         if (message.startsWith("!")) ArchipelagoRandomizer.apClient.sendChat(message)
-        else ArchipelagoRandomizer.apClient .sendChat("(" + player.displayName!!.string + ") " + message)
+        else ArchipelagoRandomizer.apClient.sendChat("(" + player.displayName!!.string + ") " + message)
     }
 }

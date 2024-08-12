@@ -5,15 +5,11 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer.advancementLocations
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.ArchipelagoRandomizer.server
 import dev.koifysh.randomizer.registries.APLocation
-import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.minecraft.advancements.AdvancementHolder
 import net.minecraft.advancements.AdvancementProgress
 import net.minecraft.advancements.DisplayInfo
-import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.server.network.ServerGamePacketListenerImpl
 import java.util.function.Consumer
 
 class AdvancementLocations {
@@ -79,7 +75,11 @@ class AdvancementLocations {
     fun addLocation(apLocation: APLocation) {
         val location = apLocation as Advancement
         if (advancements.containsValue(location.id)) {
-            ArchipelagoRandomizer.logger.error("duplicate location ID detected! duplicate entry {}: \"{}\"", location.id, location.advancement)
+            ArchipelagoRandomizer.logger.error(
+                "duplicate location ID detected! duplicate entry {}: \"{}\"",
+                location.id,
+                location.advancement
+            )
             return
         }
         advancements[location.advancement] = location.id

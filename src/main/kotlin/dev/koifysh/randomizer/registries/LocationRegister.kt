@@ -1,25 +1,23 @@
 package dev.koifysh.randomizer.registries
 
 import dev.koifysh.randomizer.ArchipelagoRandomizer
-import dev.koifysh.randomizer.ArchipelagoRandomizer.locationRegister
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.registries.deserializers.APLocationDeserializer
 import net.minecraft.resources.ResourceLocation
-import java.util.LinkedList
 
 class LocationRegister {
 
     private val locationMethods = HashMap<ResourceLocation, (APLocation) -> Unit>()
     private val apLocations = HashMap<Long, APLocation>()
 
-    fun <T: APLocation> register(type: ResourceLocation, location: Class<T>, consumer: (APLocation) -> Unit) {
-        if(APLocationDeserializer.register(type, location))
+    fun <T : APLocation> register(type: ResourceLocation, location: Class<T>, consumer: (APLocation) -> Unit) {
+        if (APLocationDeserializer.register(type, location))
             locationMethods[type] = consumer
         else
             logger.error("attempted to register duplicate location type $type, skipping")
     }
 
-    fun sendLocation(id : Long) {
+    fun sendLocation(id: Long) {
         ArchipelagoRandomizer.apClient.locationManager.checkLocation(id)
     }
 

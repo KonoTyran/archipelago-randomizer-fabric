@@ -13,13 +13,9 @@ import dev.koifysh.randomizer.utils.TitleUtils.showActionBar
 import net.minecraft.ChatFormatting
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.core.component.DataComponents
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.StringTag
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Style
-import net.minecraft.network.chat.TextColor
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
@@ -164,7 +160,7 @@ object Utils {
 
     fun ServerPlayer.sendActionBar(actionBarMessage: String, fadeIn: Int, stay: Int, fadeOut: Int) {
         server.execute {
-            listOf(this).setTitleTimes( fadeIn, stay, fadeOut)
+            listOf(this).setTitleTimes(fadeIn, stay, fadeOut)
             listOf(this).showActionBar(Component.literal(actionBarMessage))
         }
     }
@@ -244,7 +240,9 @@ object Utils {
     }
 
     fun ItemStack.setItemLore(itemLore: Collection<String>) {
-        setItemLore(itemLore.map { Component.literal(it).withStyle(Style.EMPTY.withColor(ChatFormatting.WHITE).withItalic(false)) })
+        setItemLore(itemLore.map {
+            Component.literal(it).withStyle(Style.EMPTY.withColor(ChatFormatting.WHITE).withItalic(false))
+        })
     }
 
     fun ItemStack.setItemLore(itemLore: List<Component>) {

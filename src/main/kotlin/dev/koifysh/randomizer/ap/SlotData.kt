@@ -8,9 +8,7 @@ import com.google.gson.annotations.SerializedName
 import com.mojang.brigadier.StringReader
 import dev.koifysh.randomizer.data.items.MinecraftItem
 import dev.koifysh.randomizer.utils.Utils
-import net.minecraft.ResourceLocationException
 import net.minecraft.commands.arguments.item.ItemInput
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 

@@ -1,6 +1,5 @@
 package dev.koifysh.mixin;
 
-import dev.koifysh.randomizer.ArchipelagoRandomizer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;

@@ -2,29 +2,37 @@ package dev.koifysh.randomizer.data
 
 import com.google.common.collect.ImmutableList
 import com.google.common.collect.ImmutableSet
-import com.google.common.collect.Lists
 import dev.koifysh.randomizer.ArchipelagoRandomizer.apClient
-import dev.koifysh.randomizer.ArchipelagoRandomizer.archipelagoWorldData
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.level.saveddata.SavedData
-import org.apache.commons.lang3.ArrayUtils
 import java.util.*
 import java.util.function.Consumer
-import kotlin.collections.HashSet
 
 class ArchipelagoWorldData : SavedData {
 
 
-    var seedName: String = ""; set(value) { field = value; setDirty() }
-    var dragonState: Int = DRAGON_ASLEEP; set(value) { field = value; setDirty() }
-    var jailPlayers = true; set(value) { field = value; setDirty() }
+    var seedName: String = ""
+        set(value) {
+            field = value; setDirty()
+        }
+    var dragonState: Int = DRAGON_ASLEEP
+        set(value) {
+            field = value; setDirty()
+        }
+    var jailPlayers = true
+        set(value) {
+            field = value; setDirty()
+        }
 
 
     private var locations: MutableSet<Long> = HashSet()
 
-    var index: Long = 0; set(value) { field = value; this.setDirty()}
+    var index: Long = 0
+        set(value) {
+            field = value; this.setDirty()
+        }
 
     private var receivedItems: MutableList<Long> = LinkedList()
     private var playerIndex: MutableMap<String, Int> = HashMap()
@@ -90,7 +98,7 @@ class ArchipelagoWorldData : SavedData {
         locations: LongArray,
         items: LongArray,
         playerIndex: MutableMap<String, Int>,
-        itemIndex: Long
+        itemIndex: Long,
     ) {
         this.seedName = seedName
         this.dragonState = dragonState

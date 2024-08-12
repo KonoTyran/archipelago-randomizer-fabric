@@ -4,7 +4,6 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import dev.koifysh.archipelago.ClientStatus
 import dev.koifysh.randomizer.ArchipelagoRandomizer
-import dev.koifysh.randomizer.ap.SlotData
 import dev.koifysh.randomizer.utils.Utils
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
@@ -22,7 +21,11 @@ object Start {
 
     //build our command structure and submit it
     @Suppress("UNUSED_PARAMETER")
-    fun register(dispatcher: CommandDispatcher<CommandSourceStack>, buildContext: CommandBuildContext, selection: Commands.CommandSelection) {
+    fun register(
+        dispatcher: CommandDispatcher<CommandSourceStack>,
+        buildContext: CommandBuildContext,
+        selection: Commands.CommandSelection,
+    ) {
         ArchipelagoRandomizer.logger.debug("Registering start command")
         dispatcher.register(
             Commands.literal("start") //base slash command is "start"
@@ -59,7 +62,10 @@ object Start {
         val overworld = server.getLevel(Level.OVERWORLD)!!
 
         val spawn = overworld.sharedSpawnPos
-        val jailStruct = overworld.structureManager[ResourceLocation.fromNamespaceAndPath(ArchipelagoRandomizer.MOD_ID, "spawnjail")].get()
+        val jailStruct = overworld.structureManager[ResourceLocation.fromNamespaceAndPath(
+            ArchipelagoRandomizer.MOD_ID,
+            "spawnjail"
+        )].get()
         val jailPos = BlockPos(spawn.x + 5, 300, spawn.z + 5)
         for (blockPos in BlockPos.betweenClosed(jailPos, jailPos.offset(jailStruct.size))) {
             overworld.setBlock(blockPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS)
