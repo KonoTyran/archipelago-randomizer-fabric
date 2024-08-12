@@ -6,8 +6,10 @@
     "AdvancementGrant",
     "AdvancementLoad",
     "AfterModInit",
+    "MixinAbstractPiglin",
     "MixinCrafter",
     "MixinDataPack",
+    "MixinHoglin",
     "MixinPropertyManager",
     "MixinUpdateCompass",
     "StructureModifier"

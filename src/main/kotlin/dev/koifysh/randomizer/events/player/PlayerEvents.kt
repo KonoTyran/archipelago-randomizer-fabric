@@ -9,6 +9,8 @@ import dev.koifysh.randomizer.data.items.StructureCompasses.Companion.refreshCom
 import dev.koifysh.randomizer.utils.Utils
 import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.minecraft.core.BlockPos
+import net.minecraft.network.chat.ChatType
+import net.minecraft.network.chat.PlayerChatMessage
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -51,5 +53,13 @@ object PlayerEvents {
 
     fun onPlayerChangeWorld(player: ServerPlayer, origin: ServerLevel, destination: ServerLevel) {
         player.refreshCompasses()
+    }
+
+    fun onChatMessage(playerChatMessage: PlayerChatMessage, player: ServerPlayer, bound: ChatType.Bound) {
+        if(!ArchipelagoRandomizer.apClient.isConnected) return
+
+        val message = playerChatMessage.decoratedContent().string
+        if (message.startsWith("!")) ArchipelagoRandomizer.apClient.sendChat(message)
+        else ArchipelagoRandomizer.apClient .sendChat("(" + player.displayName!!.string + ") " + message)
     }
 }

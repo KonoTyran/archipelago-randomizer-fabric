@@ -104,6 +104,8 @@ object Utils {
                         Color.decode("#00EEEE")
                     }
                 }
+            } else {
+                color = part.color.color
             }
 
             //blank out the first two bits because minecraft doesn't deal with alpha values

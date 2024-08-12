@@ -10,7 +10,6 @@ import java.util.LinkedList
 class LocationRegister {
 
     private val locationMethods = HashMap<ResourceLocation, (APLocation) -> Unit>()
-    private val sentLocations = HashSet<Long>()
     private val apLocations = HashMap<Long, APLocation>()
 
     fun <T: APLocation> register(type: ResourceLocation, location: Class<T>, consumer: (APLocation) -> Unit) {
@@ -21,7 +20,6 @@ class LocationRegister {
     }
 
     fun sendLocation(id : Long) {
-        sentLocations.add(id)
         ArchipelagoRandomizer.apClient.locationManager.checkLocation(id)
     }
 

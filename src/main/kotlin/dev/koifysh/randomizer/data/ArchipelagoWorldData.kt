@@ -1,43 +1,61 @@
 package dev.koifysh.randomizer.data
 
+import com.google.common.collect.ImmutableList
+import com.google.common.collect.ImmutableSet
 import com.google.common.collect.Lists
+import dev.koifysh.randomizer.ArchipelagoRandomizer.apClient
+import dev.koifysh.randomizer.ArchipelagoRandomizer.archipelagoWorldData
+import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.level.saveddata.SavedData
 import org.apache.commons.lang3.ArrayUtils
 import java.util.*
 import java.util.function.Consumer
+import kotlin.collections.HashSet
 
 class ArchipelagoWorldData : SavedData {
+
 
     var seedName: String = ""; set(value) { field = value; setDirty() }
     var dragonState: Int = DRAGON_ASLEEP; set(value) { field = value; setDirty() }
     var jailPlayers = true; set(value) { field = value; setDirty() }
 
+
     private var locations: MutableSet<Long> = HashSet()
 
-    private var index: Long = 0
-    var itemIndex: Long
-        get() = this.index
-        set(index) {
-            this.index = index
-            this.setDirty()
-        }
+    var index: Long = 0; set(value) { field = value; this.setDirty()}
 
+    private var receivedItems: MutableList<Long> = LinkedList()
     private var playerIndex: MutableMap<String, Int> = HashMap()
-
     fun addLocation(location: Long) {
         locations.add(location)
+        logger.info("Added location $location")
         this.setDirty()
     }
 
-    fun addLocations(locations: Array<Long>) {
-        this.locations.addAll(Lists.newArrayList(Arrays.stream(locations).iterator()))
+    fun addLocations(locations: Collection<Long>) {
+        this.locations.addAll(locations)
+        this.setDirty()
+        val fileName = "${apClient.roomInfo.seedName}_${apClient.slot}.save"
+    }
+
+    fun addItem(id: Long) {
+        receivedItems.add(id)
         this.setDirty()
     }
 
-    fun getLocations(): Set<Long> {
-        return locations
+    fun addItem(id: Collection<Long>) {
+        receivedItems.addAll(id)
+        this.setDirty()
+    }
+
+    fun getItems(): ImmutableList<Long> {
+        return ImmutableList.copyOf(receivedItems)
+    }
+
+    fun getLocations(): Collection<Long> {
+        return ImmutableSet.copyOf(locations)
     }
 
     fun updatePlayerIndex(playerUUID: String, index: Int) {
@@ -50,15 +68,15 @@ class ArchipelagoWorldData : SavedData {
     }
 
 
-
     override fun save(tag: CompoundTag, holder: HolderLookup.Provider): CompoundTag {
         tag.putString("seedName", seedName)
         tag.putInt("dragonState", dragonState)
         tag.putBoolean("jailPlayers", jailPlayers)
-        tag.putLongArray("locations", locations.stream().toList())
+        tag.putLongArray("locations", locations.toList())
+        tag.putLongArray("items", receivedItems)
         tag.putLong("index", index)
         val tagIndex = CompoundTag()
-        playerIndex.forEach { (string: String, i: Int) -> tagIndex.putInt(string, i) }
+        playerIndex.forEach { (uuid, index) -> tagIndex.putInt(uuid, index) }
         tag.put("playerIndex", tagIndex)
         return tag
     }
@@ -70,14 +88,16 @@ class ArchipelagoWorldData : SavedData {
         dragonState: Int,
         jailPlayers: Boolean,
         locations: LongArray,
-        playerIndex: Map<String, Int>,
+        items: LongArray,
+        playerIndex: MutableMap<String, Int>,
         itemIndex: Long
     ) {
         this.seedName = seedName
         this.dragonState = dragonState
         this.jailPlayers = jailPlayers
-        this.locations = HashSet(mutableSetOf(*ArrayUtils.toObject(locations)))
-        this.playerIndex = HashMap()
+        this.locations = locations.toSet().toMutableSet()
+        this.receivedItems = items.toMutableList()
+        this.playerIndex = playerIndex
         this.index = itemIndex
     }
 
@@ -104,6 +124,7 @@ class ArchipelagoWorldData : SavedData {
                 tag.getInt("dragonState"),
                 tag.getBoolean("jailPlayers"),
                 tag.getLongArray("locations"),
+                tag.getLongArray("items"),
                 indexMap,
                 tag.getLong("index")
             )

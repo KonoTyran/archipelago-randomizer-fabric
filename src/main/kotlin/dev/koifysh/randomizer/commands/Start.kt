@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import dev.koifysh.archipelago.ClientStatus
 import dev.koifysh.randomizer.ArchipelagoRandomizer
+import dev.koifysh.randomizer.ap.SlotData
 import dev.koifysh.randomizer.utils.Utils
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
@@ -82,6 +83,9 @@ object Start {
                 player.inventory.clearContent()
                 player.resetStat(Stats.CUSTOM[Stats.TIME_SINCE_REST])
                 player.teleportTo(spawn.x.toDouble(), spawn.y.toDouble(), spawn.z.toDouble())
+                ArchipelagoRandomizer.apClient.slotData.startingItemStacks.forEach { iStack ->
+                    Utils.giveItemToPlayer(player, iStack.copy())
+                }
 
 //                ArchipelagoRandomizer.itemManager.catchUpPlayer(player)
 //                if (APRandomizer.isConnected()) {

@@ -27,8 +27,8 @@ class ConnectResult(apClient: APClient) {
                     client.slotData = event.getSlotData(SlotData::class.java)
                     client.slotData.parseStartingItems()
                 } catch (e: Exception) {
-                    Utils.sendMessageToAll("Invalid staring item section, check logs for more details.")
-                    LOGGER.warn("invalid staring items json string: ${client.slotData.startingItems}")
+                    Utils.sendMessageToAll("Invalid \"starting_items\" section, check logs for more details.")
+                    LOGGER.warn("invalid staring items json string: ${client.slotData.startingItems}", e)
                 }
 
                 if (client.slotData.MC35) {
@@ -39,10 +39,6 @@ class ConnectResult(apClient: APClient) {
                     Utils.sendMessageToAll("Welcome to Death Link.")
                     DeathLink.setDeathLinkEnabled(true)
                 }
-
-                ArchipelagoRandomizer.recipeHandler.initialize()
-                ArchipelagoRandomizer.itemsHandler.initialize()
-
             }
             null -> return
         }

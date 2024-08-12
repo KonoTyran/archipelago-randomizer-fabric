@@ -32,6 +32,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.fabric.api.message.v1.ServerMessageEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.minecraft.commands.arguments.item.ItemParser
 import net.minecraft.core.BlockPos
@@ -136,6 +137,7 @@ object ArchipelagoRandomizer : ModInitializer {
         ServerTickEvents.END_SERVER_TICK.register(TitleQueue::onServerTick)
         ServerPlayConnectionEvents.JOIN.register(PlayerEvents::onPlayerJoin)
         ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(PlayerEvents::onPlayerChangeWorld)
+        ServerMessageEvents.CHAT_MESSAGE.register(PlayerEvents::onChatMessage)
 
 
         // Register Commands
@@ -173,6 +175,7 @@ object ArchipelagoRandomizer : ModInitializer {
             apClient.connect("${apmcData.server}:${apmcData.port}")
 
         recipeHandler.initialize()
+        itemsHandler.initialize()
 
         if (archipelagoWorldData.jailPlayers) {
             val overworld: ServerLevel = server.getLevel(Level.OVERWORLD)!!

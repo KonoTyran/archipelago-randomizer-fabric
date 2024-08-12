@@ -31,7 +31,7 @@ public abstract class MixinPropertyManager {
         properties.setProperty("generator-settings","{}");
 
         if(data.getRace()) {
-            LogManager.getLogger().info("Archipelago race flag found enforcing race settings.");
+            ArchipelagoRandomizer.INSTANCE.getLogger().info("Archipelago race flag found enforcing race settings.");
             properties.setProperty("view-distance", "10");
             properties.setProperty("gamemode", "survival");
             properties.setProperty("force-gamemode", "true");

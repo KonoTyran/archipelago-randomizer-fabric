@@ -15,9 +15,7 @@ object ReceiveItem {
     fun onReceiveItem(event: ReceiveItemEvent) {
         ArchipelagoRandomizer.server.execute {
             // Don't fire if we have already received this location
-            if (event.index <= ArchipelagoRandomizer.archipelagoWorldData.itemIndex) return@execute
-
-            ArchipelagoRandomizer.archipelagoWorldData.itemIndex = event.index
+            if (event.index <= ArchipelagoRandomizer.archipelagoWorldData.index) return@execute
 
             val item: NetworkItem = event.item
             val textItem: Component = Component.literal(item.itemName)

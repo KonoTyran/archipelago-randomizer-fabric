@@ -2,6 +2,7 @@ package dev.koifysh.randomizer.data.locations
 
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.advancementLocations
+import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.ArchipelagoRandomizer.server
 import dev.koifysh.randomizer.registries.APLocation
 import net.fabricmc.fabric.api.networking.v1.PacketSender
@@ -18,7 +19,6 @@ import java.util.function.Consumer
 class AdvancementLocations {
 
     private val advancements: HashMap<ResourceLocation, Long> = HashMap()
-    private val earnedAdvancements: HashSet<Long> = HashSet()
 
     private fun getAdvancementID(advancement: ResourceLocation): Long {
         advancements[advancement]?.let { return it }
@@ -26,7 +26,7 @@ class AdvancementLocations {
     }
 
     private fun hasAdvancement(namespacedID: ResourceLocation): Boolean {
-        return earnedAdvancements.contains(getAdvancementID(namespacedID))
+        return ArchipelagoRandomizer.archipelagoWorldData.getLocations().contains(getAdvancementID(namespacedID))
     }
 
     fun syncAllAdvancements() {
@@ -56,12 +56,14 @@ class AdvancementLocations {
     }
 
     fun onAdvancementGrant(holder: AdvancementHolder, player: ServerPlayer) {
-        val id = getAdvancementID(holder.id)
-
         // don't send the same advancement twice
-        if (earnedAdvancements.contains(id)) return
+        if (hasAdvancement(holder.id)) return
+        // don't send advancements that are not tracked
+        if (!isTracked(holder.id)) return
 
-        earnedAdvancements.add(id)
+        val id = getAdvancementID(holder.id)
+        logger.info("Player ${player.name} has completed advancement ${holder.id} with ID $id")
+        ArchipelagoRandomizer.archipelagoWorldData.addLocation(id)
         ArchipelagoRandomizer.locationRegister.sendLocation(id)
 
         holder.value().display().ifPresent { displayInfo: DisplayInfo ->

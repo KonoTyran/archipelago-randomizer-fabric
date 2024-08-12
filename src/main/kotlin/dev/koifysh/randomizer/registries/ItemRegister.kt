@@ -13,16 +13,18 @@ class ItemRegister {
     private val locationMethods = HashMap<ResourceLocation, (APItemReward) -> Unit>()
     private val items = HashMap<Long, APItem>()
     var index: Long = 0
-        get() = worldData.itemIndex
+        get() = worldData.index
         set(value) {
             field = value
-            worldData.itemIndex = value
+            worldData.index = value
         }
 
-    fun getReceivedItemIDs(): List<Long> = ImmutableList.copyOf(ArchipelagoRandomizer.apClient.itemManager.receivedItems.map { it.itemID })
+    fun getReceivedItemIDs(): ImmutableList<Long> {
+        return ArchipelagoRandomizer.archipelagoWorldData.getItems()
+    }
 
-    fun getReceivedItems(): List<APItem> {
-        return getReceivedItemIDs().filter { items.containsKey(it)  }.map { items[it]!! }
+    fun getReceivedItems(): ImmutableList<APItem> {
+        return ImmutableList.copyOf(getReceivedItemIDs().filter { items.containsKey(it)  }.map { items[it]!! })
     }
 
     fun getItem(id: Long): APItem? = items[id]
@@ -48,6 +50,7 @@ class ItemRegister {
 
     internal fun sendItem(id: Long, index: Long) {
         this.index = index
+        worldData.addItem(id)
         items[id]?.rewards?.forEach {
             try {
                 it.grant(index)

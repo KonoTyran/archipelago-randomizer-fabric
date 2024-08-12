@@ -7,7 +7,6 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer.gson
 import dev.koifysh.randomizer.ArchipelagoRandomizer.itemRegister
 import dev.koifysh.randomizer.ArchipelagoRandomizer.locationRegister
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
-import dev.koifysh.randomizer.ArchipelagoRandomizer.validVersions
 import dev.koifysh.randomizer.registries.APItem
 import dev.koifysh.randomizer.registries.APLocation
 import dev.koifysh.randomizer.utils.ZipUtils.decompressToString
@@ -17,7 +16,6 @@ import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
-import java.util.zip.DataFormatException
 
 object DataLoader {
 
@@ -37,7 +35,7 @@ object DataLoader {
                 if (rawString.startsWith("{")) { // raw json string
                     return gson.fromJson(rawString, APMCData::class.java)
                 } else if (rawString.startsWith("e")) {// 64encoded json string
-                    return gson.fromJson(rawString, APMCData::class.java)
+                    return gson.fromJson(String(Base64.getDecoder().decode(rawString)), APMCData::class.java)
                 }
             } catch (ignored: IOException) {
                 // most likely PKZipped byte array format
@@ -51,7 +49,7 @@ object DataLoader {
         val badAPMC = APMCData()
 
         badAPMC.state = APMCData.State.MISSING
-        return APMCData()
+        return badAPMC
     }
 
     internal fun loadLocations(locations: Collection<APLocation>) {
@@ -79,7 +77,14 @@ object DataLoader {
         if (apmcData.apLocations.isEmpty() && locationRegister.isEmpty()) {
             logger.info("Loading default locations")
             resourceManager.getResource(ArchipelagoRandomizer.modResource("default_data/default_locations.json"))
-                .ifPresent { loadLocations(gson.fromJson(it.openAsReader(), object : TypeToken<List<APLocation>>() {}.type)) }
+                .ifPresent {
+                    loadLocations(
+                        gson.fromJson(
+                            it.openAsReader(),
+                            object : TypeToken<List<APLocation>>() {}.type
+                        )
+                    )
+                }
         }
 
         if (apmcData.apItems.isEmpty() && itemRegister.isEmpty()) {

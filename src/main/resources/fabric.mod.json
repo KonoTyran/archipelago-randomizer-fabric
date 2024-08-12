@@ -5,7 +5,7 @@
 	"name": "Archipelago Randomizer",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
-		"Me!"
+		"Kono Tyran"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -13,7 +13,8 @@
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/archipelago-randomizer/icon.png",
-	"environment": "*",
+	"accessWidener": "archipelago-randomizer.accesswidener",
+	"environment": "server",
 	"entrypoints": {
 		"main": [
 			{
@@ -24,12 +25,6 @@
 		"client": [
 			{
 				"value": "dev.koifysh.ArchipelagoRandomizerClient",
-				"adapter": "kotlin"
-			}
-		],
-		"fabric-datagen": [
-			{
-				"value": "dev.koifysh.randomizer.ArchipelagoRandomizerDataGenerator",
 				"adapter": "kotlin"
 			}
 		]
