@@ -6,7 +6,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.annotations.SerializedName
 import com.mojang.brigadier.StringReader
-import dev.koifysh.randomizer.data.items.MinecraftItem
+import dev.koifysh.randomizer.rewards.items.ItemReward
 import dev.koifysh.randomizer.utils.Utils
 import net.minecraft.commands.arguments.item.ItemInput
 import net.minecraft.world.item.ItemStack
@@ -53,7 +53,7 @@ class SlotData {
 
             try {
 
-                val item = MinecraftItem.itemParser.parse(StringReader(itemName))
+                val item = ItemReward.itemParser.parse(StringReader(itemName))
                 val itemStack = ItemInput(item.item, item.components).createItemStack(amount, false)
 
                 //air is the default item returned if the resource name is invalid.

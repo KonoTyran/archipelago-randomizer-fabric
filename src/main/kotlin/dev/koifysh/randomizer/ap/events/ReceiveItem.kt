@@ -23,7 +23,7 @@ object ReceiveItem {
             val title: Component = Component.literal("Received")
                 .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(APPrintColor.red.color.rgb)))
             Utils.sendTitleToAll(title, textItem, 10, 60, 10)
-            ArchipelagoRandomizer.itemRegister.sendItem(item.itemID, event.index)
+            ArchipelagoRandomizer.itemRewardRegister.sendItem(item.itemID, event.index)
         }
     }
 }

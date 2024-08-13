@@ -3,8 +3,8 @@ package dev.koifysh.randomizer.events.player
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.apmcData
 import dev.koifysh.randomizer.ArchipelagoRandomizer.server
-import dev.koifysh.randomizer.data.APMCData
-import dev.koifysh.randomizer.data.items.StructureCompasses.Companion.refreshCompasses
+import dev.koifysh.randomizer.rewards.APMCData
+import dev.koifysh.randomizer.rewards.items.StructureCompasses.Companion.refreshCompasses
 import dev.koifysh.randomizer.utils.Utils
 import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.minecraft.core.BlockPos
@@ -25,7 +25,7 @@ object PlayerEvents {
         val player = packetListener.player
         ArchipelagoRandomizer.advancementLocations.grantCompletedAdvancements(player)
         ArchipelagoRandomizer.recipeHandler.syncTrackingAdvancements(player)
-        ArchipelagoRandomizer.itemRegister.catchUpPlayer(packetListener.player)
+        ArchipelagoRandomizer.itemRewardRegister.catchUpPlayer(packetListener.player)
 
         if (apmcData.race) {
             player.setGameMode(GameType.SURVIVAL)

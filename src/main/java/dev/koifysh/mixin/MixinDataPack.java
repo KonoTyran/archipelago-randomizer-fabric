@@ -1,6 +1,6 @@
 package dev.koifysh.mixin;
 
-import dev.koifysh.randomizer.data.DataLoader;
+import dev.koifysh.randomizer.rewards.DataLoader;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.LayeredRegistryAccess;
 import net.minecraft.server.RegistryLayer;

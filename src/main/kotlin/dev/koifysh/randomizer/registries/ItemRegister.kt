@@ -76,7 +76,7 @@ class ItemRegister {
 
     fun catchUpPlayer(player: ServerPlayer) {
         val worldData = ArchipelagoRandomizer.archipelagoWorldData
-        ArchipelagoRandomizer.itemRegister.getReceivedItems().forEachIndexed { i , item ->
+        ArchipelagoRandomizer.itemRewardRegister.getReceivedItems().forEachIndexed { i, item ->
             val index = i + 1
             if(worldData.getPlayerIndex(player.stringUUID) >= index) return
             worldData.updatePlayerIndex(player.stringUUID, index)

@@ -1,7 +1,7 @@
 package dev.koifysh.mixin;
 
 import dev.koifysh.randomizer.ArchipelagoRandomizer;
-import dev.koifysh.randomizer.data.APMCData;
+import dev.koifysh.randomizer.rewards.APMCData;
 import net.minecraft.server.dedicated.Settings;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

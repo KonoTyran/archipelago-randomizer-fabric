@@ -7,17 +7,17 @@ import dev.koifysh.randomizer.commands.Archipelago
 import dev.koifysh.randomizer.commands.Connect
 import dev.koifysh.randomizer.commands.Disconnect
 import dev.koifysh.randomizer.commands.Start
-import dev.koifysh.randomizer.data.APMCData
-import dev.koifysh.randomizer.data.ArchipelagoWorldData
-import dev.koifysh.randomizer.data.DataLoader
-import dev.koifysh.randomizer.data.DataLoader.loadItems
-import dev.koifysh.randomizer.data.DataLoader.loadLocations
-import dev.koifysh.randomizer.data.items.*
-import dev.koifysh.randomizer.data.locations.Advancement
-import dev.koifysh.randomizer.data.locations.AdvancementLocations
-import dev.koifysh.randomizer.data.recipes.GroupRecipe
-import dev.koifysh.randomizer.data.recipes.ProgressiveRecipe
-import dev.koifysh.randomizer.data.recipes.RecipeRewards
+import dev.koifysh.randomizer.rewards.APMCData
+import dev.koifysh.randomizer.rewards.ArchipelagoWorldData
+import dev.koifysh.randomizer.rewards.DataLoader
+import dev.koifysh.randomizer.rewards.DataLoader.loadItems
+import dev.koifysh.randomizer.rewards.DataLoader.loadLocations
+import dev.koifysh.randomizer.rewards.items.*
+import dev.koifysh.randomizer.rewards.locations.Advancement
+import dev.koifysh.randomizer.rewards.locations.AdvancementLocations
+import dev.koifysh.randomizer.rewards.recipes.GroupRecipe
+import dev.koifysh.randomizer.rewards.recipes.ProgressiveRecipe
+import dev.koifysh.randomizer.rewards.recipes.RecipeRewards
 import dev.koifysh.randomizer.events.player.PlayerEvents
 import dev.koifysh.randomizer.registries.APItemReward
 import dev.koifysh.randomizer.registries.APLocation
@@ -61,7 +61,7 @@ object ArchipelagoRandomizer : ModInitializer {
     lateinit var archipelagoWorldData: ArchipelagoWorldData private set
 
     lateinit var locationRegister: LocationRegister private set
-    lateinit var itemRegister: ItemRegister private set
+    lateinit var itemRewardRegister: ItemRegister private set
 
     lateinit var compassHandler: StructureCompasses private set
     lateinit var recipeHandler: RecipeRewards private set
@@ -82,7 +82,7 @@ object ArchipelagoRandomizer : ModInitializer {
         logger.info("$MOD_VERSION initializing.")
 
         locationRegister = LocationRegister()
-        itemRegister = ItemRegister()
+        itemRewardRegister = ItemRegister()
 
         recipeHandler = RecipeRewards()
         compassHandler = StructureCompasses()
@@ -93,32 +93,37 @@ object ArchipelagoRandomizer : ModInitializer {
             advancementLocations::addLocation
         )
 
-        itemRegister.register(
+        itemRewardRegister.register(
             modResource("item"),
-            MinecraftItem::class.java
+            ItemReward::class.java
         )
 
-        itemRegister.register(
+        itemRewardRegister.register(
             modResource("trap"),
             TrapItem::class.java
         )
 
-        itemRegister.register(
+        itemRewardRegister.register(
             modResource("structure_compass"),
             StructureCompass::class.java,
             compassHandler::registerCompass
         )
 
-        itemRegister.register(
+        itemRewardRegister.register(
             modResource("group_recipe"),
             GroupRecipe::class.java,
             recipeHandler::registerRecipe
         )
 
-        itemRegister.register(
+        itemRewardRegister.register(
             modResource("progressive_recipe"),
             ProgressiveRecipe::class.java,
             recipeHandler::registerRecipe
+        )
+
+        itemRewardRegister.register(
+            modResource("xp"),
+            XPReward::class.java,
         )
 
         // load apmc file
@@ -153,7 +158,7 @@ object ArchipelagoRandomizer : ModInitializer {
     private fun beforeLevelLoad(minecraftServer: MinecraftServer) {
         server = minecraftServer
         logger.info("$MOD_VERSION starting.")
-        MinecraftItem.itemParser = ItemParser(server.registryAccess())
+        ItemReward.itemParser = ItemParser(server.registryAccess())
     }
 
     private fun afterLevelLoad(minecraftServer: MinecraftServer) {
