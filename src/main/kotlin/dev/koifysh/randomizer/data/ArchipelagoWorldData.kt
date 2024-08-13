@@ -27,7 +27,7 @@ class ArchipelagoWorldData : SavedData {
         }
 
 
-    private var locations: MutableSet<Long> = HashSet()
+    private var completedLocations: MutableSet<Long> = HashSet()
 
     var index: Long = 0
         set(value) {
@@ -37,13 +37,13 @@ class ArchipelagoWorldData : SavedData {
     private var receivedItems: MutableList<Long> = LinkedList()
     private var playerIndex: MutableMap<String, Int> = HashMap()
     fun addLocation(location: Long) {
-        locations.add(location)
+        completedLocations.add(location)
         logger.info("Added location $location")
         this.setDirty()
     }
 
     fun addLocations(locations: Collection<Long>) {
-        this.locations.addAll(locations)
+        this.completedLocations.addAll(locations)
         this.setDirty()
         val fileName = "${apClient.roomInfo.seedName}_${apClient.slot}.save"
     }
@@ -62,8 +62,8 @@ class ArchipelagoWorldData : SavedData {
         return ImmutableList.copyOf(receivedItems)
     }
 
-    fun getLocations(): Collection<Long> {
-        return ImmutableSet.copyOf(locations)
+    fun getCompletedLocations(): Collection<Long> {
+        return ImmutableSet.copyOf(completedLocations)
     }
 
     fun updatePlayerIndex(playerUUID: String, index: Int) {
@@ -80,7 +80,7 @@ class ArchipelagoWorldData : SavedData {
         tag.putString("seedName", seedName)
         tag.putInt("dragonState", dragonState)
         tag.putBoolean("jailPlayers", jailPlayers)
-        tag.putLongArray("locations", locations.toList())
+        tag.putLongArray("locations", completedLocations.toList())
         tag.putLongArray("items", receivedItems)
         tag.putLong("index", index)
         val tagIndex = CompoundTag()
@@ -103,7 +103,7 @@ class ArchipelagoWorldData : SavedData {
         this.seedName = seedName
         this.dragonState = dragonState
         this.jailPlayers = jailPlayers
-        this.locations = locations.toSet().toMutableSet()
+        this.completedLocations = locations.toSet().toMutableSet()
         this.receivedItems = items.toMutableList()
         this.playerIndex = playerIndex
         this.index = itemIndex

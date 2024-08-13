@@ -63,7 +63,6 @@ object ArchipelagoRandomizer : ModInitializer {
     lateinit var locationRegister: LocationRegister private set
     lateinit var itemRegister: ItemRegister private set
 
-    lateinit var itemsHandler: MinecraftItems private set
     lateinit var compassHandler: StructureCompasses private set
     lateinit var recipeHandler: RecipeRewards private set
 
@@ -87,7 +86,6 @@ object ArchipelagoRandomizer : ModInitializer {
 
         recipeHandler = RecipeRewards()
         compassHandler = StructureCompasses()
-        itemsHandler = MinecraftItems()
 
         locationRegister.register(
             modResource("advancement"),
@@ -163,7 +161,6 @@ object ArchipelagoRandomizer : ModInitializer {
         logger.info("$MOD_VERSION started.")
         archipelagoWorldData = server.overworld().dataStorage.computeIfAbsent(ArchipelagoWorldData.factory(), MOD_ID)
 
-        TrapItems.init()
         server.gameRules.getRule(GameRules.RULE_LIMITED_CRAFTING).set(true, server)
         server.gameRules.getRule(GameRules.RULE_KEEPINVENTORY).set(true, server)
         server.gameRules.getRule(GameRules.RULE_ANNOUNCE_ADVANCEMENTS).set(false, server)
@@ -175,7 +172,7 @@ object ArchipelagoRandomizer : ModInitializer {
             apClient.connect("${apmcData.server}:${apmcData.port}")
 
         recipeHandler.initialize()
-        itemsHandler.initialize()
+        TrapItems.init()
 
         if (archipelagoWorldData.jailPlayers) {
             val overworld: ServerLevel = server.getLevel(Level.OVERWORLD)!!

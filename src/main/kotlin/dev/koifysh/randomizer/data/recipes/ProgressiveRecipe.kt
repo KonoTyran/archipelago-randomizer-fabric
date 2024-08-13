@@ -5,6 +5,7 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.server
 import dev.koifysh.randomizer.registries.APItemReward
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.crafting.RecipeHolder
 
 data class ProgressiveRecipe(
@@ -52,12 +53,16 @@ data class ProgressiveRecipe(
         return recipes
     }
 
-    override fun grant(index: Long) {
+    override fun onItemObtain(index: Long) {
         tier++
         server.playerList.players.forEach {player ->
             player.awardRecipes(getGrantedRecipes())
         }
         ArchipelagoRandomizer.recipeHandler.track(getTrackingAdvancements())
+    }
+
+    override fun grantPlayer(player: ServerPlayer, index: Long) {
+        // NO-OP
     }
 
 }

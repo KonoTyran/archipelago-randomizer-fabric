@@ -21,13 +21,27 @@ class AdvancementLocations {
         return 0L
     }
 
-    private fun hasAdvancement(namespacedID: ResourceLocation): Boolean {
-        return ArchipelagoRandomizer.archipelagoWorldData.getLocations().contains(getAdvancementID(namespacedID))
+    private fun isAdvancementDone(namespacedID: ResourceLocation): Boolean {
+        return ArchipelagoRandomizer.archipelagoWorldData.getCompletedLocations().contains(getAdvancementID(namespacedID))
     }
 
-    fun syncAllAdvancements() {
-        for (a in server.advancements.allAdvancements) {
-            syncAdvancement(a)
+    fun grantCompletedAdvancements(player: ServerPlayer) {
+        val completed = server.advancements.allAdvancements.filter { isAdvancementDone(it.id) }
+        completed.forEach { advancement ->
+            player.advancements.getOrStartProgress(advancement).remainingCriteria.forEach { criterion ->
+                player.advancements.award(advancement, criterion)
+            }
+        }
+    }
+
+    fun grantCompletedAdvancementsToAll() {
+        val completed = server.advancements.allAdvancements.filter { isAdvancementDone(it.id) }
+        server.playerList.players.forEach { player ->
+            completed.forEach { advancement ->
+                player.advancements.getOrStartProgress(advancement).remainingCriteria.forEach { criterion ->
+                    player.advancements.award(advancement, criterion)
+                }
+            }
         }
     }
 
@@ -53,7 +67,7 @@ class AdvancementLocations {
 
     fun onAdvancementGrant(holder: AdvancementHolder, player: ServerPlayer) {
         // don't send the same advancement twice
-        if (hasAdvancement(holder.id)) return
+        if (isAdvancementDone(holder.id)) return
         // don't send advancements that are not tracked
         if (!isTracked(holder.id)) return
 

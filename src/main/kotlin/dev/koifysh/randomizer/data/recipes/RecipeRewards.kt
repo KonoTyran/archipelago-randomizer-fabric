@@ -1,12 +1,13 @@
 package dev.koifysh.randomizer.data.recipes
 
 import dev.koifysh.randomizer.ArchipelagoRandomizer
-import net.minecraft.world.item.crafting.RecipeHolder
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.ArchipelagoRandomizer.server
 import dev.koifysh.randomizer.registries.APItemReward
 import net.minecraft.advancements.AdvancementHolder
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.item.crafting.RecipeHolder
 
 class RecipeRewards {
 
@@ -37,7 +38,7 @@ class RecipeRewards {
         ArchipelagoRandomizer.itemRegister.getReceivedItems().forEachIndexed { index, item ->
             item.rewards.forEach reward@{ reward ->
                 if (reward !is APRecipe) return@reward
-                    reward.grant(index.toLong())
+                reward.onItemObtain(index.toLong())
             }
         }
         syncAllTrackingAdvancements()
@@ -48,16 +49,30 @@ class RecipeRewards {
         syncAllTrackingAdvancements()
     }
 
+    fun syncTrackingAdvancements(player: ServerPlayer) {
+        val holders = HashSet<AdvancementHolder>()
+        trackingAdvancements.forEach { advancementRL ->
+            server.advancements.get(advancementRL)?.let { holders.add(it) }
+        }
+        holders.forEach { holder ->
+            player.advancements.getOrStartProgress(holder).remainingCriteria.forEach { criteria ->
+                player.advancements.award(holder, criteria)
+            }
+        }
+    }
+
     fun syncAllTrackingAdvancements() {
         val holders = HashSet<AdvancementHolder>()
         trackingAdvancements.forEach { advancementRL ->
-            server.advancements.get(advancementRL)?.let { holders.add(it)}
+            server.advancements.get(advancementRL)?.let { holders.add(it) }
         }
         //give every player on the server the advancements
         server.playerList.players.forEach { player ->
             holders.forEach { holder ->
                 player.advancements.getOrStartProgress(holder).remainingCriteria.forEach { criteria ->
-                    player.advancements.award(holder, criteria) } }
+                    player.advancements.award(holder, criteria)
+                }
+            }
         }
     }
 

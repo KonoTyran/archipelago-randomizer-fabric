@@ -5,6 +5,7 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.server
 import dev.koifysh.randomizer.registries.APItemReward
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.crafting.RecipeHolder
 
 data class GroupRecipe(
@@ -32,13 +33,17 @@ data class GroupRecipe(
 
     override fun getAllRecipes() = getGrantedRecipes()
 
-    override fun grant(index: Long) {
+    override fun onItemObtain(index: Long) {
         val toGrant = getGrantedRecipes()
         ArchipelagoRandomizer.recipeHandler.add(toGrant)
-        server.playerList.players.forEach {player ->
+        server.playerList.players.forEach { player ->
             player.awardRecipes(toGrant)
         }
         ArchipelagoRandomizer.recipeHandler.track(getTrackingAdvancements())
+    }
+
+    override fun grantPlayer(player: ServerPlayer, index: Long) {
+        // NO-OP
     }
 
 }

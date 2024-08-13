@@ -1,20 +1,23 @@
 package dev.koifysh.randomizer.registries.deserializers
 
-import com.google.gson.*
-import net.minecraft.resources.ResourceLocation
-import java.lang.reflect.Type
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import dev.koifysh.randomizer.ArchipelagoRandomizer.gson
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.data.items.EmptyItemReward
 import dev.koifysh.randomizer.registries.APItemReward
+import net.minecraft.resources.ResourceLocation
+import java.lang.reflect.Type
 
-object APItemRewardDeserializer: JsonDeserializer<APItemReward> {
+object APItemRewardDeserializer : JsonDeserializer<APItemReward> {
     private const val TYPE_STRING = "type"
     private val itemRegistry: HashMap<ResourceLocation, Class<out APItemReward>> = HashMap()
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): APItemReward {
         val itemObject: JsonObject = json.asJsonObject
-        if(!itemObject.has(TYPE_STRING)) {
+        if (!itemObject.has(TYPE_STRING)) {
             logger.error("Item type not specified. Skipping.")
             return EmptyItemReward(ResourceLocation.fromNamespaceAndPath("Type", "NotSpecified"))
         }
@@ -27,12 +30,15 @@ object APItemRewardDeserializer: JsonDeserializer<APItemReward> {
         }
 
         val itemType: Class<out APItemReward> = itemRegistry[itemTypeLocation] as Class<out APItemReward>
-        val item = gson.fromJson(itemObject, itemType)
-        item.id = itemObject["id"]?.asLong ?: 0
-        return item
+        try {
+            return gson.fromJson(itemObject, itemType)
+        } catch (e: Exception) {
+            logger.error("Error while deserializing item type $itemTypeLocation. json: $itemObject \n ${e.message}")
+            return EmptyItemReward(itemTypeLocation)
+        }
     }
 
-    internal fun <T: APItemReward> register(type: ResourceLocation, item: Class<T>): Boolean {
+    internal fun <T : APItemReward> register(type: ResourceLocation, item: Class<T>): Boolean {
         if (itemRegistry.containsKey(type)) return false
         itemRegistry[type] = item
         return true

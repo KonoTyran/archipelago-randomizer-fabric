@@ -6,6 +6,7 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.registries.deserializers.APItemRewardDeserializer
 import dev.koifysh.randomizer.utils.Utils
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.archipelagoWorldData as worldData
 
 class ItemRegister {
@@ -53,7 +54,7 @@ class ItemRegister {
         worldData.addItem(id)
         items[id]?.rewards?.forEach {
             try {
-                it.grant(index)
+                it.onItemObtain(index)
             } catch (e: Exception) {
                 logger.error("Error while granting item type ${it.type}.", e)
                 Utils.sendMessageToAll("Error while granting item type ${it.type}. check log for details")
@@ -70,6 +71,17 @@ class ItemRegister {
 
     fun <T : APItemReward> register(type: ResourceLocation, location: Class<T>) {
         register(type, location, null)
+    }
+
+    fun catchUpPlayer(player: ServerPlayer) {
+        val worldData = ArchipelagoRandomizer.archipelagoWorldData
+        ArchipelagoRandomizer.itemRegister.getReceivedItems().forEachIndexed { index, item ->
+            if(worldData.getPlayerIndex(player.stringUUID) >= index) return
+            worldData.updatePlayerIndex(player.stringUUID, index)
+            item.rewards.forEach { reward ->
+                reward.grantPlayer(player, index.toLong())
+            }
+        }
     }
 
     fun clear() {
