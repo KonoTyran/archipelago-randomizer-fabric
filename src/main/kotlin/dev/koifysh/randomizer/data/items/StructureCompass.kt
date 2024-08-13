@@ -17,6 +17,7 @@ data class StructureCompass(
     val static: Boolean?,
 ) : APItemReward() {
 
+    @Transient
     private lateinit var compass: ItemStack
 
     private fun init() {

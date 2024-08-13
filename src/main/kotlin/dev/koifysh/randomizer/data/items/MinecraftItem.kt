@@ -18,6 +18,7 @@ data class MinecraftItem(
         lateinit var itemParser: ItemParser; internal set
     }
 
+    @Transient
     private lateinit var itemStack: ItemStack
 
     fun init() {

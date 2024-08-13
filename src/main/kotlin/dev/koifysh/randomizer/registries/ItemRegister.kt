@@ -3,6 +3,7 @@ package dev.koifysh.randomizer.registries
 import com.google.common.collect.ImmutableList
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
+import dev.koifysh.randomizer.ArchipelagoRandomizer.server
 import dev.koifysh.randomizer.registries.deserializers.APItemRewardDeserializer
 import dev.koifysh.randomizer.utils.Utils
 import net.minecraft.resources.ResourceLocation
@@ -13,10 +14,9 @@ class ItemRegister {
 
     private val locationMethods = HashMap<ResourceLocation, (APItemReward) -> Unit>()
     private val items = HashMap<Long, APItem>()
-    var index: Long = 0
+    var index: Long
         get() = worldData.index
         set(value) {
-            field = value
             worldData.index = value
         }
 
@@ -52,6 +52,7 @@ class ItemRegister {
     internal fun sendItem(id: Long, index: Long) {
         this.index = index
         worldData.addItem(id)
+        server.playerList.players.forEach { worldData.updatePlayerIndex(it.stringUUID, index.toInt()) }
         items[id]?.rewards?.forEach {
             try {
                 it.onItemObtain(index)
@@ -75,7 +76,8 @@ class ItemRegister {
 
     fun catchUpPlayer(player: ServerPlayer) {
         val worldData = ArchipelagoRandomizer.archipelagoWorldData
-        ArchipelagoRandomizer.itemRegister.getReceivedItems().forEachIndexed { index, item ->
+        ArchipelagoRandomizer.itemRegister.getReceivedItems().forEachIndexed { i , item ->
+            val index = i + 1
             if(worldData.getPlayerIndex(player.stringUUID) >= index) return
             worldData.updatePlayerIndex(player.stringUUID, index)
             item.rewards.forEach { reward ->

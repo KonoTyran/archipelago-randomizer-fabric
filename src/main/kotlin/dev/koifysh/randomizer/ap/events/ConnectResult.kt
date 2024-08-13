@@ -39,7 +39,6 @@ class ConnectResult(apClient: APClient) {
                     DeathLink.setDeathLinkEnabled(true)
                 }
             }
-
             null -> return
         }
     }
