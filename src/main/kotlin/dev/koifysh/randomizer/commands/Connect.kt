@@ -5,7 +5,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import dev.koifysh.randomizer.APClient
 import dev.koifysh.randomizer.ArchipelagoRandomizer
-import dev.koifysh.randomizer.rewards.APMCData
+import dev.koifysh.randomizer.data.APMCData
 import dev.koifysh.randomizer.utils.Utils
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands

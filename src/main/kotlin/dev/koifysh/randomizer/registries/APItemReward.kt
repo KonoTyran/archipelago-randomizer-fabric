@@ -14,5 +14,7 @@ abstract class APItemReward {
         ArchipelagoRandomizer.server.playerList.players.forEach { grantPlayer(it, index) }
     }
 
-    abstract fun grantPlayer(player: ServerPlayer, index: Long)
+    open fun grantPlayer(player: ServerPlayer, index: Long) {
+        // No-Op
+    }
 }

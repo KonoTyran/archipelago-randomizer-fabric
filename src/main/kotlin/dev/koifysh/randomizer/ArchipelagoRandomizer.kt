@@ -3,26 +3,23 @@ package dev.koifysh.randomizer
 import com.google.common.collect.ImmutableSet
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import dev.koifysh.randomizer.base.goals.*
+import dev.koifysh.randomizer.base.items.*
+import dev.koifysh.randomizer.base.locations.Advancement
+import dev.koifysh.randomizer.base.locations.AdvancementLocations
+import dev.koifysh.randomizer.base.recipes.GroupRecipe
+import dev.koifysh.randomizer.base.recipes.ProgressiveRecipe
+import dev.koifysh.randomizer.base.recipes.RecipeRewards
 import dev.koifysh.randomizer.commands.Archipelago
 import dev.koifysh.randomizer.commands.Connect
 import dev.koifysh.randomizer.commands.Disconnect
 import dev.koifysh.randomizer.commands.Start
-import dev.koifysh.randomizer.rewards.APMCData
-import dev.koifysh.randomizer.rewards.ArchipelagoWorldData
-import dev.koifysh.randomizer.rewards.DataLoader
-import dev.koifysh.randomizer.rewards.DataLoader.loadItems
-import dev.koifysh.randomizer.rewards.DataLoader.loadLocations
-import dev.koifysh.randomizer.rewards.items.*
-import dev.koifysh.randomizer.rewards.locations.Advancement
-import dev.koifysh.randomizer.rewards.locations.AdvancementLocations
-import dev.koifysh.randomizer.rewards.recipes.GroupRecipe
-import dev.koifysh.randomizer.rewards.recipes.ProgressiveRecipe
-import dev.koifysh.randomizer.rewards.recipes.RecipeRewards
+import dev.koifysh.randomizer.data.APMCData
+import dev.koifysh.randomizer.data.ArchipelagoWorldData
+import dev.koifysh.randomizer.data.DataLoader
 import dev.koifysh.randomizer.events.player.PlayerEvents
-import dev.koifysh.randomizer.registries.APItemReward
-import dev.koifysh.randomizer.registries.APLocation
-import dev.koifysh.randomizer.registries.ItemRegister
-import dev.koifysh.randomizer.registries.LocationRegister
+import dev.koifysh.randomizer.registries.*
+import dev.koifysh.randomizer.registries.deserializers.APGoalDeserializer
 import dev.koifysh.randomizer.registries.deserializers.APItemRewardDeserializer
 import dev.koifysh.randomizer.registries.deserializers.APLocationDeserializer
 import dev.koifysh.randomizer.structure.ArchipelagoStructures
@@ -34,12 +31,16 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.message.v1.ServerMessageEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
+import net.minecraft.ChatFormatting
 import net.minecraft.commands.arguments.item.ItemParser
 import net.minecraft.core.BlockPos
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.bossevents.CustomBossEvent
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
+import net.minecraft.world.BossEvent
 import net.minecraft.world.Difficulty
 import net.minecraft.world.level.GameRules
 import net.minecraft.world.level.Level
@@ -62,9 +63,13 @@ object ArchipelagoRandomizer : ModInitializer {
 
     lateinit var locationRegister: LocationRegister private set
     lateinit var itemRewardRegister: ItemRegister private set
+    lateinit var goalRegister: GoalRegister private set
+
+    lateinit var connectionInfoBar: CustomBossEvent private set
 
     lateinit var compassHandler: StructureCompasses private set
     lateinit var recipeHandler: RecipeRewards private set
+    lateinit var goalHandler: BuiltInGoals private set
 
     var jailCenter: BlockPos = BlockPos.ZERO; private set
 
@@ -83,54 +88,48 @@ object ArchipelagoRandomizer : ModInitializer {
 
         locationRegister = LocationRegister()
         itemRewardRegister = ItemRegister()
+        goalRegister = GoalRegister()
 
         recipeHandler = RecipeRewards()
         compassHandler = StructureCompasses()
+        goalHandler = BuiltInGoals()
 
+        // register our location handlers
         locationRegister.register(
             modResource("advancement"),
             Advancement::class.java,
             advancementLocations::addLocation
         )
 
-        itemRewardRegister.register(
-            modResource("item"),
-            ItemReward::class.java
-        )
-
-        itemRewardRegister.register(
-            modResource("trap"),
-            TrapItem::class.java
-        )
-
+        // register our item reward handlers
+        itemRewardRegister.register(modResource("item"), ItemReward::class.java)
+        itemRewardRegister.register(modResource("trap"), TrapItem::class.java)
         itemRewardRegister.register(
             modResource("structure_compass"),
             StructureCompass::class.java,
             compassHandler::registerCompass
         )
-
-        itemRewardRegister.register(
-            modResource("group_recipe"),
-            GroupRecipe::class.java,
-            recipeHandler::registerRecipe
-        )
-
+        itemRewardRegister.register(modResource("group_recipe"), GroupRecipe::class.java, recipeHandler::registerRecipe)
         itemRewardRegister.register(
             modResource("progressive_recipe"),
             ProgressiveRecipe::class.java,
             recipeHandler::registerRecipe
         )
+        itemRewardRegister.register(modResource("xp"), XPReward::class.java)
+        itemRewardRegister.register(modResource("goal_dragon_egg"), EggShardReward::class.java)
 
-        itemRewardRegister.register(
-            modResource("xp"),
-            XPReward::class.java,
-        )
+        // register our goal handlers
+        goalRegister.register(modResource("advancement"), AdvancementGoal::class.java, goalHandler::initializeGoal)
+        goalRegister.register(modResource("egg_shards"), EggShardGoal::class.java, goalHandler::initializeGoal)
+        goalRegister.register(modResource("dragon_boss"), EnderDragonGoal::class.java, goalHandler::initializeGoal)
+        goalRegister.register(modResource("wither_boss"), WitherBossGoal::class.java, goalHandler::initializeGoal)
 
         // load apmc file
         val builder = GsonBuilder()
         builder.registerTypeAdapter(ResourceLocation::class.java, ResourceLocation.Serializer())
         builder.registerTypeAdapter(APLocation::class.java, APLocationDeserializer)
         builder.registerTypeAdapter(APItemReward::class.java, APItemRewardDeserializer)
+        builder.registerTypeAdapter(APGoal::class.java, APGoalDeserializer)
         gson = builder.create()
 
 
@@ -159,6 +158,15 @@ object ArchipelagoRandomizer : ModInitializer {
         server = minecraftServer
         logger.info("$MOD_VERSION starting.")
         ItemReward.itemParser = ItemParser(server.registryAccess())
+        connectionInfoBar = server.customBossEvents.create(
+            modResource("connection_info"),
+            Component.literal("Not Connected to Archipelago").withStyle(ChatFormatting.RED)
+        )
+        connectionInfoBar.color = BossEvent.BossBarColor.RED
+        connectionInfoBar.max = 1
+        connectionInfoBar.value = 1
+        connectionInfoBar.overlay = BossEvent.BossBarOverlay.PROGRESS
+        connectionInfoBar.isVisible = true
     }
 
     private fun afterLevelLoad(minecraftServer: MinecraftServer) {
@@ -171,6 +179,8 @@ object ArchipelagoRandomizer : ModInitializer {
         server.gameRules.getRule(GameRules.RULE_ANNOUNCE_ADVANCEMENTS).set(false, server)
         server.setDifficulty(Difficulty.NORMAL, true)
 
+
+
         apClient = APClient()
         apClient.setName(apmcData.playerName)
         if (apmcData.server.isNotEmpty())
@@ -178,6 +188,8 @@ object ArchipelagoRandomizer : ModInitializer {
 
         recipeHandler.initialize()
         TrapItems.init()
+        goalRegister.initializeGoals()
+        apClient.checkLocations(ArrayList(archipelagoWorldData.getCompletedLocations()))
 
         if (archipelagoWorldData.jailPlayers) {
             val overworld: ServerLevel = server.getLevel(Level.OVERWORLD)!!
@@ -217,9 +229,22 @@ object ArchipelagoRandomizer : ModInitializer {
             logger.error("APMC file was generated for a different version of the client. Please update the client.")
         }
 
-        logger.info("reading Locations and Items")
+        if (apmcData.clientVersion > 9) {
+            logger.info("reading Locations and Items")
+            DataLoader.loadLocations(apmcData.apLocations)
+            DataLoader.loadItems(apmcData.apItems)
+            DataLoader.loadGoals(apmcData.apGoals)
+        } else {
+            if (apmcData.eggShardsRequired > 0)
+                apmcData.apGoals.add(EggShardGoal(apmcData.eggShardsRequired))
+            if (apmcData.advancementsRequired > 0)
+                apmcData.apGoals.add(AdvancementGoal(apmcData.advancementsRequired))
+            if (apmcData.requiredBosses == APMCData.Bosses.BOTH || apmcData.requiredBosses == APMCData.Bosses.ENDER_DRAGON)
+                apmcData.apGoals.add(EnderDragonGoal())
+            if (apmcData.requiredBosses == APMCData.Bosses.BOTH || apmcData.requiredBosses == APMCData.Bosses.WITHER)
+                apmcData.apGoals.add(WitherBossGoal())
 
-        loadLocations(apmcData.apLocations)
-        loadItems(apmcData.apItems)
+            DataLoader.loadGoals(apmcData.apGoals)
+        }
     }
 }

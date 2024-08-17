@@ -6,7 +6,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import dev.koifysh.randomizer.ArchipelagoRandomizer.gson
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
-import dev.koifysh.randomizer.rewards.items.EmptyItemReward
+import dev.koifysh.randomizer.base.items.EmptyItemReward
 import dev.koifysh.randomizer.registries.APItemReward
 import net.minecraft.resources.ResourceLocation
 import java.lang.reflect.Type
@@ -43,10 +43,5 @@ object APItemRewardDeserializer : JsonDeserializer<APItemReward> {
         itemRegistry[type] = item
         return true
     }
-
-    fun isKnown(type: ResourceLocation): Boolean {
-        return itemRegistry.containsKey(type)
-    }
-
 
 }

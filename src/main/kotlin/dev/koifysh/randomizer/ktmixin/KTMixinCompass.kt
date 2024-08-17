@@ -1,6 +1,6 @@
 package dev.koifysh.randomizer.ktmixin
 
-import dev.koifysh.randomizer.rewards.items.StructureCompasses.Companion.cycleToNextStructure
+import dev.koifysh.randomizer.base.items.StructureCompasses.Companion.cycleToNextStructure
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items

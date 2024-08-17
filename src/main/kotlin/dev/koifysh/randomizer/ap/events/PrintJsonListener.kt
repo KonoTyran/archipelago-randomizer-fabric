@@ -6,7 +6,7 @@ import dev.koifysh.archipelago.events.PrintJSONEvent
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.utils.Utils
 
-class PrintJsonListener {
+object PrintJsonListener {
 
     @ArchipelagoEventListener
     fun onPrintJson(event: PrintJSONEvent) {

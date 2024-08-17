@@ -12,7 +12,7 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer.archipelagoWorldData as worl
 
 class ItemRegister {
 
-    private val locationMethods = HashMap<ResourceLocation, (APItemReward) -> Unit>()
+    private val callbackMethods = HashMap<ResourceLocation, (APItemReward) -> Unit>()
     private val items = HashMap<Long, APItem>()
     var index: Long
         get() = worldData.index
@@ -33,7 +33,7 @@ class ItemRegister {
     internal fun newItem(item: APItem): Int {
         item.rewards.forEach {
             try {
-                locationMethods[it.type]?.invoke(it)
+                callbackMethods[it.type]?.invoke(it)
             } catch (e: Exception) {
                 logger.error("Error while invoking method for item ID ${item.id} itemReward type ${it.type}.", e)
                 Utils.sendMessageToAll("Error while invoking method for item type ${it.type}. check log for details")
@@ -67,7 +67,7 @@ class ItemRegister {
         if (!APItemRewardDeserializer.register(type, location))
             logger.warn("attempted to register duplicate Item Reward type $type, skipping")
         if (consumer != null)
-            locationMethods[type] = consumer
+            callbackMethods[type] = consumer
     }
 
     fun <T : APItemReward> register(type: ResourceLocation, location: Class<T>) {

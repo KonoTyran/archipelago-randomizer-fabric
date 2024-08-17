@@ -12,7 +12,7 @@ import java.util.*
 object KTMixinAdvancementLoad {
 
     fun onAdvancementLoad(old: ImmutableMap.Builder<ResourceLocation, AdvancementHolder>): ImmutableMap<ResourceLocation, AdvancementHolder> {
-        val builder = ImmutableMap.builder<ResourceLocation, AdvancementHolder>()
+        val newAdvancements = TreeMap<ResourceLocation, AdvancementHolder>()
         for ((resourceLocation, advancementHolder) in old.buildOrThrow().entries) {
             val oldAdvancement = advancementHolder.value()
             val newAdvancement = Advancement(
@@ -26,9 +26,12 @@ object KTMixinAdvancementLoad {
             )
 
 
-            builder.put(resourceLocation, AdvancementHolder(resourceLocation, newAdvancement))
+            newAdvancements[resourceLocation] = AdvancementHolder(resourceLocation, newAdvancement)
         }
-        return builder.buildOrThrow()
+
+        newAdvancements.toSortedMap{ o1, o2 -> o1.namespace.compareTo(o2.namespace) }
+
+        return ImmutableMap.copyOf(newAdvancements)
     }
 
     private fun getDisplayInfo(holder: AdvancementHolder): Optional<DisplayInfo> {

@@ -1,11 +1,10 @@
 package dev.koifysh.randomizer
 
 import dev.koifysh.archipelago.flags.ItemsHandling
+import dev.koifysh.randomizer.ArchipelagoRandomizer.apClient
 import dev.koifysh.randomizer.ap.events.*
 import dev.koifysh.randomizer.utils.Utils
 import dev.koifysh.randomizer.ap.SlotData
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
 
 class APClient: dev.koifysh.archipelago.Client() {
     lateinit var slotData: SlotData
@@ -14,21 +13,13 @@ class APClient: dev.koifysh.archipelago.Client() {
         this.game = "Minecraft"
         this.itemsHandlingFlags = ItemsHandling.SEND_ITEMS or ItemsHandling.SEND_OWN_ITEMS or ItemsHandling.SEND_STARTING_INVENTORY
 
-
-        //give our item manager the list of received items to give to players as they log in.
-//        randomizer.itemManager.setReceivedItems(itemManager.receivedItemIDs)
-
-        //reset and catch up our global recipe list to be consistent with what we loaded from our save file.
-//        randomizer.recipeManager.resetRecipes()
-//        randomizer.recipeManager.grantRecipeList(itemManager.receivedItemIDs)
-
         eventManager.registerListener(OnDeathLink)
         eventManager.registerListener(OnMC35)
-        eventManager.registerListener(ConnectResult(this))
+        eventManager.registerListener(ConnectResult)
         eventManager.registerListener(AttemptedConnection)
         eventManager.registerListener(ReceiveItem)
         eventManager.registerListener(LocationChecked)
-        eventManager.registerListener(PrintJsonListener())
+        eventManager.registerListener(PrintJsonListener)
     }
 
     override fun onError(ex: Exception) {
@@ -42,11 +33,6 @@ class APClient: dev.koifysh.archipelago.Client() {
         } else {
             Utils.sendMessageToAll(reason)
         }
-//        archipelago.goalManager.updateInfoBar()
-    }
-
-    companion object {
-        // Directly reference a log4j logger.
-        private val LOGGER: Logger = LogManager.getLogger()
+        ArchipelagoRandomizer.connectionInfoBar.isVisible = !apClient.isConnected
     }
 }

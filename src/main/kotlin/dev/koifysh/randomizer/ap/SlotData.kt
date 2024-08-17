@@ -6,7 +6,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.annotations.SerializedName
 import com.mojang.brigadier.StringReader
-import dev.koifysh.randomizer.rewards.items.ItemReward
+import dev.koifysh.randomizer.base.items.ItemReward
 import dev.koifysh.randomizer.utils.Utils
 import net.minecraft.commands.arguments.item.ItemInput
 import net.minecraft.world.item.ItemStack
