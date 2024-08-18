@@ -28,6 +28,7 @@ object PlayerEvents {
         ArchipelagoRandomizer.itemRewardRegister.catchUpPlayer(packetListener.player)
 
         ArchipelagoRandomizer.goalRegister.addPlayerToBossBar(player)
+        ArchipelagoRandomizer.connectionInfoBar.addPlayer(player)
 
         if (apmcData.race) {
             player.setGameMode(GameType.SURVIVAL)

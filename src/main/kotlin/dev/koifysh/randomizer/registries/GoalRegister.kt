@@ -25,7 +25,7 @@ class GoalRegister {
     }
 
     fun goalCompleted(completedGoal: APGoal) {
-        if (!completedGoal.isComplete) return // sanity check!
+        if (!completedGoal.isComplete) return // sanity check
 
         goalRequirements.forEach { (resourceLocation, requirements) ->
             if (requirements.contains(completedGoal.type)) {
@@ -49,7 +49,7 @@ class GoalRegister {
     internal fun initializeGoals() {
         // call prepareStart on all goals that have no requirements
         goals.forEach { (location, goal) ->
-            goalRequirements[location]?.isEmpty()?.let { goal.prepareStart() }
+            goalRequirements[location]?.isEmpty().takeIf { it == true }?.let { goal.prepareStart() }
         }
     }
 

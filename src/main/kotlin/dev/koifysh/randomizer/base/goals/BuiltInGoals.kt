@@ -9,14 +9,14 @@ class BuiltInGoals {
     var eggShardGoal: EggShardGoal? = null; private set
 
     //store out built-in bosses
-    var enderDirectionGoal: EnderDragonGoal? = null; private set
+    var enderDragonGoal: EnderDragonGoal? = null; private set
     var witherBossGoal: WitherBossGoal? = null; private set
 
     fun initializeGoal(goal: APGoal) {
         when (goal) {
             is AdvancementGoal -> advancementGoal = goal
             is EggShardGoal -> eggShardGoal = goal
-            is EnderDragonGoal -> enderDirectionGoal = goal
+            is EnderDragonGoal -> enderDragonGoal = goal
             is WitherBossGoal -> witherBossGoal = goal
         }
     }

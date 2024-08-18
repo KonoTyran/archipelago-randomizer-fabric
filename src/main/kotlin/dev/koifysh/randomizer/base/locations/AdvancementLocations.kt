@@ -72,7 +72,6 @@ class AdvancementLocations {
         if (!isTracked(holder.id)) return
 
         val id = getAdvancementID(holder.id)
-        logger.info("Player ${player.name} has completed advancement ${holder.id} with ID $id")
         ArchipelagoRandomizer.archipelagoWorldData.addLocation(id)
         ArchipelagoRandomizer.locationRegister.sendLocation(id)
 

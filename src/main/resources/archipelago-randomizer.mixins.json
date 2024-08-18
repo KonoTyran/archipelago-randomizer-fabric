@@ -9,7 +9,9 @@
     "MixinAbstractPiglin",
     "MixinCrafter",
     "MixinDataPack",
+    "MixinDragonFight",
     "MixinHoglin",
+    "MixinItemStack",
     "MixinPropertyManager",
     "MixinUpdateCompass",
     "StructureModifier"

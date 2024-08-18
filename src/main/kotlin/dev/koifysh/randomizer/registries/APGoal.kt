@@ -2,6 +2,7 @@ package dev.koifysh.randomizer.registries
 
 import com.google.gson.annotations.SerializedName
 import dev.koifysh.randomizer.ArchipelagoRandomizer
+import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.bossevents.CustomBossEvent
@@ -78,6 +79,10 @@ abstract class APGoal {
     private var bossBar: CustomBossEvent? = null
 
     internal fun prepareStart() {
+        if (hasStarted) {
+            logger.error("Goal $type has already started")
+            return
+        }
         hasStarted = true
         checkCompletion()
         if (hasBossBar) updateBossBar()

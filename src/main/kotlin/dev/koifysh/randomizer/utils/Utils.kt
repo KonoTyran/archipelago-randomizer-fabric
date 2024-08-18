@@ -248,4 +248,13 @@ object Utils {
     fun ItemStack.setItemLore(itemLore: List<Component>) {
         this.set(DataComponents.LORE, ItemLore(itemLore))
     }
+
+    fun playSoundToAll(sound: SoundEvent) {
+        server.execute {
+            for (player in server.playerList.players) {
+                player.playNotifySound(sound, SoundSource.MASTER, 1f, 1f)
+            }
+        }
+
+    }
 }

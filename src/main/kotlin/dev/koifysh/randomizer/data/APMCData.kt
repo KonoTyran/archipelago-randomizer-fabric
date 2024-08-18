@@ -61,13 +61,13 @@ class APMCData {
     }
 
     enum class Bosses {
-        @SerializedName("none")
+        @SerializedName("none", alternate = ["0"])
         NONE,
-        @SerializedName("ender_dragon")
+        @SerializedName("ender_dragon", alternate = ["1"])
         ENDER_DRAGON,
-        @SerializedName("wither")
+        @SerializedName("wither", alternate = ["2"])
         WITHER,
-        @SerializedName("both")
+        @SerializedName("both", alternate = ["3"])
         BOTH
     }
 }

@@ -229,21 +229,33 @@ object ArchipelagoRandomizer : ModInitializer {
             logger.error("APMC file was generated for a different version of the client. Please update the client.")
         }
 
-        if (apmcData.clientVersion > 9) {
+        if (apmcData.clientVersion > 9) { // our goals should be loaded from the file
             logger.info("reading Locations and Items")
             DataLoader.loadLocations(apmcData.apLocations)
             DataLoader.loadItems(apmcData.apItems)
             DataLoader.loadGoals(apmcData.apGoals)
         } else {
+            // we need to generate goals based on the data from the old format.
             if (apmcData.eggShardsRequired > 0)
                 apmcData.apGoals.add(EggShardGoal(apmcData.eggShardsRequired))
             if (apmcData.advancementsRequired > 0)
                 apmcData.apGoals.add(AdvancementGoal(apmcData.advancementsRequired))
-            if (apmcData.requiredBosses == APMCData.Bosses.BOTH || apmcData.requiredBosses == APMCData.Bosses.ENDER_DRAGON)
-                apmcData.apGoals.add(EnderDragonGoal())
-            if (apmcData.requiredBosses == APMCData.Bosses.BOTH || apmcData.requiredBosses == APMCData.Bosses.WITHER)
-                apmcData.apGoals.add(WitherBossGoal())
-
+            if (apmcData.requiredBosses == APMCData.Bosses.BOTH || apmcData.requiredBosses == APMCData.Bosses.ENDER_DRAGON) {
+                val dragonGoal = EnderDragonGoal()
+                if (apmcData.eggShardsRequired > 0)
+                    dragonGoal.requirements.add(modResource("egg_shards"))
+                if (apmcData.advancementsRequired > 0)
+                    dragonGoal.requirements.add(modResource("advancement"))
+                apmcData.apGoals.add(dragonGoal)
+            }
+            if (apmcData.requiredBosses == APMCData.Bosses.BOTH || apmcData.requiredBosses == APMCData.Bosses.WITHER) {
+                val witherGoal = EnderDragonGoal()
+                if (apmcData.eggShardsRequired > 0)
+                    witherGoal.requirements.add(modResource("egg_shards"))
+                if (apmcData.advancementsRequired > 0)
+                    witherGoal.requirements.add(modResource("advancement"))
+                apmcData.apGoals.add(witherGoal)
+            }
             DataLoader.loadGoals(apmcData.apGoals)
         }
     }
