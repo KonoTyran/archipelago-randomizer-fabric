@@ -12,12 +12,25 @@ import net.minecraft.world.BossEvent.BossBarOverlay
 
 abstract class APGoal {
 
+    /**
+     * the type of goal this is. this determines the class that will be used to deserialize this goal.
+     */
     @SerializedName("type")
     var type: ResourceLocation = ResourceLocation.parse("empty:empty")
 
+    /**
+     * a list of other goal ID's that need to be completed before this one.
+     */
     @SerializedName("requirements")
     var requirements: ArrayList<ResourceLocation> = ArrayList()
 
+    /**
+     * the unique ID of this goal.
+     */
+    @SerializedName("id")
+    var id: ResourceLocation = type
+
+    @Transient
     var hasStarted = false; private set
 
     /**
@@ -38,26 +51,31 @@ abstract class APGoal {
     /**
      * @return the color of the boss bar.
      */
+    @Transient
     open val bossBarColor: BossBarColor = BossBarColor.WHITE
 
     /**
      * @return the style of the boss bar.
      */
+    @Transient
     open val bossBarOverlay: BossBarOverlay = BossBarOverlay.PROGRESS
 
     /**
      * @return the name of the boss bar.
      */
+    @Transient
     open val bossBarName: Component = Component.empty()
 
     /**
      * @return the max value of the boss bar.
      */
+    @Transient
     open val bossBarMaxValue: Int = 100
 
     /**
      * @return the current value of the boss bar.
      */
+    @Transient
     open val bossBarCurrentValue: Int = 0
 
     /**
@@ -70,12 +88,13 @@ abstract class APGoal {
     }
 
     internal fun checkRequirementCompletion() {
-        if (ArchipelagoRandomizer.goalRegister.getGoalsThatRequire(type).all { it.isComplete }) {
+        if (ArchipelagoRandomizer.goalRegister.getGoalsThatRequire(id).all { it.isComplete }) {
             if (!hasStarted) prepareStart()
             hasStarted = true
         }
     }
 
+    @Transient
     private var bossBar: CustomBossEvent? = null
 
     internal fun prepareStart() {

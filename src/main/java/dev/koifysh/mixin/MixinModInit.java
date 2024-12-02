@@ -8,10 +8,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Main.class)
-public class AfterModInit {
+public class MixinModInit {
 
     @Inject(method = "main", at = @At(value = "INVOKE", target = "Lnet/minecraft/Util;startTimerHackThread()V", shift = At.Shift.AFTER))
     private static void afterModInit(String[] strings, CallbackInfo ci) {
         ArchipelagoRandomizer.INSTANCE.loadAPMC();
+    }
+
+    @Inject(method = "main", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/Bootstrap;bootStrap()V"))
+    private static void beforeModInit(String[] strings, CallbackInfo ci) {
+        ArchipelagoRandomizer.INSTANCE.getLogger().info("pre-init setup");
     }
 }

@@ -11,7 +11,11 @@ class EnderDragonGoal : APGoal() {
 
     init {
         type = ArchipelagoRandomizer.modResource("dragon_boss")
+        id = type
     }
+
+    override var hasBossBar: Boolean = false
+    override var isComplete: Boolean = false
 
     override fun start() {
         Utils.playSoundToAll(SoundEvents.ENDER_DRAGON_AMBIENT)
@@ -24,7 +28,4 @@ class EnderDragonGoal : APGoal() {
             40
         )
     }
-
-    override var isComplete: Boolean = false
-    override var hasBossBar: Boolean = false
 }

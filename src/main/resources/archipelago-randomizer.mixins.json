@@ -5,7 +5,7 @@
   "mixins": [
     "AdvancementGrant",
     "AdvancementLoad",
-    "AfterModInit",
+    "MixinModInit",
     "MixinAbstractPiglin",
     "MixinCrafter",
     "MixinDataPack",

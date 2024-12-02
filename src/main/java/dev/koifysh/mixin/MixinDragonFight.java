@@ -1,6 +1,9 @@
 package dev.koifysh.mixin;
 
 import dev.koifysh.randomizer.ArchipelagoRandomizer;
+import dev.koifysh.randomizer.utils.Utils;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.level.dimension.end.EndDragonFight;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,15 +17,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinDragonFight {
 
     @Shadow
-    private boolean dragonKilled;
+    private boolean previouslyKilled;
 
-    @Inject(method = "setDragonKilled(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;)V", at = @At("HEAD"))
+    @Inject(method = "setDragonKilled(Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;)V",
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/server/level/ServerBossEvent;setProgress(F)V"
+            )
+    )
     private void onDragonKilled(EnderDragon enderDragon, CallbackInfo ci) {
-        dragonKilled = false;
+        previouslyKilled = false;
         var dragonGoal = ArchipelagoRandomizer.INSTANCE.getGoalHandler().getEnderDragonGoal();
         if (dragonGoal != null) {
+            if (dragonGoal.isComplete() && dragonGoal.getHasStarted()) return;
+            Utils.INSTANCE.sendMessageToAll(Component.literal("She is no more...").withStyle(ChatFormatting.GOLD));
             dragonGoal.setComplete(true);
             dragonGoal.checkCompletion();
+
         }
     }
 
@@ -30,9 +40,9 @@ public abstract class MixinDragonFight {
     protected abstract void spawnNewGateway();
 
     @Inject(method = "createNewDragon()Lnet/minecraft/world/entity/boss/enderdragon/EnderDragon;", at = @At("RETURN"))
-     private void spawnNewDragon(CallbackInfoReturnable<EnderDragon> cir) {
+    private void spawnNewDragon(CallbackInfoReturnable<EnderDragon> cir) {
         for (int i = 0; i < 20; i++) {
             spawnNewGateway();
         }
-     }
+    }
 }

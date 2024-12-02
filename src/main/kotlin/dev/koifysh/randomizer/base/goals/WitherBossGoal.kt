@@ -3,16 +3,15 @@ package dev.koifysh.randomizer.base.goals
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.registries.APGoal
 import dev.koifysh.randomizer.utils.Utils
+import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.Style
-import net.minecraft.network.chat.TextColor
 import net.minecraft.sounds.SoundEvents
-import java.awt.Color
 
 class WitherBossGoal : APGoal() {
 
     init {
         type = ArchipelagoRandomizer.modResource("wither_boss")
+        id = type
     }
 
     override var hasBossBar: Boolean = false
@@ -20,15 +19,13 @@ class WitherBossGoal : APGoal() {
 
     override fun start() {
         Utils.playSoundToAll(SoundEvents.WITHER_AMBIENT)
-        Utils.sendMessageToAll("The Darkness is calling...")
+        Utils.sendMessageToAll(Component.literal("The Darkness is calling...").withStyle(ChatFormatting.DARK_PURPLE))
         Utils.sendTitleToAll(
-            Component.literal("The Darkness").withStyle(
-                Style.EMPTY.withColor(
-                    TextColor.fromRgb(
-                        Color.BLACK.rgb
-                    )
-                )
-            ), Component.literal("is calling..."), 40, 120, 40
+            Component.literal("The Darkness").withStyle(ChatFormatting.DARK_PURPLE),
+            Component.literal("is calling..."),
+            40,
+            120,
+            40
         )
     }
 }

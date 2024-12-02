@@ -1,5 +1,6 @@
 package dev.koifysh.randomizer.base.recipes
 
+import com.google.common.collect.ImmutableSet
 import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.ArchipelagoRandomizer.server
@@ -43,6 +44,10 @@ class RecipeRewards {
             }
         }
         syncAllTrackingAdvancements()
+    }
+
+    fun getAllTrackingAdvancements(): ImmutableSet<ResourceLocation> {
+        return ImmutableSet.copyOf(trackingAdvancements)
     }
 
     fun track(advancements: Set<ResourceLocation>) {

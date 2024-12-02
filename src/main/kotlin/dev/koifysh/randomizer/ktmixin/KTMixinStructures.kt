@@ -4,6 +4,7 @@ import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.apmcData
 import dev.koifysh.randomizer.ArchipelagoRandomizer.logger
 import dev.koifysh.randomizer.ArchipelagoRandomizer.server
+import dev.koifysh.randomizer.data.APMCData
 import net.minecraft.core.HolderSet
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
@@ -15,6 +16,8 @@ object KTMixinStructures {
     val structures: HashMap<String, HolderSet<Biome>> = HashMap()
 
     fun randomizeStructures() {
+        if (apmcData.state != APMCData.State.VALID) return
+        
         val biomeRegistry: Registry<Biome> = server.registryAccess().registryOrThrow(Registries.BIOME)
 
         val overworldTag: TagKey<Biome> = TagKey.create(Registries.BIOME, ArchipelagoRandomizer.modResource("overworld_structure"))

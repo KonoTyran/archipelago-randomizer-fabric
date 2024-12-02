@@ -11,8 +11,9 @@ class EggShardGoal(
     var goal: Int = 0,
 ) : APGoal() {
 
-        init {
+    init {
         type = ArchipelagoRandomizer.modResource("egg_shards")
+        id = type
     }
 
     private val currentEggShards: Int

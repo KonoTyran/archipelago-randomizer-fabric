@@ -29,9 +29,8 @@ object APItemRewardDeserializer : JsonDeserializer<APItemReward> {
             return EmptyItemReward(itemTypeLocation)
         }
 
-        val itemType: Class<out APItemReward> = itemRegistry[itemTypeLocation] as Class<out APItemReward>
         try {
-            return gson.fromJson(itemObject, itemType)
+            return gson.fromJson(itemObject, itemRegistry[itemTypeLocation] as Class<out APItemReward>)
         } catch (e: Exception) {
             logger.error("Error while deserializing item type $itemTypeLocation. json: $itemObject \n ${e.message}")
             return EmptyItemReward(itemTypeLocation)

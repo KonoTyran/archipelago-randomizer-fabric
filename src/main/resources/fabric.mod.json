@@ -3,13 +3,13 @@
 	"id": "archipelago-randomizer",
 	"version": "${version}",
 	"name": "Archipelago Randomizer",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Archipelago randomizer for Minecraft",
 	"authors": [
 		"Kono Tyran"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://archipelago.gg",
+		"sources": "https://github.com/KonoTyran/archipelago-randomizer-fabric"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/archipelago-randomizer/icon.png",

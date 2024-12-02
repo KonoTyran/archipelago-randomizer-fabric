@@ -5,5 +5,6 @@ import net.minecraft.resources.ResourceLocation
 
 abstract class APLocation {
     @SerializedName("id") val id: Long = 0
-    @SerializedName("type") val type: ResourceLocation = ResourceLocation.parse("empty:empty")
+    @SerializedName("type")
+    var type: ResourceLocation = ResourceLocation.parse("empty:empty")
 }

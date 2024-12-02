@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class AdvancementLoad {
     @Redirect(at = @At(
             value = "INVOKE",
-            target = "Lcom/google/common/collect/ImmutableMap$Builder;buildOrThrow()Lcom/google/common/collect/ImmutableMap;"
-    ),
+            target = "Lcom/google/common/collect/ImmutableMap$Builder;buildOrThrow()Lcom/google/common/collect/ImmutableMap;",
+            remap = false),
             method = "apply(Ljava/util/Map;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V")
     private ImmutableMap<ResourceLocation, AdvancementHolder> onAdvancementLoad(ImmutableMap.Builder<ResourceLocation, AdvancementHolder> old) {
         return KTMixinAdvancementLoad.INSTANCE.onAdvancementLoad(old);

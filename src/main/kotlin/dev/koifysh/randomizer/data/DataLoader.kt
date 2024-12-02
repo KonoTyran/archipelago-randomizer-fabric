@@ -45,7 +45,7 @@ object DataLoader {
                 return gson.fromJson(json, APMCData::class.java)
             }
         } catch (e: Exception) {
-            logger.error("Error Loading APMC File: ${e.cause.toString()} ${e.message}")
+            logger.error("Error Loading APMC File: ${e.cause.toString()} ${e.message}", e)
         }
         val badAPMC = APMCData()
 

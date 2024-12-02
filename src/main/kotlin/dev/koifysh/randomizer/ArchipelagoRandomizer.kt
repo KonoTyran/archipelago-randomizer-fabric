@@ -52,7 +52,7 @@ object ArchipelagoRandomizer : ModInitializer {
 
     lateinit var gson: Gson; private set
     const val MOD_ID = "archipelago-randomizer"
-    private const val MOD_VERSION = "Archipelago Randomizer v0.1.3"
+    private const val MOD_VERSION = "Archipelago Randomizer v0.2.0"
 
     val logger: Logger = LoggerFactory.getLogger(MOD_ID)
 
@@ -61,9 +61,9 @@ object ArchipelagoRandomizer : ModInitializer {
     lateinit var server: MinecraftServer private set
     lateinit var archipelagoWorldData: ArchipelagoWorldData private set
 
-    lateinit var locationRegister: LocationRegister private set
-    lateinit var itemRewardRegister: ItemRegister private set
-    lateinit var goalRegister: GoalRegister private set
+    val locationRegister = LocationRegister()
+    val itemRewardRegister = ItemRegister()
+    val goalRegister = GoalRegister()
 
     lateinit var connectionInfoBar: CustomBossEvent private set
 
@@ -85,10 +85,6 @@ object ArchipelagoRandomizer : ModInitializer {
         // However, some things (like resources) may still be uninitialized.
         // Proceed with mild caution.
         logger.info("$MOD_VERSION initializing.")
-
-        locationRegister = LocationRegister()
-        itemRewardRegister = ItemRegister()
-        goalRegister = GoalRegister()
 
         recipeHandler = RecipeRewards()
         compassHandler = StructureCompasses()
@@ -158,10 +154,10 @@ object ArchipelagoRandomizer : ModInitializer {
         server = minecraftServer
         logger.info("$MOD_VERSION starting.")
         ItemReward.itemParser = ItemParser(server.registryAccess())
-        connectionInfoBar = server.customBossEvents.create(
-            modResource("connection_info"),
-            Component.literal("Not Connected to Archipelago").withStyle(ChatFormatting.RED)
-        )
+        val infoBarText = if (apmcData.state == APMCData.State.VALID) "Not Connected to Archipelago" else "Invalid APMC File"
+        connectionInfoBar = server.customBossEvents.get(
+            modResource("connection_info")
+        ) ?: server.customBossEvents.create(modResource("connection_info"), Component.literal(infoBarText).withStyle(ChatFormatting.RED))
         connectionInfoBar.color = BossEvent.BossBarColor.RED
         connectionInfoBar.max = 1
         connectionInfoBar.value = 1
@@ -223,8 +219,9 @@ object ArchipelagoRandomizer : ModInitializer {
 
         if (apmcData.state == APMCData.State.MISSING) {
             logger.error("no, or invalid .apmc file found. please place .apmc file in './APData/' folder.")
+            return
         }
-        if (!validVersions.contains(apmcData.clientVersion)) {
+        else if (!validVersions.contains(apmcData.clientVersion)) {
             apmcData.state = APMCData.State.INVALID_VERSION
             logger.error("APMC file was generated for a different version of the client. Please update the client.")
         }
@@ -249,7 +246,7 @@ object ArchipelagoRandomizer : ModInitializer {
                 apmcData.apGoals.add(dragonGoal)
             }
             if (apmcData.requiredBosses == APMCData.Bosses.BOTH || apmcData.requiredBosses == APMCData.Bosses.WITHER) {
-                val witherGoal = EnderDragonGoal()
+                val witherGoal = WitherBossGoal()
                 if (apmcData.eggShardsRequired > 0)
                     witherGoal.requirements.add(modResource("egg_shards"))
                 if (apmcData.advancementsRequired > 0)

@@ -13,6 +13,7 @@ class AdvancementGoal(
 
     init {
         type = ArchipelagoRandomizer.modResource("advancement")
+        id = type
     }
 
     private val completedAdvancements: Int get() = ArchipelagoRandomizer.archipelagoWorldData.getCompletedLocations().size

@@ -1,6 +1,7 @@
 package dev.koifysh.randomizer.ktmixin
 
 import com.google.common.collect.ImmutableMap
+import dev.koifysh.randomizer.ArchipelagoRandomizer
 import dev.koifysh.randomizer.ArchipelagoRandomizer.advancementLocations
 import net.minecraft.ChatFormatting
 import net.minecraft.advancements.Advancement
@@ -41,7 +42,7 @@ object KTMixinAdvancementLoad {
             val oldDisplay = advancement.display().get()
             val newTitle = oldDisplay.title.copy()
             if (!advancementLocations.isTracked(holder.id())) {
-                if (!holder.id().path.startsWith("received/")) newTitle.withStyle(ChatFormatting.STRIKETHROUGH)
+                if (ArchipelagoRandomizer.recipeHandler.getAllTrackingAdvancements().contains(holder.id)) newTitle.withStyle(ChatFormatting.STRIKETHROUGH)
             }
             newDisplay = Optional.of(
                 DisplayInfo(
