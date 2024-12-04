@@ -20,10 +20,10 @@ import java.util.*
 
 object DataLoader {
 
-    fun loadAPMCData(): APMCData {
-        logger.info("Loading APMC file")
+    fun loadAPMCData(path: String): APMCData {
+        logger.info("Loading APMC file from $path")
         try {
-            val path = Paths.get("./APData/")
+            val path = Paths.get(path)
             if (!Files.exists(path)) {
                 Files.createDirectories(path)
                 logger.info("APData folder missing, creating.")
@@ -34,19 +34,23 @@ object DataLoader {
             try {
                 val rawString = Files.readString(files[0].toPath())
                 if (rawString.startsWith("{")) { // raw json string
-                    return gson.fromJson(rawString, APMCData::class.java)
+                    val apmc = gson.fromJson(rawString, APMCData::class.java)
+                    apmc.fileName = files[0].toPath()
+                    return apmc
                 } else if (rawString.startsWith("e")) {// 64encoded json string
-                    return gson.fromJson(String(Base64.getDecoder().decode(rawString)), APMCData::class.java)
+                    val apmc = gson.fromJson(String(Base64.getDecoder().decode(rawString)), APMCData::class.java)
+                    apmc.fileName = files[0].toPath()
+                    return apmc
                 }
             } catch (ignored: IOException) {
                 // most likely PKZipped byte array format
                 val zipped = Files.readAllBytes(files[0].toPath())
                 val json = zipped.decompressToString()
-                return gson.fromJson(json, APMCData::class.java)
+                val apmc = gson.fromJson(json, APMCData::class.java)
+                apmc.fileName = files[0].toPath()
+                return apmc
             }
-        } catch (e: Exception) {
-            logger.error("Error Loading APMC File: ${e.cause.toString()} ${e.message}", e)
-        }
+        } catch (ignored: Exception) {}
         val badAPMC = APMCData()
 
         badAPMC.state = APMCData.State.MISSING

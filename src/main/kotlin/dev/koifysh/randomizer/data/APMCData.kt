@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import dev.koifysh.randomizer.registries.APGoal
 import dev.koifysh.randomizer.registries.APItem
 import dev.koifysh.randomizer.registries.APLocation
+import java.nio.file.Path
 
 class APMCData {
     @SerializedName("world_seed")
@@ -55,6 +56,8 @@ class APMCData {
     var apGoals: MutableList<APGoal> = ArrayList()
 
     var state: State = State.VALID
+
+    var fileName: Path? = null
 
     enum class State {
         VALID, MISSING, INVALID_VERSION, INVALID_SEED

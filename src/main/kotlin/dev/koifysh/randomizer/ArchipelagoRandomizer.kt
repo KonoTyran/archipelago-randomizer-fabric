@@ -38,6 +38,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.bossevents.CustomBossEvent
+import net.minecraft.server.dedicated.DedicatedServer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
 import net.minecraft.world.BossEvent
@@ -58,7 +59,7 @@ object ArchipelagoRandomizer : ModInitializer {
 
     lateinit var apmcData: APMCData; private set
     lateinit var apClient: APClient private set
-    lateinit var server: MinecraftServer private set
+    lateinit var server: DedicatedServer private set
     lateinit var archipelagoWorldData: ArchipelagoWorldData private set
 
     val locationRegister = LocationRegister()
@@ -151,7 +152,7 @@ object ArchipelagoRandomizer : ModInitializer {
     }
 
     private fun beforeLevelLoad(minecraftServer: MinecraftServer) {
-        server = minecraftServer
+        server = minecraftServer as DedicatedServer
         logger.info("$MOD_VERSION starting.")
         ItemReward.itemParser = ItemParser(server.registryAccess())
         val infoBarText = if (apmcData.state == APMCData.State.VALID) "Not Connected to Archipelago" else "Invalid APMC File"
@@ -166,7 +167,11 @@ object ArchipelagoRandomizer : ModInitializer {
     }
 
     private fun afterLevelLoad(minecraftServer: MinecraftServer) {
-        server = minecraftServer
+        if (apmcData.state != APMCData.State.VALID) {
+            logger.error("Invalid APMC file. Please check the file and try again.")
+            return
+        }
+
         logger.info("$MOD_VERSION started.")
         archipelagoWorldData = server.overworld().dataStorage.computeIfAbsent(ArchipelagoWorldData.factory(), MOD_ID)
 
@@ -214,16 +219,17 @@ object ArchipelagoRandomizer : ModInitializer {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, location)
     }
 
-    fun loadAPMC() {
-        apmcData = DataLoader.loadAPMCData()
+    fun loadAPMC(path: String) {
+        apmcData = DataLoader.loadAPMCData(path)
 
         if (apmcData.state == APMCData.State.MISSING) {
-            logger.error("no, or invalid .apmc file found. please place .apmc file in './APData/' folder.")
+            logger.info("no apmc file found in '$path' folder.")
             return
         }
         else if (!validVersions.contains(apmcData.clientVersion)) {
             apmcData.state = APMCData.State.INVALID_VERSION
             logger.error("APMC file was generated for a different version of the client. Please update the client.")
+            return
         }
 
         if (apmcData.clientVersion > 9) { // our goals should be loaded from the file

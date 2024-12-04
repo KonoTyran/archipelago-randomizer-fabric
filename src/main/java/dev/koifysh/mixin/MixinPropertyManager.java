@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.nio.file.Path;
 import java.util.Properties;
@@ -16,11 +15,15 @@ import java.util.Properties;
 @Mixin(Settings.class)
 public abstract class MixinPropertyManager {
 
-    @Inject(method = "loadFromFile(Ljava/nio/file/Path;)Ljava/util/Properties;", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILSOFT)
+    @Inject(method = "loadFromFile(Ljava/nio/file/Path;)Ljava/util/Properties;", at = @At("RETURN"))
     private static void onLoadFromFile(Path pPath, CallbackInfoReturnable<Properties> cir) {
         ArchipelagoRandomizer.INSTANCE.getLogger().info("Injecting Archipelago Properties");
         Properties properties = cir.getReturnValue();
         APMCData data = ArchipelagoRandomizer.INSTANCE.getApmcData();
+        if (data.getState() == APMCData.State.MISSING) {
+            ArchipelagoRandomizer.INSTANCE.loadAPMC("./" + properties.getProperty("level-name") + "/");
+            data = ArchipelagoRandomizer.INSTANCE.getApmcData();
+        }
         if (data.getState() != APMCData.State.VALID) {
             properties.setProperty("level-seed", "");
             properties.setProperty("level-name", "world");
@@ -28,9 +31,12 @@ public abstract class MixinPropertyManager {
             properties.setProperty("level-type", "minecraft:flat");
             return;
         }
+        String worldName = "Archipelago-" + data.getSeedName() + "-P" + data.getPlayerID();
+
+
         properties.setProperty("level-seed", "" + data.getWorldSeed());
         properties.setProperty("spawn-protection", "0");
-        properties.setProperty("level-name", "Archipelago-" + data.getSeedName() + "-P" + data.getPlayerID());
+        properties.setProperty("level-name", worldName);
         properties.setProperty("level-type", "minecraft:normal");
         properties.setProperty("generator-settings", "{}");
         properties.setProperty("force-gamemode", "false");
